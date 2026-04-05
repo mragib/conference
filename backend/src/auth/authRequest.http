@@ -1,0 +1,57 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjkyM2Y3MS03NTQ3LTQ5NjktOGJmMC02ODRlMGYyMmIyN2YiLCJpYXQiOjE3NzQ4NjE5NzMsImV4cCI6MTc3NTQ2Njc3M30.fL-iDmc5F__dtoMNyHrWV-haRgdIOCLPcyPRD_jRaGs
+@refreshToken=
+
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+
+###Sign UP as Researcher ###
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+    "name":"test",
+    "email":"test@gmail.com",
+    "phone":"01714906170",
+    "password":"test123"
+
+}
+
+###Sign UP as  ADMIN ###
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+    "name":"test",
+    "email":"admin@gmail.com",
+    "phone":"01743189984",
+    "password":"test123",
+    "role":"ADMIN"
+
+}
+
+###Sign UP as SUPER ADMIN ###
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+    "name":"superadmin",
+    "email":"su@gmail.com",
+    "phone":"01712789976",
+    "password":"test123",
+    "role":"SUPERADMIN"
+
+}
+
+
+
+###profile ###
+GET http://localhost:8000/auth/profile
+Authorization: Bearer {{token}}

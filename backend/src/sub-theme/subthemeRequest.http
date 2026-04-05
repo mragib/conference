@@ -1,0 +1,50 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNGVlNTY2MC1mNmMwLTQ0ZmYtOTJjNS01NTg1MDYyOWZlMmUiLCJpYXQiOjE3NzUxMTU5MjgsImV4cCI6MTc3NTcyMDcyOH0.x6lkgypelOxDO2AA1Gvnh9x7QZ2yXsibo7X1SrfAjMA
+@admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNTUzNTQ3OC00MTk2LTRjMTctYmMwMC1jNDc0Y2NiMjljYzQiLCJpYXQiOjE3NzUxMDE0NzgsImV4cCI6MTc3NTcwNjI3OH0.HMZqLNcyVfF8eWura4EI6y8omVaaFGuUXm76Nl6Ueac
+
+###Sign In as Researcher ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+###Sign In as Admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Get all subtheme ###
+GET http://localhost:8000/sub-theme
+
+### Get a subtheme ###
+GET http://localhost:8000/sub-theme/f0b108c5-6686-4f00-8f05-080aea6e62b
+
+### Create a subtheme ###
+POST http://localhost:8000/sub-theme
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Test 3"
+}
+
+
+### update a subtheme ###
+PATCH http://localhost:8000/sub-theme/f0b108c5-6686-4f00-8f05-080aea6e62bb
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "name":"Test 3 updated next"
+}
+
+
+### delete a subtheme ###
+DELETE http://localhost:8000/sub-theme/f0b108c5-6686-4f00-8f05-080aea6e62bb
+Authorization: Bearer {{admin_token}}
