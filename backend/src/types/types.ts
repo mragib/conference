@@ -17,3 +17,9 @@ export enum Role {
   RESEARCHER = 'RESEARCHER',
   REVIEWER = 'REVIEWER',
 }
+
+export enum UserType {
+  ACADEMIC = 'ACADEMIC',
+  INDUSTRY = 'INDUSTRY',
+  STUDENT = 'STUDENT',
+}

@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import googleOauthConfig from 'src/config/google-oauth.config';
 import jwtConfig from 'src/config/jwt.config';
 import refreshConfig from 'src/config/refresh.config';
+import { ProfileModule } from 'src/profile/profile.module';
 import { SessionModule } from 'src/session/session.module';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
@@ -21,6 +22,7 @@ import { RefreshStrategy } from './strategies/refresh-token.strategy';
     ConfigModule.forFeature(refreshConfig),
     ConfigModule.forFeature(googleOauthConfig),
     SessionModule,
+    ProfileModule,
   ],
   controllers: [AuthController],
   providers: [

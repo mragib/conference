@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Profile } from 'src/profile/entities/profile.entity';
 import { Session } from 'src/session/entities/session.entity';
 import { Role } from 'src/types/types';
 import {
@@ -47,6 +48,9 @@ export class User {
   //   for bi directional
   @OneToOne(() => Session, (type) => type.user)
   user_session: Session;
+
+  @OneToOne(() => Profile, (item) => item.user)
+  profile: Profile;
 
   @DeleteDateColumn()
   deletedAt: Date;

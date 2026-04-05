@@ -11,6 +11,12 @@ import dbConfig from './config/db.config';
 import { SessionModule } from './session/session.module';
 import { SubThemeModule } from './sub-theme/sub-theme.module';
 import { UserModule } from './user/user.module';
+import { ProfileModule } from './profile/profile.module';
+import { TopicModule } from './topic/topic.module';
+import { AbstractModule } from './abstract/abstract.module';
+import { CoAuthorModule } from './co-author/co-author.module';
+import { SettingModule } from './setting/setting.module';
+import { AbstractReviewModule } from './abstract-review/abstract-review.module';
 
 @Module({
   imports: [
@@ -30,6 +36,18 @@ import { UserModule } from './user/user.module';
     SubThemeModule,
 
     SessionModule,
+
+    ProfileModule,
+
+    TopicModule,
+
+    AbstractModule,
+
+    CoAuthorModule,
+
+    SettingModule,
+
+    AbstractReviewModule,
   ],
   controllers: [AppController],
   providers: [

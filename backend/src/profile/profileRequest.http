@@ -1,0 +1,39 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzUzODU1OTUsImV4cCI6MTc3NTk5MDM5NX0.MD95soc8XU3-K8Ma-xdOjOujnuq-KF1J6nf3rfXKzhQ
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+###Sign In as admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+
+### Create Profile ###
+POST http://localhost:8000/profile
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "first_name":"Md Abdul",
+    "last_name":"Rahim",
+    "designation":"Professor",
+    "country":"Bangladesh",
+    "organization":"BUET",
+    "user_type":"ACADEMIC"
+}
+
+
+### View all Profile ###
+GET http://localhost:8000/profile
+Authorization: Bearer {{token}}

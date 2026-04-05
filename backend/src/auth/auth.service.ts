@@ -3,12 +3,14 @@ import type { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
 import refreshConfig from 'src/config/refresh.config';
+import { ProfileService } from 'src/profile/profile.service';
 import { SessionService } from 'src/session/session.service';
 import { JWTPayload, Role } from 'src/types/types';
 import {
   CreateGoogleUserDto,
   CreateUserDto,
 } from 'src/user/dto/create-user.dto';
+import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -17,6 +19,7 @@ export class AuthService {
     private readonly userService: UserService,
     private jwtService: JwtService,
     private sessionService: SessionService,
+    private readonly profileService: ProfileService,
     @Inject(refreshConfig.KEY)
     private refreshConfigaration: ConfigType<typeof refreshConfig>,
   ) {}
@@ -123,5 +126,9 @@ export class AuthService {
   async signout(id: string) {
     await this.sessionService.remove(id);
     return await this.userService.updateRefreshToken(id, null);
+  }
+
+  async getProfile(user: User) {
+    return await this.profileService.profile(user);
   }
 }
