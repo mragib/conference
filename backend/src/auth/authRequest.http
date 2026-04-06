@@ -55,3 +55,12 @@ Content-Type: application/json
 ###profile ###
 GET http://localhost:8000/auth/profile
 Authorization: Bearer {{token}}
+
+
+### Forget password ###
+POST http://localhost:8000/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email":"diner.ragib@gmail.com"
+}

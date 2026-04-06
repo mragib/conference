@@ -1,0 +1,50 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzU0NTcxMTMsImV4cCI6MTc3NjA2MTkxM30.-7HqYwBAAqSLjKn-7wWPRFU9nqApOZRoKU4mN00cB4Q
+@admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MDhlN2ZmZS04NTY5LTRkZmQtYTQwYS1mNDllOTc0NWMyNWYiLCJpYXQiOjE3NzU0NTcxMzMsImV4cCI6MTc3NjA2MTkzM30.wNvPPsp6tTuAlgNSKp-7IxdGZPv1fDiSkYtLBYdoZ3Y
+
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+###Sign In admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Make a reviewer ###
+POST http://localhost:8000/user/make-reviewer
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "email":"reviewer1@gmail.com",
+    "name":"John Doe",
+    "topic":[
+        {"id":"857bfb69-f07b-4b1b-9f0b-4a563eb2bf90"},
+        {"id":"f23471c8-ec00-4574-afcd-c8c15102382b"}
+    ]
+}
+
+
+### Update a reviewer ###
+POST http://localhost:8000/user/update-reviewer
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "email":"reviewer1@gmail.com",
+    "name":"John Doe Updated",
+    "topic":[
+        {"id":"8ad89358-8f5b-4b94-9c06-fcf562cfd563"},
+        {"id":"f23471c8-ec00-4574-afcd-c8c15102382b"}
+    ]
+}

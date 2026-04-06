@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { Roles } from 'src/auth/decorators/role.decorators';
+import { Role } from 'src/types/types';
+import { User } from 'src/user/entities/user.entity';
 import { AbstractReviewService } from './abstract-review.service';
 import { CreateAbstractReviewDto } from './dto/create-abstract-review.dto';
 import { UpdateAbstractReviewDto } from './dto/update-abstract-review.dto';
@@ -7,8 +19,13 @@ import { UpdateAbstractReviewDto } from './dto/update-abstract-review.dto';
 export class AbstractReviewController {
   constructor(private readonly abstractReviewService: AbstractReviewService) {}
 
+  @Roles(Role.REVIEWER)
   @Post()
-  create(@Body() createAbstractReviewDto: CreateAbstractReviewDto) {
+  create(
+    @Body() createAbstractReviewDto: CreateAbstractReviewDto,
+    @GetUser() user: User,
+  ) {
+    createAbstractReviewDto.user = user;
     return this.abstractReviewService.create(createAbstractReviewDto);
   }
 
@@ -23,7 +40,10 @@ export class AbstractReviewController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAbstractReviewDto: UpdateAbstractReviewDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAbstractReviewDto: UpdateAbstractReviewDto,
+  ) {
     return this.abstractReviewService.update(+id, updateAbstractReviewDto);
   }
 

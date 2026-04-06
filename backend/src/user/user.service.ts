@@ -6,14 +6,15 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
-import { ApiResponse } from 'src/types/types';
+import { ApiResponse, Role } from 'src/types/types';
 import { IsNull, Repository } from 'typeorm';
 import {
   ChangeRoleDto,
   CreateGoogleUserDto,
+  CreateReviewerDto,
   CreateUserDto,
 } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateReviewerDto, UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -116,14 +117,14 @@ export class UserService {
     });
   }
 
-  async findByPhone(phone: string) {
-    return await this.userRepository.findOne({
-      where: {
-        phone,
-        deletedAt: IsNull(), // Explicitly check for null
-      },
-    });
-  }
+  // async findByPhone(phone: string) {
+  //   return await this.userRepository.findOne({
+  //     where: {
+  //       phone,
+  //       deletedAt: IsNull(), // Explicitly check for null
+  //     },
+  //   });
+  // }
 
   findOne(id: string) {
     return this.userRepository.findOne({ where: { id, deletedAt: IsNull() } });
@@ -159,5 +160,68 @@ export class UserService {
       statuscode: 200,
       message: 'User has been Deleted',
     };
+  }
+
+  async makeReviewer(createReviewerDto: CreateReviewerDto) {
+    const { email, name, topic } = createReviewerDto;
+    try {
+      const existingUser = await this.findByEmail(email);
+
+      if (existingUser) {
+        throw new ConflictException('User with this email already exists');
+      }
+
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const otp_expiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
+
+      const user = await this.userRepository.save({
+        email,
+        name,
+        role: Role.REVIEWER,
+        topic,
+        otp,
+        otp_expiry,
+      });
+      return {
+        status: 'success',
+        statuscode: 200,
+        data: user,
+        message: 'Reviewer has been created',
+      };
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Something went Wrong!');
+    }
+  }
+
+  async updateReviewer(updateReviewerDto: UpdateReviewerDto) {
+    const { email, name, topic } = updateReviewerDto;
+    try {
+      const user = await this.findByEmail(email);
+
+      if (!user) {
+        throw new NotFoundException('User with this email does not exist');
+      }
+
+      const updatedUser = await this.userRepository.save({
+        ...user,
+        name: name || user.name,
+        topic: topic || user.topic,
+      });
+
+      return {
+        status: 'success',
+        statuscode: 200,
+        data: updatedUser,
+        message: 'Reviewer has been Updated',
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Something went Wrong!');
+    }
   }
 }

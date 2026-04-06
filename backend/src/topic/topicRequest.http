@@ -1,0 +1,32 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MDhlN2ZmZS04NTY5LTRkZmQtYTQwYS1mNDllOTc0NWMyNWYiLCJpYXQiOjE3NzU0NDg3NDEsImV4cCI6MTc3NjA1MzU0MX0.Sf9ypQW1MYe1zjz1yofeIY2YLEqSYFpBhCM2P2B6efs
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+###Sign In as admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"JavaScript"
+    
+}
+
+### View all Topic ###
+GET http://localhost:8000/topic

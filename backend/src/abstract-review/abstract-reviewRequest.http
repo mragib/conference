@@ -1,0 +1,34 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzU0NTk3NDYsImV4cCI6MTc3NjA2NDU0Nn0.KhdSfgYJOZOknqvnopyhrFDKznWxmRJ921g0Auhsxuo
+
+@reviewer_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMTcxNWUxOC1jMTQ2LTQ4YjktYjY1Ny0zMmQ0ODI1MjBkNjkiLCJpYXQiOjE3NzU0NjAyMTgsImV4cCI6MTc3NjA2NTAxOH0.IdZVKiqLl0HiphBKejLtx1n0LsimHvEwCu4Ontq1sjw
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+###Sign In as reviewer ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"reviewer@gmail.com",
+ "password":"test123"
+}
+
+
+### Create a abstract review ###
+POST http://localhost:8000/abstract-review
+Content-Type: application/json
+Authorization: Bearer {{reviewer_token}}
+
+{
+    "abstractId":"6cf8f45c-1aa0-4b4a-90c9-fad6a5e101c1",
+    "comment_to_author":"this is a test comment to author",
+    "comment_to_chair":"this is a test comment to chair",
+    "mark":4
+}

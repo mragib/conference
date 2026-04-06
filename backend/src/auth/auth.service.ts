@@ -3,6 +3,7 @@ import type { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
 import refreshConfig from 'src/config/refresh.config';
+import { MailService } from 'src/mail/mail.service';
 import { ProfileService } from 'src/profile/profile.service';
 import { SessionService } from 'src/session/session.service';
 import { JWTPayload, Role } from 'src/types/types';
@@ -20,6 +21,7 @@ export class AuthService {
     private jwtService: JwtService,
     private sessionService: SessionService,
     private readonly profileService: ProfileService,
+    private readonly mailService: MailService,
     @Inject(refreshConfig.KEY)
     private refreshConfigaration: ConfigType<typeof refreshConfig>,
   ) {}
@@ -130,5 +132,26 @@ export class AuthService {
 
   async getProfile(user: User) {
     return await this.profileService.profile(user);
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) throw new UnauthorizedException('User not found');
+    // Generate OTP and set expiry    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp_expiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await this.userService.update(user.id, {
+      otp,
+      otp_expiry,
+    });
+
+    // Send OTP email
+    await this.mailService.sendEmail(
+      user.email,
+      'Password Reset OTP',
+      'otp-email',
+      { otp },
+    );
   }
 }

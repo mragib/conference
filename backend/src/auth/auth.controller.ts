@@ -71,4 +71,10 @@ export class AuthController {
   signout(@Req() req) {
     return this.authService.signout(req.user.id);
   }
+
+  @Public()
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {
+    return await this.authService.forgotPassword(email);
+  }
 }
