@@ -28,5 +28,5 @@ export async function GET(request: NextRequest) {
     refreshToken,
   });
 
-  redirect("/");
+  redirect("/dashboard");
 }

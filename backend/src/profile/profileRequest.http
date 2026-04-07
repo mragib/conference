@@ -1,11 +1,11 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzUzODU1OTUsImV4cCI6MTc3NTk5MDM5NX0.MD95soc8XU3-K8Ma-xdOjOujnuq-KF1J6nf3rfXKzhQ
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MDhlN2ZmZS04NTY5LTRkZmQtYTQwYS1mNDllOTc0NWMyNWYiLCJpYXQiOjE3NzU0NzMyOTcsImV4cCI6MTc3NjA3ODA5N30.HLDEnlJ9lB4EUZa6yWqwgkNwE020nPpfRnBbOQevges
 
 ###Sign In ###
 POST http://localhost:8000/auth/signin
 Content-Type: application/json
 
 {
- "email":"test@gmail.com",
+ "email":"test1@gmail.com",
  "password":"test123"
 }
 
@@ -30,7 +30,7 @@ Authorization: Bearer {{token}}
     "designation":"Professor",
     "country":"Bangladesh",
     "organization":"BUET",
-    "user_type":"ACADEMIC"
+    "user_type":"STUDENT"
 }
 
 

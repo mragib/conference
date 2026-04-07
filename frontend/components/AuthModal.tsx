@@ -1,4 +1,5 @@
 "use client";
+import { signin } from "@/action/auth";
 import {
   CheckCircle2,
   ChevronLeft,
@@ -14,10 +15,9 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const countries = [
@@ -221,6 +221,7 @@ export default function AuthModal({ initialView = "login" }) {
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [legalView, setLegalView] = useState(null);
+  const [state, action] = useActionState(signin, undefined);
   const modalRef = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -315,15 +316,15 @@ export default function AuthModal({ initialView = "login" }) {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      const result = await signIn("google", {
-        callbackUrl: "/dashboard",
-        redirect: false,
-      });
-      if (result?.error) toast.error("Google Auth Failed");
-      else if (result?.ok) {
-        toast.success("Login Successful!");
-        window.location.href = "/dashboard";
-      }
+      // const result = await signIn("google", {
+      //   callbackUrl: "/dashboard",
+      //   redirect: false,
+      // });
+      // if (result?.error) toast.error("Google Auth Failed");
+      // else if (result?.ok) {
+      //   toast.success("Login Successful!");
+      //   window.location.href = "/dashboard";
+      // }
     } catch (error) {
       toast.error("An error occurred with Google Sign-in");
     } finally {
@@ -342,18 +343,18 @@ export default function AuthModal({ initialView = "login" }) {
     setLoading(true);
     try {
       if (view === "login") {
-        const res = await signIn("credentials", {
-          email: formData.email.toLowerCase().trim(),
-          password: formData.password,
-          redirect: false,
-        });
-        if (res?.ok) {
-          toast.success("Welcome Back! Login Successful.");
-          window.location.href = "/dashboard";
-        } else {
-          toast.error(res?.error || "Invalid Credentials.");
-          generateCaptcha();
-        }
+        // const res = await signIn("credentials", {
+        //   email: formData.email.toLowerCase().trim(),
+        //   password: formData.password,
+        //   redirect: false,
+        // });
+        // if (res?.ok) {
+        //   toast.success("Welcome Back! Login Successful.");
+        //   window.location.href = "/dashboard";
+        // } else {
+        //   toast.error(res?.error || "Invalid Credentials.");
+        //   generateCaptcha();
+        // }
       } else if (view === "signup") {
         const res = await fetch("/api/register", {
           method: "POST",
@@ -576,7 +577,7 @@ export default function AuthModal({ initialView = "login" }) {
                   </button>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-3">
+                <form action={action} className="space-y-3">
                   {view === "signup" && (
                     <>
                       <div className="relative group">
@@ -656,6 +657,7 @@ export default function AuthModal({ initialView = "login" }) {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
+                      name="email"
                     />
                   </div>
                   {view !== "forgot" && (
@@ -666,6 +668,7 @@ export default function AuthModal({ initialView = "login" }) {
                           type={showPassword ? "text" : "password"}
                           required
                           placeholder="Password"
+                          name="password"
                           className="w-full pl-10 pr-10 py-2 border border-slate-200 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-[11px] font-bold text-[#003366]"
                           value={formData.password}
                           onChange={(e) =>

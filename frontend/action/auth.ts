@@ -33,13 +33,9 @@ export async function signup(
     body: JSON.stringify(validationFields.data),
   });
 
-  if (!response.ok) {
-    const resData = await response.json();
-    return {
-      message: resData.message,
-    };
-  }
-  redirect("/auth/signin");
+  const resData = await response.json();
+  return resData;
+  // redirect("/dashboard");
 }
 
 export async function signin(
@@ -135,4 +131,8 @@ export const refreshToken = async (oldRefreshToken: string) => {
     console.error("Refresh token error", error);
     return null;
   }
+};
+
+export const googlesignin = async () => {
+  redirect(`${BACKEND_URL}/auth/google/login`);
 };

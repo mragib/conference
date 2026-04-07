@@ -18,11 +18,6 @@ export class CreateUserDto {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(13)
-  phone: string;
-
-  @IsString()
   @IsOptional()
   address: string;
 

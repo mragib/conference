@@ -62,6 +62,7 @@ export class AuthController {
       req.user.name,
       req.user.role,
     );
+
     res.redirect(
       `http://localhost:3000/api/auth/google/callback?userId=${response.id}&name=${response.name}&accessToken=${response.accessToken}&refreshToken=${response.refreshToken}&role=${response.role}`,
     );

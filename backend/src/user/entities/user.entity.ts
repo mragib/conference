@@ -49,7 +49,7 @@ export class User {
   role: Role;
 
   //   for bi directional
-  @OneToOne(() => Session, (type) => type.user)
+  @OneToOne(() => Session, (type) => type.user, { onDelete: 'CASCADE' })
   user_session: Session;
 
   @OneToOne(() => Profile, (item) => item.user)
