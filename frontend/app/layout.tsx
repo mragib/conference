@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
+  weight: ["400", "700"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -25,35 +21,33 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  auth,
+  cfp, // 🚀 Added the CFP slot here
 }: Readonly<{
   children: React.ReactNode;
+  auth: React.ReactNode;
+  cfp: React.ReactNode; // 🚀 Added type definition
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" suppressHydrationWarning className={roboto.variable}>
+      <body className="antialiased font-sans">
         <Toaster
           position="top-center"
           reverseOrder={false}
           toastOptions={{
             duration: 4000,
             style: {
-              background: "#003366", // Navy Blue
+              background: "#003366",
               color: "#fff",
-              borderRadius: "16px", // Softer corners for premium feel
+              borderRadius: "16px",
               fontSize: "12px",
               fontWeight: "bold",
-              border: "1px solid #C5A059", // Gold Border
+              border: "1px solid #C5A059",
               padding: "12px 24px",
               boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)",
             },
             success: {
-              iconTheme: {
-                primary: "#C5A059", // Gold Icon
-                secondary: "#003366", // Navy Background for icon
-              },
+              iconTheme: { primary: "#C5A059", secondary: "#003366" },
             },
             error: {
               style: {
@@ -61,14 +55,23 @@ export default async function RootLayout({
                 color: "#7f1d1d",
                 border: "1px solid #fecaca",
               },
-              iconTheme: {
-                primary: "#7f1d1d",
-                secondary: "#fff",
-              },
+              iconTheme: { primary: "#7f1d1d", secondary: "#fff" },
             },
           }}
         />
+
+        {/* Main Application Content */}
         <main className="min-h-screen">{children}</main>
+
+        {/* Parallel Route Slots 
+            These slots will contain intercepted modals.
+            If the route doesn't match, their respective default.tsx (returning null) is rendered.
+        */}
+        {auth && <div id="auth-portal">{auth}</div>}
+        {cfp && <div id="cfp-portal">{cfp}</div>}
+
+        {/* Optional: Portal root for specific modal handling */}
+        <div id="modal-root" />
       </body>
     </html>
   );

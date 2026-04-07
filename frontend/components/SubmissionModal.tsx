@@ -1,11 +1,11 @@
 "use client";
 import { CheckCircle2, Info, Loader2, Send, X } from "lucide-react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function SubmissionModal({ isOpen, onClose }) {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",

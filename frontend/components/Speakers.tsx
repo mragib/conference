@@ -11,21 +11,21 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Speakers() {
+export default function Keynotes() {
   const [showFullCommittee, setShowFullCommittee] = useState(false);
+  const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
-  // 🚀 Logic to disable body scroll when modal is open
+  // Logic to disable body scroll when any modal is open
   useEffect(() => {
-    if (showFullCommittee) {
+    if (showFullCommittee || selectedSpeaker) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [showFullCommittee]);
+  }, [showFullCommittee, selectedSpeaker]);
 
   const speakers = [
     {
@@ -34,7 +34,7 @@ export default function Speakers() {
       institution: "Harvard Business School, USA",
       talk: "The Synergy of AI and Sustainable Economics",
       image: "/images/speakers/higgins.jpg",
-      bio: "A pioneer in digital economy research with 200+ indexed publications.",
+      bio: "A pioneer in digital economy research with 200+ indexed publications. Prof. Higgins has spent over two decades exploring the intersection of technological advancement and global economic stability. His current research focuses on how decentralized AI can empower developing economies to achieve sustainable growth through optimized resource allocation and transparent governance.",
     },
     {
       name: "Dr. Elena Petrova",
@@ -42,7 +42,7 @@ export default function Speakers() {
       institution: "European Central Bank",
       talk: "Future of Fintech in Emerging Markets",
       image: "/images/speakers/petrova.jpeg",
-      bio: "Expert in monetary policy and blockchain integration in banking systems.",
+      bio: "Expert in monetary policy and blockchain integration in banking systems. Dr. Petrova has been instrumental in drafting frameworks for digital currency adoption within the Eurozone. Her insights bridge the gap between traditional fiscal policy and the rapid evolution of fintech, with a specific focus on financial inclusion and cross-border payment security.",
     },
   ];
 
@@ -54,7 +54,7 @@ export default function Speakers() {
         title: "Chief Adviser & Founder VC, EWU",
       },
       {
-        name: "Prof. Dr. Shamsul Haque",
+        name: "Prof. Dr. Shams Rahman",
         role: "Patron",
         title: "Vice Chancellor, EWU",
       },
@@ -120,8 +120,9 @@ export default function Speakers() {
           </h3>
         </div>
 
+        {/* --- SPEAKERS GRID --- */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
-          {speakers.map((speaker, index) => (
+          {speakers.slice(0, 2).map((speaker, index) => (
             <div
               key={index}
               className="group relative bg-white/5 backdrop-blur-md rounded-[2rem] md:rounded-[3rem] border border-white/10 p-5 md:p-8 lg:p-10 transition-all duration-500 hover:bg-white/[0.08] hover:border-[#C5A059]/40 flex flex-col sm:flex-row gap-6 md:gap-8 items-center overflow-hidden"
@@ -157,7 +158,10 @@ export default function Speakers() {
                     "{speaker.talk}"
                   </p>
                 </div>
-                <button className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#C5A059] transition-all group/btn">
+                <button
+                  onClick={() => setSelectedSpeaker(speaker)}
+                  className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#C5A059] transition-all group/btn"
+                >
                   Read Full Bio{" "}
                   <ArrowUpRight
                     size={12}
@@ -184,22 +188,78 @@ export default function Speakers() {
         </div>
       </div>
 
-      {/* --- PHASE II FULL COMMITTEE MODAL --- */}
+      {/* --- SPEAKER BIO MODAL --- */}
+      {selectedSpeaker && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
+          <div
+            className="absolute inset-0 bg-[#001A41]/95 backdrop-blur-xl"
+            onClick={() => setSelectedSpeaker(null)}
+          ></div>
+          <div className="max-w-3xl w-full bg-[#002855] rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden relative z-10 shadow-2xl animate-in zoom-in-95 duration-300">
+            <button
+              onClick={() => setSelectedSpeaker(null)}
+              className="absolute top-6 right-6 text-white/40 hover:text-[#C5A059] transition-all hover:rotate-90 z-20"
+            >
+              <X size={30} />
+            </button>
+            <div className="flex flex-col md:flex-row">
+              <div className="md:w-1/3 relative h-64 md:h-auto">
+                <Image
+                  src={selectedSpeaker.image}
+                  alt={selectedSpeaker.name}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#002855] via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#002855]"></div>
+              </div>
+              <div className="md:w-2/3 p-8 md:p-12 space-y-6">
+                <div>
+                  <p className="text-[#C5A059] text-[10px] font-black uppercase tracking-widest mb-2">
+                    Keynote Speaker
+                  </p>
+                  <h3 className="text-2xl md:text-4xl font-black text-white leading-tight uppercase tracking-tighter">
+                    {selectedSpeaker.name}
+                  </h3>
+                  <p className="text-white/60 font-bold text-sm mt-2">
+                    {selectedSpeaker.title}
+                  </p>
+                  <p className="text-[#C5A059] text-xs font-bold uppercase mt-1">
+                    {selectedSpeaker.institution}
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <h5 className="text-white/40 font-black text-[10px] uppercase tracking-[0.3em] border-b border-white/5 pb-2">
+                    Biography
+                  </h5>
+                  <p className="text-slate-300 text-sm md:text-base leading-relaxed italic">
+                    {selectedSpeaker.bio}
+                  </p>
+                </div>
+                <div className="pt-4">
+                  <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">
+                    Academic Excellence 2026
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- FULL COMMITTEE MODAL ---
       {showFullCommittee && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
           <div
             className="absolute inset-0 bg-[#001A41]/95 backdrop-blur-xl"
             onClick={() => setShowFullCommittee(false)}
           ></div>
-
-          <div className="max-w-5xl w-full max-h-[90vh] overflow-y-auto bg-[#002855] rounded-[3rem] border border-white/10 p-6 md:p-16 relative z-10 no-scrollbar shadow-2xl">
+          <div className="max-w-5xl w-full max-h-[90vh] overflow-y-auto bg-[#002855] rounded-[3rem] border border-white/10 p-6 md:p-16 relative z-10 shadow-2xl custom-scrollbar">
             <button
               onClick={() => setShowFullCommittee(false)}
               className="fixed md:absolute top-10 right-10 text-[#C5A059] hover:text-white transition-all hover:rotate-90 z-50"
             >
               <X size={40} strokeWidth={3} />
             </button>
-
             <div className="space-y-16">
               <div className="text-center md:text-left">
                 <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none mb-4">
@@ -209,7 +269,6 @@ export default function Speakers() {
                   Phase II Governance Board
                 </p>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-white/10 pb-12">
                 {fullCommittee.patrons.map((p, i) => (
                   <div key={i} className="group">
@@ -225,7 +284,6 @@ export default function Speakers() {
                   </div>
                 ))}
               </div>
-
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 <div className="space-y-8">
                   <h5 className="text-white/20 font-black text-xs uppercase tracking-[0.3em] border-b border-white/5 pb-2">
@@ -244,7 +302,6 @@ export default function Speakers() {
                     ))}
                   </div>
                 </div>
-
                 <div className="space-y-8">
                   <h5 className="text-[#C5A059]/40 font-black text-xs uppercase tracking-[0.3em] border-b border-white/5 pb-2">
                     Organizing Secretariat
@@ -266,24 +323,10 @@ export default function Speakers() {
                   </div>
                 </div>
               </div>
-
-              <div className="text-center pt-8 border-t border-white/5">
-                <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.5em]">
-                  Academic Excellence | East West University | 2026
-                </p>
-                <div className="mt-4 flex justify-center gap-6">
-                  <button className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">
-                    Privacy Policy
-                  </button>
-                  <button className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">
-                    Contact Committee
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 }

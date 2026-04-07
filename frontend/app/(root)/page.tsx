@@ -2,6 +2,7 @@ import About from "@/components/About";
 import Committee from "@/components/Committee";
 import Contact from "@/components/Contact";
 import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
 import Guidelines from "@/components/Guidelines";
 import Hero from "@/components/Hero";
 import Highlights from "@/components/Highlights";
@@ -55,7 +56,7 @@ export default function Home() {
         <Contact />
       </section>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

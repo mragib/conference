@@ -8,7 +8,7 @@ export default async function layout({
   children: React.ReactNode;
 }) {
   const session = await getSession();
-  if (!session || !session.user || !session.user.role !== Role.ADMIN)
+  if (!session || !session.user || !session.user.role === Role.ADMIN)
     redirect("/");
   return <>{children}</>;
 }

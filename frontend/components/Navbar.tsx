@@ -1,33 +1,42 @@
 "use client";
 
-import { LayoutDashboard, LogOut, Mail, Menu, Phone, X } from "lucide-react";
+import { ChevronDown, Mail, Menu, Phone, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Navbar({ user }) {
+export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  const scrollToSection = (id) => {
+  const navLinks = [
+    { name: "About", id: "about", hasSubmenu: true },
+    { name: "Dates", id: "important-dates" },
+    { name: "Guidelines", id: "guidelines" },
+    { name: "Committee", id: "committee" },
+    { name: "Registration Fee", id: "pricing" },
+    { name: "Partners", id: "partners" },
+    { name: "Contact", id: "contact" },
+  ];
+
+  const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 70;
+      const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
       const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
       setIsMobileMenuOpen(false);
     } else {
-      // 🚀 Fallback: If on another page, go home then scroll
       router.push(`/#${id}`);
     }
   };
@@ -35,243 +44,269 @@ export default function Navbar({ user }) {
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      const scrollPos = window.scrollY;
+      setIsScrolled(scrollPos > 10);
+
+      if (scrollPos < 300) {
+        setActiveSection("");
+        return;
+      }
+
+      const sections = navLinks.map((link) => document.getElementById(link.id));
+      const scrollPosition = scrollPos + 150;
+      sections.forEach((section) => {
+        if (
+          section &&
+          scrollPosition >= section.offsetTop &&
+          scrollPosition < section.offsetTop + section.offsetHeight
+        ) {
+          setActiveSection(section.id);
+        }
+      });
     };
-    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
-  }, [isMobileMenuOpen]);
+  }, [navLinks]);
 
   if (!mounted)
-    return <div className="h-20 bg-transparent fixed top-0 w-full z-100" />;
-
-  const navLinks = [
-    { name: "About", id: "about" },
-    { name: "Guidelines", id: "guidelines" },
-    { name: "Timeline", path: "/schedule" },
-    { name: "Committee", id: "committee" },
-    { name: "Pricing", id: "pricing" },
-    { name: "Partners", id: "partners" },
-    { name: "Contact", id: "contact" },
-  ];
+    return <div className="h-20 bg-transparent fixed top-0 w-full z-[100]" />;
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) flex flex-col ${
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
           isScrolled
-            ? "bg-[#003366]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
-            : "bg-transparent"
+            ? "bg-[#002147]/95 backdrop-blur-xl shadow-2xl py-2"
+            : "bg-transparent py-3"
         }`}
       >
-        {/* 🚀 1. TOP BAR (Scrolls away, Not Sticky) */}
-        <div
-          className={`hidden lg:block w-full transition-all duration-500 ease-in-out relative ${
-            isScrolled
-              ? "max-h-0 opacity-0 pointer-events-none"
-              : "max-h-20 opacity-100"
-          }`}
-        >
-          <div className="absolute bottom-0 left-0 w-full h-[40px] bg-gradient-to-b from-black/50 to-transparent pointer-events-none opacity-70 -z-10" />
-
-          <div className="max-w-7xl mx-auto px-10 flex justify-end items-center gap-6 py-2.5">
-            <div className="flex items-center gap-2.5 cursor-default">
-              <Mail size={13} className="text-[#C5A059]" />
-              <span className="text-[11px] font-medium tracking-[0.12em] text-white/70 uppercase">
-                helpdesk-scm@ewubd.edu
-              </span>
-            </div>
-            <div className="w-px h-3 bg-white/10 mx-1"></div>
-            <div className="flex items-center gap-2.5 cursor-default">
-              <Phone size={13} className="text-[#C5A059]" />
-              <span className="text-[11px] font-medium tracking-[0.12em] text-white/70 uppercase">
-                09666775577 | Ext-213/132
-              </span>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          {/* TOP CONTACT BAR */}
+          <div
+            className={`hidden lg:flex justify-end transition-all duration-500 ${isScrolled ? "h-0 opacity-0 overflow-hidden" : "h-9 opacity-100 mb-1"}`}
+          >
+            <div className="flex items-center gap-5 px-5 py-1.5 rounded-full bg-white/5 border border-white/10">
+              <a
+                href="mailto:helpdesk-scm@ewubd.edu"
+                className="flex items-center gap-2 group"
+              >
+                <Mail size={14} className="text-[#C5A059]" />
+                <span className="text-[11px] font-bold text-white uppercase group-hover:text-[#C5A059] transition-colors tracking-wider">
+                  helpdesk-scm@ewubd.edu
+                </span>
+              </a>
+              <div className="w-px h-3 bg-white/20"></div>
+              <div className="flex items-center gap-2">
+                <Phone size={14} className="text-[#C5A059]" />
+                <span className="text-[11px] font-bold text-white uppercase tracking-wider">
+                  09666775577 | EXT-213/132
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* 🚀 2. MAIN NAV ROW */}
-        <div
-          className={`transition-all duration-500 ${isScrolled ? "py-2 md:py-3" : "py-4 md:py-5"}`}
-        >
-          <div className="max-w-7xl mx-auto px-5 md:px-10 flex justify-between items-center">
-            <Link
-              href="/"
-              className={`flex items-center gap-3 md:gap-4 group transition-transform duration-500 ${isScrolled ? "scale-95" : "scale-100"}`}
-            >
-              <div className="relative aspect-square w-10 h-10 md:w-14 md:h-14 rounded-xl overflow-hidden p-1.5 bg-white/5 border border-white/10">
+          <div className="flex justify-between items-center gap-2">
+            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+              <div className="relative w-11 h-11 md:w-14 md:h-14 rounded-xl overflow-hidden bg-white/10 border border-white/20 p-1.5 transition-all">
                 <Image
                   src="/images/logo.png"
                   alt="Logo"
                   fill
-                  sizes="(max-width: 768px) 40px, 56px"
+                  sizes="(max-width: 768px) 44px, 56px"
                   className="object-contain p-1"
                   priority
                 />
               </div>
-              <div className="flex flex-col text-white leading-none uppercase">
-                <h1 className="font-bold text-base md:text-xl tracking-tight">
-                  DBA <span className="text-[#C5A059]">Conference</span>
+              <div className="flex flex-col uppercase leading-none text-white">
+                <h1 className="font-black text-sm md:text-xl tracking-tighter">
+                  DBA <span className="text-[#C5A059]">CONFERENCE</span>
                 </h1>
-                <span className="text-[8px] md:text-[10px] text-white/40 font-medium tracking-[0.2em] mt-1">
+                <p className="text-[7px] md:text-[9px] text-white/40 font-bold tracking-[0.15em] mt-1">
                   International 2026
-                </span>
+                </p>
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-[13px] font-medium text-white/90">
-              {navLinks.map((link) =>
-                link.path ? (
-                  <Link
-                    key={link.name}
-                    href={link.path}
-                    className="hover:text-[#C5A059] transition-colors relative group/link uppercase"
-                  >
-                    {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#C5A059] transition-all duration-300 group-hover/link:w-full"></span>
-                  </Link>
-                ) : (
-                  <button
-                    key={link.id}
-                    onClick={() => scrollToSection(link.id)}
-                    className="hover:text-[#C5A059] transition-colors relative group/link uppercase"
-                  >
-                    {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#C5A059] transition-all duration-300 group-hover/link:w-full"></span>
+            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+              <div className="flex items-center gap-0.5">
+                {/* ABOUT WITH SUBMENU */}
+                <div
+                  className="relative group"
+                  onMouseEnter={() => setIsAboutOpen(true)}
+                  onMouseLeave={() => setIsAboutOpen(false)}
+                >
+                  <button className="px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase text-white/70 hover:text-white flex items-center gap-1">
+                    About{" "}
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform ${isAboutOpen ? "rotate-180" : ""}`}
+                    />
                   </button>
-                ),
-              )}
-
-              <div className="h-4 w-px mx-2 bg-white/10"></div>
-
-              {user ? (
-                <div className="flex items-center gap-5">
-                  <Link
-                    href="/dashboard"
-                    className="text-white hover:text-[#C5A059] transition-all font-bold flex items-center gap-2 uppercase"
-                  >
-                    <LayoutDashboard size={16} /> Dashboard
-                  </Link>
-                  <button className="text-red-400 hover:text-red-300 transition-colors">
-                    <LogOut size={18} />
-                  </button>
+                  {isAboutOpen && (
+                    <div className="absolute top-full left-0 w-48 pt-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="bg-[#002147] border border-white/10 rounded-2xl p-2 shadow-2xl backdrop-blur-xl">
+                        <Link
+                          href="/about-ewu"
+                          className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
+                        >
+                          About EWU
+                        </Link>
+                        <Link
+                          href="/about-conference"
+                          className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
+                        >
+                          About Conference
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="flex items-center gap-6">
-                  <Link
-                    href="/login"
-                    className="hover:text-[#C5A059] transition-colors font-bold uppercase tracking-widest text-[11px]"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="bg-[#C5A059] text-[#003366] px-6 py-2.5 rounded-lg font-bold hover:bg-white transition-all shadow-lg active:scale-95 uppercase tracking-widest text-[11px]"
-                  >
-                    Join Now
-                  </Link>
-                </div>
-              )}
+
+                {navLinks
+                  .filter((l) => l.id !== "about")
+                  .map((link) => (
+                    <button
+                      key={link.id}
+                      onClick={() => scrollToSection(link.id)}
+                      className={`px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase transition-all duration-300 border ${activeSection === link.id ? "bg-white/10 border-white/40 text-white shadow-lg" : "text-white/70 border-transparent hover:text-white"}`}
+                    >
+                      {link.name}
+                    </button>
+                  ))}
+              </div>
+
+              <div className="h-5 w-px bg-white/10 mx-1 xl:mx-2"></div>
+
+              <div className="flex items-center gap-3 xl:gap-5">
+                <Link
+                  href="/signIn"
+                  scroll={false}
+                  className="text-white font-black text-[10px] hover:text-[#C5A059] uppercase transition-colors"
+                >
+                  sign In
+                </Link>
+                <Link
+                  href="/signUp"
+                  scroll={false}
+                  className="bg-[#C5A059] text-[#002147] px-5 py-2.5 rounded-xl font-black text-[10px] hover:bg-white active:scale-95 transition-all uppercase"
+                >
+                  Join Now
+                </Link>
+              </div>
             </div>
 
             <button
-              className="lg:hidden p-2 rounded-lg text-white bg-white/5 border border-white/10"
+              className="lg:hidden p-2 text-white bg-white/5 rounded-xl"
               onClick={() => setIsMobileMenuOpen(true)}
             >
-              <Menu size={24} />
+              <Menu size={22} />
             </button>
           </div>
-        </div>
-
-        {/* 🚀 BOTTOM BORDER GLOW */}
-        <div
-          className={`absolute bottom-0 left-0 w-full h-px transition-all duration-1000 ${isScrolled ? "bg-gradient-to-r from-transparent via-[#C5A059]/50 to-transparent opacity-100" : "opacity-0"}`}
-        >
-          <div className="absolute inset-0 bg-[#C5A059] blur-[2px] opacity-30"></div>
         </div>
       </nav>
 
       {/* --- MOBILE DRAWER --- */}
       <div
-        className={`fixed inset-0 w-full h-screen z-[150] lg:hidden transition-all duration-500 ${isMobileMenuOpen ? "visible" : "invisible"}`}
+        className={`fixed inset-0 z-[200] lg:hidden transition-all duration-500 ${isMobileMenuOpen ? "visible" : "invisible"}`}
       >
         <div
-          className={`absolute inset-0 bg-[#001A33]/80 backdrop-blur-md transition-opacity duration-500 ${isMobileMenuOpen ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 bg-[#001021]/95 backdrop-blur-md transition-opacity ${isMobileMenuOpen ? "opacity-100" : "opacity-0"}`}
           onClick={() => setIsMobileMenuOpen(false)}
         />
         <div
-          className={`absolute right-0 top-0 h-full w-[85%] max-w-[340px] bg-[#003366] shadow-2xl transition-transform duration-500 flex flex-col ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+          className={`absolute right-0 top-0 h-full w-[85%] bg-[#002147] p-6 transition-transform duration-500 flex flex-col ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
         >
-          <div className="flex flex-col p-6 shrink-0 border-b border-white/5">
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-white/10 p-1">
-                  <Image
-                    src="/images/logo.png"
-                    alt="Logo"
-                    fill
-                    sizes="40px"
-                    className="object-contain"
-                  />
-                </div>
-                <h2 className="text-white font-black text-sm leading-none tracking-tight uppercase">
-                  CONFERENCE <span className="text-[#C5A059]">DBA</span>
+          <div className="flex justify-between items-start mb-8">
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-white/10 border border-white/20 p-1.5">
+                <Image
+                  src="/images/logo.png"
+                  alt="Logo"
+                  fill
+                  sizes="48px"
+                  className="object-contain p-1"
+                />
+              </div>
+              <div className="flex flex-col uppercase leading-tight text-white">
+                <h2 className="text-[#C5A059] font-black text-sm">
+                  DBA CONFERENCE
                 </h2>
-              </div>
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-white/50"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="mb-4 space-y-2 p-3 bg-white/5 rounded-xl border border-white/5">
-              <div className="flex items-center gap-2 text-[10px] font-medium text-white/70">
-                <Mail size={12} className="text-[#C5A059]" />{" "}
-                helpdesk-scm@ewubd.edu
-              </div>
-              <div className="flex items-center gap-2 text-[10px] font-medium text-white/70">
-                <Phone size={12} className="text-[#C5A059]" /> 09666775577 |
-                Ext-213/132
+                <p className="text-[9px] text-white/40 font-bold tracking-[0.1em]">
+                  INTERNATIONAL 2026
+                </p>
               </div>
             </div>
-            <span className="text-[#C5A059] font-black uppercase text-[10px] tracking-[0.3em]">
-              Navigation
-            </span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 border border-white/10"
+            >
+              <X size={20} />
+            </button>
           </div>
 
-          <div className="flex-grow overflow-y-auto px-6 pb-10 mt-6 space-y-3">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => {
-                  if (link.path) {
-                    router.push(link.path);
-                    setIsMobileMenuOpen(false);
-                  } else {
-                    scrollToSection(link.id);
-                  }
-                }}
-                className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 text-white font-bold hover:bg-[#C5A059] hover:text-[#003366] transition-all uppercase text-sm"
+          <div className="flex-grow overflow-y-auto space-y-1">
+            {/* ABOUT MOBILE SUBMENU */}
+            <div className="p-4 border-b border-white/5">
+              <p className="text-[9px] font-black text-[#C5A059] uppercase tracking-widest mb-3">
+                About
+              </p>
+              <div className="grid grid-cols-1 gap-2">
+                <Link
+                  href="/about-ewu"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-white/60 font-bold uppercase text-[11px] py-2"
+                >
+                  About EWU
+                </Link>
+                <Link
+                  href="/about-conference"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-white/60 font-bold uppercase text-[11px] py-2"
+                >
+                  About Conference
+                </Link>
+              </div>
+            </div>
+
+            {navLinks
+              .filter((l) => l.id !== "about")
+              .map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl font-bold uppercase transition-all text-xs tracking-wide group border-b border-white/5 last:border-0 ${activeSection === link.id ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5"}`}
+                >
+                  {link.name}
+                  <div
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${activeSection === link.id ? "bg-[#C5A059] scale-125 shadow-[0_0_8px_#C5A059]" : "bg-white/10 group-hover:bg-[#C5A059]"}`}
+                  />
+                </button>
+              ))}
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href="/login"
+                scroll={false}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3.5 border border-white/10 text-white rounded-xl font-black uppercase text-[10px] bg-white/5 text-center"
               >
-                {link.name}
-                <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]" />
-              </button>
-            ))}
+                Login
+              </Link>
+              <Link
+                href="/signUp"
+                scroll={false}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-3.5 bg-[#C5A059] text-[#002147] rounded-xl font-black uppercase text-[10px] shadow-lg text-center"
+              >
+                Join Now
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-        initialView={authMode}
-      /> */}
     </>
   );
 }
