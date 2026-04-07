@@ -201,14 +201,14 @@ export default function Pricing() {
             <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">
               Official Payment Gateway
             </p>
+
             <div className="relative w-64 h-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-              {/* 🚀 FIXED: Changed <img> to <Image> and added sizes prop */}
               <Image
-                src="/images/Payment/sslcommerz-online-payment.png"
-                alt="Pay With Sslcommerz"
-                fill
-                sizes="(max-width: 768px) 256px, 300px"
-                className="w-64 h-12 object-contain"
+                src="/images/payment/sslcommerz-online-payment.png"
+                alt="Pay with SSLCommerz"
+                width={256}
+                height={48}
+                className="object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
               />
             </div>
           </div>

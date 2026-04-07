@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Award,
-  Crown,
-  Globe,
-  Handshake, // 🚀 Added back this import
-  ShieldCheck,
-  Star,
-  Zap,
-} from "lucide-react";
+import { Crown, Globe, Handshake, Zap } from "lucide-react";
 import Image from "next/image";
 
 export default function Partners() {
@@ -23,8 +15,8 @@ export default function Partners() {
       bg: "bg-[#C5A059]/5",
     },
     {
-      name: "UGC Bangladesh",
-      logo: "/images/partners/ugc.png",
+      name: "Mind Mapper",
+      logo: "/images/partners/mind-mapper-logo.png",
       cat: "Organizing",
       tier: "Strategic Partner",
       icon: Globe,
@@ -32,38 +24,11 @@ export default function Partners() {
       bg: "bg-slate-50",
     },
     {
-      name: "Cloudinary",
-      logo: "/images/partners/cloudinary.png",
+      name: "The Daily Star",
+      logo: "/images/partners/the-daily-star-logo.png",
       cat: "Platinum",
-      tier: "Cloud Sponsor",
+      tier: "Media Partner",
       icon: Zap,
-      color: "border-slate-200",
-      bg: "bg-white",
-    },
-    {
-      name: "IEEE Bangladesh",
-      logo: "/images/partners/ieee.png",
-      cat: "Technical",
-      tier: "Technical Partner",
-      icon: ShieldCheck,
-      color: "border-slate-200",
-      bg: "bg-white",
-    },
-    {
-      name: "Stripe",
-      logo: "/images/partners/stripe.png",
-      cat: "Gold",
-      tier: "Payment Partner",
-      icon: Star,
-      color: "border-slate-200",
-      bg: "bg-white",
-    },
-    {
-      name: "ICT Division",
-      logo: "/images/partners/ict.png",
-      cat: "Technical",
-      tier: "Web Partner",
-      icon: Award,
       color: "border-slate-200",
       bg: "bg-white",
     },
@@ -98,8 +63,8 @@ export default function Partners() {
           </p>
         </div>
 
-        {/* Partners Layout Grid */}
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 md:gap-8">
+        {/* Partners Layout Grid - 🚀 ADDED justify-center to keep items in middle */}
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 justify-center gap-6 md:gap-8 max-w-4xl mx-auto">
           {partners.map((partner, index) => (
             <div
               key={index}
@@ -126,7 +91,7 @@ export default function Partners() {
                     src={partner.logo}
                     alt={partner.name}
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                    sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>

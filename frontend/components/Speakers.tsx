@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  GraduationCap,
-  Mic2,
-  Quote,
-  Users,
-  X,
-} from "lucide-react";
+import { ArrowUpRight, GraduationCap, Mic2, Quote, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -179,12 +172,12 @@ export default function Keynotes() {
             More Speakers to be announced in{" "}
             <span className="text-[#C5A059]">Phase II</span>
           </p>
-          <button
+          {/* <button
             onClick={() => setShowFullCommittee(true)}
             className="group flex items-center gap-2 bg-white/5 hover:bg-[#C5A059] text-[#C5A059] hover:text-[#003366] px-8 py-3 rounded-full border border-[#C5A059]/30 text-[9px] font-black uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
           >
             <Users size={14} /> View Full Committee
-          </button>
+          </button> */}
         </div>
       </div>
 
