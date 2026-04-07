@@ -1,14 +1,19 @@
 "use client";
 
 import { googlesignin, signin } from "@/action/auth";
+
 import { Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-export default function LoginPage() {
+/**
+ * Intercepted Login Route
+ * This component renders when the user navigates to /login
+ * from within the application.
+ */
+export default function InterceptedLoginPage() {
   const [state, action] = useActionState(signin, undefined);
-
   useEffect(() => {
     if (state?.message) {
       toast.error(state.message, {
@@ -16,7 +21,6 @@ export default function LoginPage() {
       });
     }
   }, [state?.message]);
-
   return (
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4">
       <div className="w-full max-w-[450px] bg-white rounded-[2rem] shadow-2xl overflow-hidden">
@@ -53,7 +57,7 @@ export default function LoginPage() {
 
           {/* Google Button */}
           <form action={googlesignin} className="space-y-4">
-            <button className="w-full cursor-pointer flex items-center justify-center gap-3 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-black text-[9px] uppercase tracking-widest text-slate-700 mb-4">
+            <button className="w-full flex items-center justify-center gap-3 py-2.5 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-black text-[9px] uppercase tracking-widest text-slate-700 mb-4">
               <img
                 src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
                 className="w-4 h-4"

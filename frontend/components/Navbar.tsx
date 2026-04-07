@@ -180,14 +180,14 @@ export default function Navbar() {
 
               <div className="flex items-center gap-3 xl:gap-5">
                 <Link
-                  href="/signIn"
+                  href="/signin"
                   scroll={false}
                   className="text-white font-black text-[10px] hover:text-[#C5A059] uppercase transition-colors"
                 >
                   sign In
                 </Link>
                 <Link
-                  href="/signUp"
+                  href="/signup"
                   scroll={false}
                   className="bg-[#C5A059] text-[#002147] px-5 py-2.5 rounded-xl font-black text-[10px] hover:bg-white active:scale-95 transition-all uppercase"
                 >
@@ -288,7 +288,7 @@ export default function Navbar() {
           <div className="mt-4 pt-4 border-t border-white/10">
             <div className="grid grid-cols-2 gap-3">
               <Link
-                href="/login"
+                href="/signin"
                 scroll={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="py-3.5 border border-white/10 text-white rounded-xl font-black uppercase text-[10px] bg-white/5 text-center"
@@ -296,7 +296,7 @@ export default function Navbar() {
                 Login
               </Link>
               <Link
-                href="/signUp"
+                href="/signup"
                 scroll={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="py-3.5 bg-[#C5A059] text-[#002147] rounded-xl font-black uppercase text-[10px] shadow-lg text-center"

@@ -22,7 +22,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
-  async create(createUserDto: CreateUserDto): Promise<ApiResponse<User>> {
+  async create(createUserDto: CreateUserDto) {
     const user = await this.findByEmail(createUserDto.email);
     if (user) {
       throw new ConflictException('User with this email already exists');
@@ -35,12 +35,7 @@ export class UserService {
 
     const newUser = await this.userRepository.save(createUserDto);
 
-    return {
-      status: 'success',
-      statuscode: 200,
-      data: newUser,
-      message: 'User has been created',
-    };
+    return newUser;
   }
 
   async changeRole(changeRole: ChangeRoleDto): Promise<ApiResponse<User>> {
@@ -68,18 +63,11 @@ export class UserService {
     }
   }
 
-  async createGoogleUser(
-    createUserDto: CreateGoogleUserDto,
-  ): Promise<ApiResponse<User>> {
+  async createGoogleUser(createUserDto: CreateGoogleUserDto) {
     try {
       const user = await this.userRepository.save(createUserDto);
 
-      return {
-        status: 'success',
-        statuscode: 200,
-        data: user,
-        message: 'User has been created',
-      };
+      return user;
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Something went Wrong!');

@@ -23,11 +23,19 @@ export default async function proxy(request: NextRequest) {
       const role = payload.user.role;
 
       if (role === Role.ADMIN && !path.startsWith("/admin")) {
-        return NextResponse.redirect(new URL("/admin", request.url), 307);
+        return NextResponse.redirect(new URL("/admin", request.url));
       }
 
       if (role === Role.RESEARCHER && !path.startsWith("/dashboard")) {
-        return NextResponse.redirect(new URL("/dashboard", request.url), 307);
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+
+      if (role === Role.REVIEWER && !path.startsWith("/reviewer")) {
+        return NextResponse.redirect(new URL("/reviewer", request.url));
+      }
+
+      if (role === Role.AUTHORITY && !path.startsWith("/authority")) {
+        return NextResponse.redirect(new URL("/authority", request.url));
       }
     }
   } catch (err) {
@@ -41,5 +49,10 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/admin/:path*",
+    "/reviewer/:path*",
+    "/authority/:path*",
+  ],
 };

@@ -32,7 +32,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning className={roboto.variable}>
       <body className="antialiased font-sans">
         <Toaster
-          position="top-center"
+          position="bottom-right"
           reverseOrder={false}
           toastOptions={{
             duration: 4000,

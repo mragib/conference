@@ -13,9 +13,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(email: string, password: string): Promise<any> {
-    if (password.length < 6) {
-      throw new Error('Password must be at least 8 characters long');
-    }
     return this.authService.validateLocalUser(email, password);
   }
 }
