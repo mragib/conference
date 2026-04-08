@@ -4,7 +4,12 @@ import { refreshToken } from "@/action/auth";
 import { BACKEND_URL } from "@/lib/constants";
 import { revalidatePath } from "next/cache";
 import { getSession } from "./session";
-import { ApiResponse, APIStatus, UserFormSchema } from "./type";
+import {
+  ApiResponse,
+  APIStatus,
+  ReviewerFormSchema,
+  UserFormSchema,
+} from "./type";
 
 export interface AuthFetchOptions extends RequestInit {
   headers?: Record<string, string>;
@@ -321,6 +326,55 @@ export const userRoleChangeService = async (
     JSON.stringify({ userId: id, role }),
   );
   const resData = await response.json();
+  if (response.ok) revalidatePath("/admin/users");
+  return resData;
+};
+
+export const getTopics = async () => {
+  const response = await publicFetch(`${BACKEND_URL}/topic`);
+  const topics = await response.json();
+  return topics;
+};
+
+export const getUserWithTopic = async () => {
+  const response = await authFetch(`${BACKEND_URL}/user/with-topic`);
+  const topics = await response.json();
+  return topics;
+};
+
+export const addReviewerService = async (
+  state: ApiResponse,
+  data: FormData,
+): Promise<ApiResponse> => {
+  const payload: any = Object.fromEntries(data.entries());
+
+  if (typeof payload.topic === "string") {
+    try {
+      payload.topic = JSON.parse(payload.topic);
+    } catch {
+      payload.topic = [];
+    }
+  }
+
+  const validation = ReviewerFormSchema.safeParse(payload);
+
+  if (!validation.success) {
+    return {
+      error: validation.error.flatten().fieldErrors,
+      status: APIStatus.FAIL,
+      statusCode: 400,
+      message: "",
+    };
+  }
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/user/make-reviewer`,
+    "POST",
+    JSON.stringify(validation.data),
+  );
+
+  const resData = await response.json();
+
   if (response.ok) revalidatePath("/admin/users");
   return resData;
 };

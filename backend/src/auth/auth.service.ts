@@ -1,4 +1,9 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import type { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
@@ -141,17 +146,25 @@ export class AuthService {
     const otp_expiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await this.userService.update(user.id, {
-      otp,
-      otp_expiry,
-    });
+    try {
+      await this.userService.update(user.id, {
+        otp,
+        otp_expiry,
+      });
 
-    // Send OTP email
-    await this.mailService.sendEmail(
-      user.email,
-      'Password Reset OTP',
-      'otp-email',
-      { otp },
-    );
+      // Send OTP email
+      await this.mailService.sendEmail(
+        user.email,
+        'Password Reset OTP',
+        'otp-email',
+        { otp },
+      );
+      return {
+        otp,
+        status: 'success',
+      };
+    } catch (error) {
+      throw new InternalServerErrorException('Something went wrong');
+    }
   }
 }

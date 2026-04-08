@@ -76,3 +76,26 @@ export const UserFormSchema = z.object({
   role: z.enum(Role),
   is_active: z.boolean(),
 });
+
+export type Topic = {
+  id: string;
+  name: string;
+};
+
+export const TopicSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+
+export type REVEIWER_USER = {
+  id: string;
+  name: string;
+  email: string;
+  topic?: Topic[];
+};
+
+export const ReviewerFormSchema = z.object({
+  name: z.string().min(2, "Name should be at least 2 characters long").trim(),
+  email: z.string().email("Invalid email address").trim(),
+  topic: z.array(TopicSchema).min(1, "Select at least one topic"),
+});

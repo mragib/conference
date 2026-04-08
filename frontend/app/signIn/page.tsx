@@ -101,9 +101,12 @@ export default function LoginPage() {
 
             {/* Forgot */}
             <div className="text-right">
-              <a className="text-[9px] font-black text-[#C5A059] hover:text-[#003366] uppercase cursor-pointer">
+              <Link
+                href="/forgot-password"
+                className="text-[9px] font-black text-[#C5A059] hover:text-[#003366] uppercase cursor-pointer"
+              >
                 Forgot Password?
-              </a>
+              </Link>
             </div>
 
             {/* Captcha */}

@@ -1,5 +1,11 @@
+import AdminHeader from "@/components/AdminHeader";
+
 const Admin = () => {
-  return <div>Admin</div>;
+  return (
+    <>
+      <AdminHeader menuName="Admin Control Center" />
+    </>
+  );
 };
 
 export default Admin;

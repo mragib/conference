@@ -30,6 +30,12 @@ export class UserController {
   }
 
   @Roles(Role.SUPERADMIN, Role.ADMIN)
+  @Get('with-topic')
+  findAllWithTopic() {
+    return this.userService.findAllUserWithTopic();
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);

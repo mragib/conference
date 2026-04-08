@@ -137,3 +137,12 @@
 .font-mono {
   font-family: var(--font-geist-mono), monospace;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

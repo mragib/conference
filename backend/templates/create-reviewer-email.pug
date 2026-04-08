@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Reviewer Invitation
+  body
+    h1 OTP Verification
+    p Hello #{name}, you have been selected as a reviewer. 
+    p Your OTP code is: 
+      strong #{otp}
+    
+    //- Fix: Attributes must be in parentheses, and variables need interpolation or concatenation
+    p Please click the link below to set your password:
+    a(href=`http://localhost:3000/otp?email=${email}`) Set your Password
+    p strong this will expire after 30 minutes

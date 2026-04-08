@@ -136,3 +136,17 @@ export const refreshToken = async (oldRefreshToken: string) => {
 export const googlesignin = async () => {
   redirect(`${BACKEND_URL}/auth/google/login`);
 };
+
+export const forgotPassword = async ({ email }: { email: string }) => {
+  const response = await fetch(`${BACKEND_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  const resData = await response.json();
+
+  return resData;
+};

@@ -1,5 +1,6 @@
 "use client";
 
+import ssl_commarce_iamge from "@/public/images/Payment/sslcommerz-online-payment.png";
 import {
   Check,
   Globe,
@@ -204,7 +205,7 @@ export default function Pricing() {
 
             <div className="relative w-64 h-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
               <Image
-                src="/images/payment/sslcommerz-online-payment.png"
+                src={ssl_commarce_iamge}
                 alt="Pay with SSLCommerz"
                 width={256}
                 height={48}

@@ -58,11 +58,11 @@ export const getSession = async () => {
       const { payload } = await jwtVerify(data.session, encodedSecret);
       return payload as session;
     } else {
-      redirect("/login");
+      redirect("/signin");
     }
   } catch (error) {
     console.error("JWT Verification Error:", error);
-    redirect("/login");
+    redirect("/signin");
   }
 };
 

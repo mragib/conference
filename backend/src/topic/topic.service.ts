@@ -36,7 +36,11 @@ export class TopicService {
   }
 
   async findAll() {
-    const [data, count] = await this.topicRepository.findAndCount();
+    const [data, count] = await this.topicRepository.findAndCount({
+      order: {
+        created_at: 'ASC',
+      },
+    });
     return {
       data,
       count,

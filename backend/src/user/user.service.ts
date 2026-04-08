@@ -6,8 +6,9 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
+import { MailService } from 'src/mail/mail.service';
 import { ApiResponse, Role } from 'src/types/types';
-import { IsNull, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import {
   ChangeRoleDto,
   CreateGoogleUserDto,
@@ -21,6 +22,7 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private mailService: MailService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = await this.findByEmail(createUserDto.email);
@@ -87,7 +89,11 @@ export class UserService {
   }
 
   async findAll(): Promise<ApiResponse<User[]>> {
-    const [user, count] = await this.userRepository.findAndCount();
+    const [user, count] = await this.userRepository.findAndCount({
+      where: {
+        role: Not(In([Role.ADMIN, Role.SUPERADMIN])),
+      },
+    });
     return {
       status: 'success',
       statuscode: 200,
@@ -160,7 +166,7 @@ export class UserService {
       }
 
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const otp_expiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
+      const otp_expiry = new Date(Date.now() + 30 * 60 * 1000); // OTP valid for 10 minutes
 
       const user = await this.userRepository.save({
         email,
@@ -170,6 +176,14 @@ export class UserService {
         otp,
         otp_expiry,
       });
+
+      await this.mailService.sendEmail(
+        user.email,
+        'DBA Confereance Reviewer Registration',
+        'create-reviewer-email',
+        { otp, name, email },
+      );
+
       return {
         status: 'success',
         statuscode: 200,
@@ -211,5 +225,30 @@ export class UserService {
       }
       throw new InternalServerErrorException('Something went Wrong!');
     }
+  }
+
+  async findAllUserWithTopic() {
+    const [user, count] = await this.userRepository.findAndCount({
+      where: {
+        role: Not(In([Role.ADMIN, Role.SUPERADMIN])),
+      },
+      relations: ['topic'],
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        topic: {
+          id: true,
+          name: true,
+        },
+      },
+    });
+    return {
+      status: 'success',
+      statuscode: 200,
+      data: user,
+      count,
+    };
   }
 }
