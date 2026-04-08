@@ -22,3 +22,10 @@ export default (): MysqlConnectionOptions => ({
 //   synchronize: true,
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // });
+
+// export default (): SqliteConnectionOptions => ({
+//   type: 'sqlite',
+//   database: process.env.DATABASE!,
+//   synchronize: true,
+//   entities: ['dist/**/*.entity{.ts,.js}'],
+// });
