@@ -21,6 +21,12 @@ export type ApiResponse =
     }
   | undefined;
 
+export type AdvanceFormState = {
+  success: boolean;
+  fields?: Record<string, string>;
+  errors?: Record<string, string[]>;
+};
+
 export const SignupFormSchema = z.object({
   name: z.string().min(2, "Name should be at least 2 characters long").trim(),
   email: z.string().email("Invalid email address"),
@@ -98,4 +104,43 @@ export const ReviewerFormSchema = z.object({
   name: z.string().min(2, "Name should be at least 2 characters long").trim(),
   email: z.string().email("Invalid email address").trim(),
   topic: z.array(TopicSchema).min(1, "Select at least one topic"),
+});
+
+export enum USER_TYPE {
+  ACADEMIC = "ACADEMIC",
+  INDUSTRY = "INDUSTRY",
+  STUDENT = "STUDENT",
+}
+export type UserProfile = {
+  first_name: string;
+  last_name: string;
+  designation: string;
+  country: string;
+  organization: string;
+  user_type: USER_TYPE;
+};
+
+export const ProfileFormSchema = z.object({
+  first_name: z
+    .string()
+    .min(2, "First Name Should be at leaste 2 characters long")
+    .trim(),
+  last_name: z
+    .string()
+    .min(2, "First Name Should be at leaste 2 characters long")
+    .trim(),
+  designation: z.string().trim(),
+  countryObj: z.object({
+    label: z.string(),
+    value: z.string().min(1, "Country is required"),
+  }),
+  country: z.string().trim().optional(),
+
+  organization: z.string().trim(),
+  user_typeObj: z.object({
+    label: z.string(),
+    value: z.string().min(1, "User type is required"),
+  }),
+
+  user_type: z.string().trim().optional(),
 });

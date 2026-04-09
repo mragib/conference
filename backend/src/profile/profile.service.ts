@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
@@ -59,7 +60,12 @@ export class ProfileService {
 
   async profile(user: User) {
     const found = await this.findOne({ where: { user: { id: user.id } } });
-    if (!found) throw new ConflictException('Profile not found for this user');
+    if (!found)
+      throw new NotFoundException({
+        user,
+        message: 'User profile is not created',
+        statusCode: 404,
+      });
     return {
       message: 'Profile found successfully',
       data: found,

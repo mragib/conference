@@ -5,8 +5,10 @@ import { BACKEND_URL } from "@/lib/constants";
 import { revalidatePath } from "next/cache";
 import { getSession } from "./session";
 import {
+  AdvanceFormState,
   ApiResponse,
   APIStatus,
+  ProfileFormSchema,
   ReviewerFormSchema,
   UserFormSchema,
 } from "./type";
@@ -377,4 +379,43 @@ export const addReviewerService = async (
 
   if (response.ok) revalidatePath("/admin/users");
   return resData;
+};
+
+export const createProfile = async (
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> => {
+  const payload: any = Object.fromEntries(data.entries());
+
+  console.log(payload);
+
+  const validation = ProfileFormSchema.safeParse(payload);
+
+  console.log(validation);
+
+  if (!validation.success) {
+    const fields: Record<string, string> = {};
+
+    for (const key of Object.keys(payload)) {
+      fields[key] = payload[key].toString();
+    }
+    return {
+      errors: validation.error.flatten().fieldErrors,
+
+      success: false,
+    };
+  }
+
+  // const response = await authPostOrPatch(
+  //   `${BACKEND_URL}/profile`,
+  //   "POST",
+  //   JSON.stringify(validation.data),
+  // );
+
+  // const resData = await response.json();
+
+  // return resData;
+  return {
+    success: true,
+  };
 };

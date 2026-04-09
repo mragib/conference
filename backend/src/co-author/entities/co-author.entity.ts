@@ -18,6 +18,9 @@ export class CoAuthor {
   @Column({ length: 100 })
   organization: string;
 
+  @Column({ default: 0 })
+  display_order: number;
+
   @ManyToOne(() => Abstract, (item) => item.co_authors)
   abstract: Abstract;
 }
