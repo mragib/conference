@@ -69,6 +69,7 @@ export class ProfileService {
     return {
       message: 'Profile found successfully',
       data: found,
+      email: user.email,
       statusCode: 200,
       status: 'success',
     };

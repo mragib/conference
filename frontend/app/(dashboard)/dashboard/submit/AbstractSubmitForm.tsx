@@ -1,4 +1,5 @@
 "use client";
+import { customSelectStyles } from "@/lib/constants";
 import { Topic } from "@/lib/type";
 import { changeForSelectArray } from "@/lib/utils";
 import { Send, Trash } from "lucide-react";
@@ -88,52 +89,10 @@ const AbstractSubmitForm = ({ topics }: { topics: Topic[] }) => {
             render={({ field }) => (
               <Select
                 {...field}
+                instanceId={"topics"}
                 options={filterTopics}
                 isMulti={false}
-                styles={{
-                  control: (base, state) => ({
-                    ...base,
-                    backgroundColor: "#f8fafc", // bg-slate-50
-                    borderRadius: "16px",
-                    padding: "6px 10px",
-                    borderColor: state.isFocused ? "#C5A059" : "#e2e8f0",
-                    boxShadow: state.isFocused
-                      ? "0 0 0 2px rgba(197,160,89,0.4)"
-                      : "none",
-                    "&:hover": {
-                      borderColor: "#C5A059",
-                    },
-                    fontWeight: "700",
-                    color: "#003366",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    borderRadius: "12px",
-                    overflow: "hidden",
-                    zIndex: 50,
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    backgroundColor: state.isFocused
-                      ? "#f1f5f9"
-                      : state.isSelected
-                        ? "#C5A059"
-                        : "white",
-                    color: state.isSelected ? "white" : "#003366",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }),
-                  singleValue: (base) => ({
-                    ...base,
-                    color: "#003366",
-                    fontWeight: "700",
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#94a3b8",
-                    fontWeight: "600",
-                  }),
-                }}
+                styles={customSelectStyles}
               />
             )}
           />

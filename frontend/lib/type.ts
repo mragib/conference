@@ -144,3 +144,11 @@ export const ProfileFormSchema = z.object({
 
   user_type: z.string().trim().optional(),
 });
+
+export const ProfileServerSchema = ProfileFormSchema.omit({
+  countryObj: true,
+  user_typeObj: true,
+}).extend({
+  country: z.string(),
+  user_type: z.string(),
+});

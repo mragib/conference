@@ -8,7 +8,7 @@ import {
   AdvanceFormState,
   ApiResponse,
   APIStatus,
-  ProfileFormSchema,
+  ProfileServerSchema,
   ReviewerFormSchema,
   UserFormSchema,
 } from "./type";
@@ -387,10 +387,7 @@ export const createProfile = async (
 ): Promise<AdvanceFormState> => {
   const payload: any = Object.fromEntries(data.entries());
 
-  console.log(payload);
-
-  const validation = ProfileFormSchema.safeParse(payload);
-
+  const validation = ProfileServerSchema.safeParse(payload);
   console.log(validation);
 
   if (!validation.success) {
@@ -406,16 +403,22 @@ export const createProfile = async (
     };
   }
 
-  // const response = await authPostOrPatch(
-  //   `${BACKEND_URL}/profile`,
-  //   "POST",
-  //   JSON.stringify(validation.data),
-  // );
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/profile`,
+    "POST",
+    JSON.stringify(validation.data),
+  );
 
-  // const resData = await response.json();
+  const resData = await response.json();
 
-  // return resData;
+  if (!response.ok) {
+    return {
+      errors: resData.error,
+      success: false,
+    };
+  }
+
   return {
-    success: true,
+    success: response.ok,
   };
 };
