@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: any) => {
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
@@ -45,7 +45,7 @@ export default function FAQ() {
     },
   ];
 
-  const toggleFAQ = (index) => {
+  const toggleFAQ = (index: any) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 

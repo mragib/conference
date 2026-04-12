@@ -11,7 +11,7 @@ interface abstractForm {
   description: string;
   keyword: string;
   remarks: string;
-  topic: Topic;
+  topic: { label: string; value: string };
   co_authors: {
     first_name: string;
     last_name: string;
@@ -20,7 +20,13 @@ interface abstractForm {
   }[];
 }
 
-const AbstractSubmitForm = ({ topics }: { topics: Topic[] }) => {
+const AbstractSubmitForm = ({
+  topics,
+  user,
+}: {
+  topics: Topic[];
+  user: any;
+}) => {
   const {
     register,
     handleSubmit,
@@ -32,10 +38,10 @@ const AbstractSubmitForm = ({ topics }: { topics: Topic[] }) => {
     defaultValues: {
       co_authors: [
         {
-          first_name: "",
-          last_name: "",
-          email: "",
-          organization: "",
+          first_name: user.data.first_name,
+          last_name: user.data.last_name,
+          email: user.email,
+          organization: user.data.organization,
         },
       ],
     },
@@ -48,17 +54,12 @@ const AbstractSubmitForm = ({ topics }: { topics: Topic[] }) => {
 
   const filterTopics = changeForSelectArray(topics);
 
-  function onsubmit(data) {
+  function onsubmit(data: any) {
     console.log("data", data);
   }
-  function onerror(error) {
-    console.log(error);
-  }
+
   return (
-    <form
-      onSubmit={handleSubmit(onsubmit, onerror)}
-      className="space-y-8 w-full"
-    >
+    <form onSubmit={handleSubmit(onsubmit)} className="space-y-8 w-full">
       {/* ===== BASIC INFO ===== */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
         <h2 className="text-lg font-semibold text-[#003366] border-b pb-2">

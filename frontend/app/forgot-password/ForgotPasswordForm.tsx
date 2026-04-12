@@ -1,31 +1,42 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const OtpForm = () => {
-  const [otp, setOtp] = useState("");
+const ForgotPasswordForm = () => {
+  const [email, setEmail] = useState("");
   const [captcha, setCaptcha] = useState({ a: 0, b: 0, userAns: "" });
 
-  const generateCaptcha = () => {
+  const params = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (params.get("error") === "unauthorized") {
+      toast.error("Invalid email", { duration: 5000 });
+    }
+  }, [params]);
+
+  useEffect(() => {
     setCaptcha({
       a: Math.floor(Math.random() * 10) + 1,
       b: Math.floor(Math.random() * 10) + 1,
       userAns: "",
     });
-  };
-  useEffect(() => {
-    generateCaptcha();
   }, []);
-  const handleSubmit = async (e: any) => {
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
+
     const isCaptchaCorrect =
       parseInt(captcha.userAns) === captcha.a + captcha.b;
+
     if (!isCaptchaCorrect) {
       toast.error("Mathematical verification failed.");
-      generateCaptcha();
       return;
     }
-    redirect("/reset-password");
+
+    router.push(`/otp?email=${email}`);
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-black/70 p-4">
@@ -66,6 +77,8 @@ const OtpForm = () => {
             <div className="relative group">
               <input
                 type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 placeholder="Email Address"
                 className="w-full pl-3 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-[#003366]"
               />
@@ -108,4 +121,4 @@ const OtpForm = () => {
   );
 };
 
-export default OtpForm;
+export default ForgotPasswordForm;

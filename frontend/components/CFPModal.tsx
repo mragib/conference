@@ -3,7 +3,11 @@ import { CheckCircle2, ClipboardCheck, FileText, Send, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function CFPModal({ onStartSubmission }) {
+export default function CFPModal({
+  onStartSubmission,
+}: {
+  onStartSubmission: any;
+}) {
   const router = useRouter();
 
   const handleClose = () => {
@@ -34,7 +38,7 @@ export default function CFPModal({ onStartSubmission }) {
     };
   }, []);
 
-  const handleSubmissionRedirect = (e) => {
+  const handleSubmissionRedirect = (e: any) => {
     e?.preventDefault();
     if (onStartSubmission) {
       onStartSubmission();

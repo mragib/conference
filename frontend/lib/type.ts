@@ -129,14 +129,16 @@ export const ProfileFormSchema = z.object({
     .string()
     .min(2, "First Name Should be at leaste 2 characters long")
     .trim(),
-  designation: z.string().trim(),
+
   countryObj: z.object({
     label: z.string(),
     value: z.string().min(1, "Country is required"),
   }),
   country: z.string().trim().optional(),
 
-  organization: z.string().trim(),
+  designation: z.string().min(1, "Designation is required").trim(),
+
+  organization: z.string().min(1, "Organization is required").trim(),
   user_typeObj: z.object({
     label: z.string(),
     value: z.string().min(1, "User type is required"),

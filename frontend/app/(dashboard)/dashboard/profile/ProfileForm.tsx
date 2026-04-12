@@ -12,7 +12,13 @@ import { ProfileFormSchema, USER_TYPE } from "@/lib/type";
 import { changeForSelectArray } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Mail, Save, User } from "lucide-react";
-import { startTransition, useActionState, useEffect, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -53,13 +59,7 @@ const ProfileForm = ({
 
   const { confirm, open, options, handleConfirm, handleCancel, setOpen } =
     useConfirm();
-
-  let IsDisable = false;
-
-  if (user) {
-    console.log("user", user);
-    IsDisable = true;
-  }
+  const [isDisable, setIsDisable] = useState(!!user);
 
   useEffect(() => {
     if (isSubmitSuccessful && state?.success) {
@@ -100,12 +100,9 @@ const ProfileForm = ({
 
       // 6. Execute the action
       action(formData);
+      setIsDisable(true);
     });
   };
-
-  function onerror(error) {
-    console.log(error);
-  }
 
   return (
     <>
@@ -119,7 +116,7 @@ const ProfileForm = ({
       />
       <form
         ref={formRef}
-        onSubmit={handleSubmit(onsubmit, onerror)}
+        onSubmit={handleSubmit(onsubmit)}
         className="max-w-4xl mx-auto bg-white rounded-[3rem] p-8 md:p-12 shadow-2xl border border-slate-100 space-y-12 relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#003366] via-[#C5A059] to-[#003366]" />
@@ -140,7 +137,7 @@ const ProfileForm = ({
               <input
                 required
                 type="text"
-                readOnly={IsDisable}
+                readOnly={isDisable}
                 id="first_name"
                 {...register("first_name", { required: true })}
                 defaultValue={state?.fields?.first_name}
@@ -158,7 +155,7 @@ const ProfileForm = ({
               <input
                 required
                 type="text"
-                readOnly={IsDisable}
+                readOnly={isDisable}
                 id="last_name"
                 defaultValue={state?.fields?.last_name}
                 {...register("last_name", { required: true })}
@@ -184,7 +181,7 @@ const ProfileForm = ({
               <input
                 required
                 type="text"
-                readOnly={IsDisable}
+                readOnly={isDisable}
                 id="organization"
                 {...register("organization", { required: true })}
                 defaultValue={state?.fields?.organization}
@@ -203,7 +200,7 @@ const ProfileForm = ({
                 required
                 type="text"
                 id="designation"
-                readOnly={IsDisable}
+                readOnly={isDisable}
                 {...register("designation", { required: true })}
                 defaultValue={state?.fields?.designation}
                 className={`${state?.errors?.designation || rhfErrors.designation?.message ? "border-red-500" : "border-slate-100"} input-style resize-none`}
@@ -224,7 +221,7 @@ const ProfileForm = ({
                     {...field}
                     options={filterCountry}
                     isMulti={false}
-                    isDisabled={IsDisable}
+                    isDisabled={isDisable}
                     styles={customSelectStyles}
                   />
                 )}
@@ -244,7 +241,7 @@ const ProfileForm = ({
                     options={filterUserType}
                     isMulti={false}
                     styles={customSelectStyles}
-                    isDisabled={IsDisable}
+                    isDisabled={isDisable}
                   />
                 )}
               />
@@ -253,7 +250,7 @@ const ProfileForm = ({
         </div>
 
         <button
-          disabled={isPending || IsDisable}
+          disabled={isPending || isDisable}
           className="w-full py-5 bg-[#001A41] text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl shadow-2xl hover:bg-[#C5A059] hover:text-[#001A41] active:scale-[0.98] transition-all flex items-center justify-center gap-4 disabled:opacity-50"
         >
           {isPending ? (

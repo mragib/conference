@@ -2,25 +2,29 @@
 
 import { googlesignin, signup } from "@/action/auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [state, action] = useActionState(signup, undefined);
 
   useEffect(() => {
-    if (state?.statuscode === 200) {
-      toast.success(state.message, {
+    if (!state) return;
+
+    if (state.statusCode === 200) {
+      toast.success(state.message || "Signup successful", {
         duration: 5000,
       });
-      redirect("/dashboard");
-    } else if (state?.message) {
-      toast.error(state?.message || "Signup failed. Please try again.", {
+
+      router.push("/dashboard"); // ✅ correct
+    } else if (state.message) {
+      toast.error(state.message || "Signup failed. Please try again.", {
         duration: 5000,
       });
     }
-  }, [state?.message]);
+  }, [state, router]);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center px-4 py-10">

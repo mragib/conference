@@ -2,14 +2,19 @@
 
 import { BACKEND_URL } from "@/lib/constants";
 import { createSession } from "@/lib/session";
-import { FormState, SigninFormSchema, SignupFormSchema } from "@/lib/type";
+import {
+  ApiResponse,
+  FormState,
+  SigninFormSchema,
+  SignupFormSchema,
+} from "@/lib/type";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signup(
-  state: FormState,
+  state: ApiResponse,
   data: FormData,
-): Promise<FormState> {
+): Promise<ApiResponse> {
   const name = data.get("name");
   const email = data.get("email");
   const password = data.get("password");

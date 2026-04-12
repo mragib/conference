@@ -29,7 +29,7 @@ export default function Marquee() {
   // Repeat the array for a seamless infinite scroll
   const scrollNews = [...newsItems, ...newsItems, ...newsItems];
 
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: any) => {
     const element = document.getElementById(id.replace("#", ""));
     if (element) {
       window.scrollTo({

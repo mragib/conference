@@ -60,6 +60,7 @@ export class ProfileService {
 
   async profile(user: User) {
     const found = await this.findOne({ where: { user: { id: user.id } } });
+
     if (!found)
       throw new NotFoundException({
         user,

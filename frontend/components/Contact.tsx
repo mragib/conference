@@ -37,7 +37,7 @@ export default function Contact() {
     }
   }, [isSubmitted]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const form = e.target;
 
@@ -201,7 +201,7 @@ export default function Contact() {
                   </label>
                   <textarea
                     name="message"
-                    rows="2"
+                    rows={2}
                     required
                     placeholder="How can we help?"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#C5A059] focus:ring-0 transition-all outline-none bg-slate-50 text-xs resize-none"
@@ -273,7 +273,7 @@ export default function Contact() {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2171.1408531752254!2d90.42394291096932!3d23.768441426339592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c78bc678693d%3A0x3e87f7b866c0e38!2sEast+West+University!5e0!3m2!1sen!2sbd!4v1560409847860!5m2!1sen!2sbd"
             className="w-full h-full border-0 grayscale group-hover:grayscale-0 transition-all duration-1000"
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>

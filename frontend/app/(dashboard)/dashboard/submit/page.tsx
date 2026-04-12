@@ -29,7 +29,7 @@ const SubmitPage = async () => {
         <div className="bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-2xl border border-slate-100 space-y-8 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#003366] via-[#C5A059] to-[#003366]" />
 
-          <AbstractSubmitForm topics={topics} />
+          <AbstractSubmitForm topics={topics} user={profile} />
         </div>
       </div>
     </div>

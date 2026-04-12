@@ -10,7 +10,7 @@ export default async function layout({
   children: React.ReactNode;
 }) {
   const session = await getSession();
-  if (!session || !session.user || !session.user.role === Role.RESEARCHER)
+  if (!session || !session.user || session.user.role !== Role.RESEARCHER)
     redirect("/");
   return (
     <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">

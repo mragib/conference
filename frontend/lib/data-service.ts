@@ -388,7 +388,6 @@ export const createProfile = async (
   const payload: any = Object.fromEntries(data.entries());
 
   const validation = ProfileServerSchema.safeParse(payload);
-  console.log(validation);
 
   if (!validation.success) {
     const fields: Record<string, string> = {};
@@ -396,6 +395,9 @@ export const createProfile = async (
     for (const key of Object.keys(payload)) {
       fields[key] = payload[key].toString();
     }
+
+    revalidatePath("/dashboard/profile");
+
     return {
       errors: validation.error.flatten().fieldErrors,
 

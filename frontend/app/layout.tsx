@@ -21,11 +21,11 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  auth,
+
   cfp, // 🚀 Added the CFP slot here
 }: Readonly<{
   children: React.ReactNode;
-  auth: React.ReactNode;
+
   cfp: React.ReactNode; // 🚀 Added type definition
 }>) {
   return (
@@ -67,7 +67,7 @@ export default async function RootLayout({
             These slots will contain intercepted modals.
             If the route doesn't match, their respective default.tsx (returning null) is rendered.
         */}
-        {auth && <div id="auth-portal">{auth}</div>}
+        {/* {auth && <div id="auth-portal">{auth}</div>} */}
         {cfp && <div id="cfp-portal">{cfp}</div>}
 
         {/* Optional: Portal root for specific modal handling */}

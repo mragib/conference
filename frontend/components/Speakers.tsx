@@ -4,9 +4,18 @@ import { ArrowUpRight, GraduationCap, Mic2, Quote, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+type Speaker = {
+  name: string;
+  title: string;
+  institution: string;
+  talk: string;
+  image: string;
+  bio: string;
+};
+
 export default function Keynotes() {
   const [showFullCommittee, setShowFullCommittee] = useState(false);
-  const [selectedSpeaker, setSelectedSpeaker] = useState(null);
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
 
   // Logic to disable body scroll when any modal is open
   useEffect(() => {

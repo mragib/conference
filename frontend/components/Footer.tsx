@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function Footer() {
   const router = useRouter();
 
-  const scrollToSection = (id) => {
+  const scrollToSection = (id: any) => {
     const sectionId = id === "important dates" ? "important-dates" : id;
     const element = document.getElementById(sectionId);
     if (element) {

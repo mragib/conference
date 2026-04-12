@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmY2NlZDEyOS0wZGExLTRmNjQtYTM0YS0xOThmMmM0OTczYzAiLCJpYXQiOjE3NzU0NzMzNDksImV4cCI6MTc3NjA3ODE0OX0.hvYDZNVvTul4AahNgLjZzn3y8_-tvbW0dqE0PJFj8V4
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDZiODBlYi05YmUwLTRlNDEtYmI0YS1jYjM3OTMyN2U5ZTIiLCJpYXQiOjE3NzU3MTMzNjAsImV4cCI6MTc3NjMxODE2MH0.63fm2FadtgwaTLpmkhykshr5rp6JpoHUQ4I0SYyi2Eo
 
 
 ###Sign In ###
@@ -6,7 +6,7 @@ POST http://localhost:8000/auth/signin
 Content-Type: application/json
 
 {
- "email":"test1@gmail.com",
+ "email":"test@gmail.com",
  "password":"test123"
 }
 

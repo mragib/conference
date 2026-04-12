@@ -44,7 +44,7 @@ export default function LoginPage() {
           {/* Title */}
           <div className="mb-6 text-center">
             <h3 className="text-xl md:text-2xl font-black text-[#003366] uppercase">
-              Researcher Login
+              Login
             </h3>
             <p className="text-slate-500 text-[10px] mt-1 uppercase italic">
               Access your dashboard

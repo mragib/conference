@@ -137,8 +137,9 @@ export class AuthService {
   }
 
   async getProfile(user: User) {
-    const foundUser = await this.userService.findOne(user.email);
+    const foundUser = await this.userService.findOne(user.id);
     if (!foundUser) throw new NotFoundException('User is not found');
+
     user.email = foundUser.email;
     return await this.profileService.profile(user);
   }

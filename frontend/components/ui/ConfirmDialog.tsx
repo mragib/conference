@@ -13,7 +13,7 @@ export const ConfirmDialog = ({
   onConfirm,
   onCancel,
   disabled,
-}) => {
+}: any) => {
   const {
     title = "Confirm",
     description = "This action cannot be undone.",

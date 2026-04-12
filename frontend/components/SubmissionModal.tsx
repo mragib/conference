@@ -4,7 +4,15 @@ import { CheckCircle2, Info, Loader2, Send, X } from "lucide-react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function SubmissionModal({ isOpen, onClose }) {
+export default function SubmissionModal({
+  isOpen,
+  onClose,
+  session,
+}: {
+  isOpen: any;
+  onClose: any;
+  session: any;
+}) {
   // const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,7 +24,7 @@ export default function SubmissionModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!session) {
       toast.error("Please login to submit your abstract.");

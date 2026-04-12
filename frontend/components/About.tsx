@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function About() {
   const router = useRouter();
@@ -232,7 +232,15 @@ export default function About() {
   );
 }
 
-function ModalWrapper({ onClose, title, children }) {
+function ModalWrapper({
+  onClose,
+  title,
+  children,
+}: {
+  onClose: any;
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 lg:p-10">
       <div
@@ -289,10 +297,10 @@ function ModalWrapper({ onClose, title, children }) {
   );
 }
 
-function ThemesGrid({ themes }) {
+function ThemesGrid({ themes }: { themes: any }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
-      {themes.map((theme, i) => (
+      {themes.map((theme: any, i: number) => (
         <div
           key={i}
           className="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-[#C5A059]/30 transition-all group"

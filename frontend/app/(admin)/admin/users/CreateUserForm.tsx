@@ -15,6 +15,12 @@ interface CreateUserFormProps {
   topics: Topic[];
 }
 
+interface CreateUserFormFields {
+  name: string;
+  email: string;
+  topic: string[];
+}
+
 const CreateUserForm = ({
   userToEdit = {},
   onCloseModal,
@@ -29,7 +35,7 @@ const CreateUserForm = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({
+  } = useForm<CreateUserFormFields>({
     defaultValues: isEditSession
       ? { ...editData, topic: editData.topic?.map((t) => t.id) }
       : {},

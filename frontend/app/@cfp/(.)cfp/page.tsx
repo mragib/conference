@@ -8,8 +8,8 @@ export default function CFPInterceptedPage() {
 
   const handleStartSubmission = () => {
     // When in modal mode, we close the modal and move to signup
-    router.dismiss(); // Or router.back()
-    router.push("/signUp");
+    router.back(); // Or router.back()
+    router.push("/signup");
   };
 
   return <CFPModal onStartSubmission={handleStartSubmission} />;
