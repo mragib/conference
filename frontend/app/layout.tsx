@@ -25,8 +25,6 @@ export default async function RootLayout({
   cfp, // 🚀 Added the CFP slot here
 }: Readonly<{
   children: React.ReactNode;
-
-  cfp: React.ReactNode; // 🚀 Added type definition
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={roboto.variable}>
@@ -67,8 +65,6 @@ export default async function RootLayout({
             These slots will contain intercepted modals.
             If the route doesn't match, their respective default.tsx (returning null) is rendered.
         */}
-        {/* {auth && <div id="auth-portal">{auth}</div>} */}
-        {cfp && <div id="cfp-portal">{cfp}</div>}
 
         {/* Optional: Portal root for specific modal handling */}
         <div id="modal-root" />

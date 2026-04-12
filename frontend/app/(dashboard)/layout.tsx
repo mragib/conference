@@ -26,7 +26,7 @@ export default async function layout({
                 Submit Research
               </h1>
               <p className="text-[8px] md:text-[10px] text-slate-400 font-black uppercase tracking-[0.25em] mt-1">
-                DBA CONFERENCE 2026
+                SCM Conference 2026
               </p>
             </div>
           </div>

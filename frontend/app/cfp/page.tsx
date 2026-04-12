@@ -5,24 +5,21 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 
-export default function CFPFullPage() {
+export default function CFPPage() {
   const router = useRouter();
 
   const handleStartSubmission = () => {
-    // Logic for direct page submission
-    router.push("/signUp");
+    // Standard navigation to signup
+    router.push("/signup");
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#FDFCFB]">
       <Navbar />
-      <div className="pt-24 pb-12">
-        {/* We reuse the CFPModal component but without fixed-inset positioning 
-            if you prefer a standard page layout, or simply render it as is. */}
-        <div className="max-w-7xl mx-auto px-6">
-          <CFPModal onStartSubmission={handleStartSubmission} />
-        </div>
-      </div>
+      <main className="pt-20 pb-12">
+        {/* We reuse the UI logic but pass a handler that works for a page */}
+        <CFPModal onStartSubmission={handleStartSubmission} isPage={true} />
+      </main>
       <Footer />
     </div>
   );

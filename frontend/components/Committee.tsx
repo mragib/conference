@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Sparkles, User2, Users, X } from "lucide-react";
+import { Sparkles, User2, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Committee() {
@@ -175,7 +175,7 @@ export default function Committee() {
                     <Sparkles size={12} /> Global Secretariat
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tight text-white leading-none">
-                    Conference <span className="text-[#C5A059]">DBA Team</span>
+                    SCM <span className="text-[#C5A059]">Conference Team</span>
                   </h2>
                 </div>
                 <button
@@ -184,21 +184,6 @@ export default function Committee() {
                 >
                   <X size={28} />
                 </button>
-              </div>
-
-              {/* Compact Search Bar */}
-              <div className="relative w-full max-w-sm group">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search team member..."
-                  className="w-full bg-white/5 border border-white/10 px-5 py-3 rounded-xl text-xs font-semibold text-white outline-none focus:border-[#C5A059] transition-all placeholder:text-white/20"
-                />
-                <Search
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20"
-                  size={16}
-                />
               </div>
             </div>
 
@@ -232,7 +217,7 @@ export default function Committee() {
 
             <div className="p-8 text-center border-t border-white/5">
               <p className="text-white/10 text-[9px] font-bold uppercase tracking-[0.5em]">
-                DBA Conference Team | East West University | 2026
+                SCM Conference Team | East West University | 2026
               </p>
             </div>
           </div>

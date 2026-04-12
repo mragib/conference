@@ -40,10 +40,10 @@ export default function Highlights() {
 
   const themeHighlights = [
     "Scope for Publication in Peer Reviewed/Scopus Indexed Journals",
-    "Conference Proceeding Consist of ISBN Number",
+    "Renowned Keynote Speakers from Academia and Industry",
     "Academic-Industry Discussion and Industry Talk",
-    "Opportunities for Oral Poster Presentation",
-    "Renowned Keynote Speakers and International Participants",
+    "Opportunities for Oral Poster Presentation for students",
+    "Attended by International Participants",
   ];
 
   return (

@@ -2,79 +2,118 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { School } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Award, GraduationCap, ShieldCheck } from "lucide-react";
 
 export default function AboutEWUPage() {
-  const router = useRouter();
-
   return (
-    <div className="relative min-h-screen w-full bg-[#FDFCFB] selection:bg-[#C5A059] selection:text-white">
+    <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
       <Navbar />
 
-      {/* --- HERO HEADER --- */}
-      <div className="w-full bg-[#003366] pt-28 pb-12 md:pt-48 md:pb-20 px-6 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[160px] bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-10" />
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="flex flex-row items-center justify-center gap-3 md:gap-6 mb-2">
-            <div className="w-10 h-10 md:w-16 md:h-16 bg-white/5 rounded-xl md:rounded-[1.5rem] text-[#C5A059] flex items-center justify-center border border-white/10 shadow-lg">
-              <School size={20} className="md:w-8 md:h-8" />
-            </div>
-            <h1 className="text-2xl md:text-6xl font-black text-white tracking-tighter uppercase">
-              East West <span className="text-[#C5A059]">University</span>
-            </h1>
-          </div>
-          <p className="text-slate-400 text-[7px] md:text-[10px] font-black uppercase tracking-[0.3em] mt-2">
-            Academic Excellence Since 1996
-          </p>
+      <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden px-5 md:px-10 py-24 lg:py-0">
+        {/* Background Accents */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+          <div className="absolute top-[-5%] left-[-5%] w-[40vw] h-[40vw] bg-[#C5A059]/20 rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-[-5%] right-[-5%] w-[40vw] h-[40vw] bg-[#003366]/10 rounded-full blur-[120px]"></div>
         </div>
-      </div>
 
-      {/* --- CONTENT AREA --- */}
-      <main className="relative z-10 flex flex-col items-center -mt-6 md:-mt-10 pb-20 px-4">
-        <div className="max-w-4xl w-full bg-white rounded-[1.5rem] md:rounded-[2.5rem] p-5 md:p-12 shadow-xl border border-slate-100 animate-in fade-in zoom-in duration-700">
-          <div className="space-y-8">
-            <div className="relative w-full h-64 md:h-96 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-xl">
-              <img
-                src="/images/about-conference.jpg"
-                alt="EWU Campus"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-20 md:pt-32 pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
+            {/* LEFT COLUMN: Image & Stats */}
+            <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32">
+              <div className="relative group">
+                <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transition-all duration-700">
+                  <img
+                    src="/images/about-conference.jpg"
+                    alt="East West University Campus"
+                    className="w-full h-auto lg:h-[500px] object-cover"
+                  />
+                  <div className="absolute top-6 left-6 z-30 w-16 h-16 bg-black/40 backdrop-blur-md rounded-2xl p-2 border border-white/50">
+                    <img
+                      src="/images/logo.png"
+                      alt="EWU Logo"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats Highlight under Photo */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border-2 border-[#C5A059] shadow-sm transform transition-transform hover:-translate-y-1">
+                  <Award className="text-[#C5A059] mb-1.5" size={20} />
+                  <p className="text-[8px] font-black text-[#003366] uppercase leading-tight">
+                    ACBSP <br /> Accredited
+                  </p>
+                </div>
+                <div className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border-2 border-[#C5A059] shadow-sm transform transition-transform hover:-translate-y-1">
+                  <ShieldCheck className="text-[#C5A059] mb-1.5" size={20} />
+                  <p className="text-[8px] font-black text-[#003366] uppercase leading-tight">
+                    ICAB <br /> Recognized
+                  </p>
+                </div>
+                <div className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border-2 border-[#C5A059] shadow-sm transform transition-transform hover:-translate-y-1">
+                  <GraduationCap className="text-[#C5A059] mb-1.5" size={20} />
+                  <p className="text-[8px] font-black text-[#003366] uppercase leading-tight">
+                    SCM <br /> Major
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-6 text-slate-600 text-sm md:text-lg leading-relaxed font-medium text-justify">
-              <p>
-                East West University (EWU) is a prominent private institution in
-                Bangladesh, established in 1996 with a mission to provide
-                world-class education and foster academic excellence. The
-                university offers a wide range of undergraduate and postgraduate
-                programs across fields including Business Administration,
-                Computer Science, Electrical Engineering, Law, and more.
-              </p>
-              <p>
-                With a strong emphasis on research and innovation, EWU strives
-                to foster critical thinking, problem-solving, and creative
-                expression. The university is dedicated to building global
-                partnerships and maintaining academic integrity. EWU’s highly
-                qualified faculty members are dedicated to mentoring students,
-                preparing them for leadership roles in both the local and global
-                job markets.
-              </p>
-            </div>
+            {/* RIGHT COLUMN: Content */}
+            <div className="lg:col-span-7 space-y-8">
+              <header className="space-y-2 text-left">
+                <h2 className="text-[#C5A059] text-[10px] md:text-xs font-black uppercase tracking-[0.4em]">
+                  Academic Excellence{" "}
+                  <span className="font-bold">Since 1996</span>
+                </h2>
+                {/* Refined Title: More readable and compact */}
+                <h4 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter">
+                  About East West University <br />
+                  <span className="text-xl md:text-3xl text-[#C5A059]">
+                    & Department of Business Administration
+                  </span>
+                </h4>
+              </header>
 
-            <div className="pt-6 border-t border-slate-100 flex justify-center">
-              <button
-                onClick={() => router.push("/")}
-                className="bg-[#003366] text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-[#C5A059] transition-all shadow-lg active:scale-95"
-              >
-                Return to Home
-              </button>
+              <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify">
+                <p>
+                  East West University (EWU), one of Bangladesh&apos;s leading
+                  private universities, is recognized for its commitment to
+                  academic excellence. With a strong emphasis on
+                  interdisciplinary learning and sustainability, EWU actively
+                  engages with pressing global challenges, including economic
+                  resilience and sustainable development.
+                </p>
+                <p>
+                  The Department of Business Administration (BA) stands out as a
+                  center of excellence in business education, maintaining
+                  rigorous international standards. Its programs are accredited
+                  by the Accreditation Council for Business Schools and Programs
+                  (ACBSP) and the Association of Chartered Certified Accountants
+                  (ACCA), and are further recognized by leading national
+                  professional bodies, including the Institute of Chartered
+                  Accountants of Bangladesh (ICAB), the Institute of Cost and
+                  Management Accountants of Bangladesh (ICMAB), and the
+                  Institute of Chartered Secretaries of Bangladesh (ICSB).
+                </p>
+                <p>
+                  Reflecting its focus on applied learning and industry
+                  relevance, the department offers a specialized major in Supply
+                  Chain Management as a core academic program. Through its
+                  engagement in research and collaboration in areas such as
+                  supply chain management, sustainability, and operational
+                  resilience, the department is uniquely positioned to host this
+                  conference and support meaningful scholarly exchange.
+                </p>
+              </div>
+
+              {/* Bottom padding for standard margin */}
+              <div className="pb-10"></div>
             </div>
           </div>
         </div>
-      </main>
+      </section>
 
       <Footer />
     </div>

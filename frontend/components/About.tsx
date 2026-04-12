@@ -75,7 +75,7 @@ export default function About() {
 
   const handleStartSubmission = () => {
     setIsSubThemesOpen(false);
-    router.push("/signUp", { scroll: false });
+    router.push("/signup", { scroll: false });
   };
 
   return (
@@ -264,7 +264,7 @@ function ModalWrapper({
             </div>
             <div className="flex flex-col">
               <h3 className="text-white font-black text-xl md:text-2xl leading-none tracking-tight uppercase">
-                DBA <span className="text-[#C5A059]">Conference</span>
+                SCM <span className="text-[#C5A059]">Conference</span>
               </h3>
               <span className="text-white/50 text-[9px] md:text-[11px] font-bold tracking-[0.2em] mt-1 uppercase">
                 {title}

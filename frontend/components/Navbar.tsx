@@ -6,6 +6,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const navLinks = [
+  { name: "About", id: "about" },
+  { name: "Dates", id: "important-dates" },
+  { name: "Guidelines", id: "guidelines" },
+  { name: "Committee", id: "committee" },
+  { name: "Registration Fee", id: "pricing" },
+  { name: "Partners", id: "partners" },
+  { name: "Contact", id: "contact" },
+];
+
 export default function Navbar({ user }: { user?: any }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -14,16 +24,6 @@ export default function Navbar({ user }: { user?: any }) {
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isAboutOpen, setIsAboutOpen] = useState(false);
-
-  const navLinks = [
-    { name: "About", id: "about", hasSubmenu: true },
-    { name: "Dates", id: "important-dates" },
-    { name: "Guidelines", id: "guidelines" },
-    { name: "Committee", id: "committee" },
-    { name: "Registration Fee", id: "pricing" },
-    { name: "Partners", id: "partners" },
-    { name: "Contact", id: "contact" },
-  ];
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -45,7 +45,11 @@ export default function Navbar({ user }: { user?: any }) {
     setMounted(true);
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      setIsScrolled(scrollPos > 10);
+
+      // 🚀 BYPASS LOGIC: Force solid if on About or Legal pages OR if scrolled
+      const isSpecialPage =
+        pathname.startsWith("/about-") || pathname === "/legal";
+      setIsScrolled(scrollPos > 10 || isSpecialPage);
 
       if (scrollPos < 300) {
         setActiveSection("");
@@ -65,9 +69,10 @@ export default function Navbar({ user }: { user?: any }) {
       });
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [navLinks]);
+  }, [pathname]);
 
   if (!mounted)
     return <div className="h-20 bg-transparent fixed top-0 w-full z-[100]" />;
@@ -77,52 +82,57 @@ export default function Navbar({ user }: { user?: any }) {
       <nav
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
           isScrolled
-            ? "bg-[#002147]/95 backdrop-blur-xl shadow-2xl py-2"
-            : "bg-transparent py-3"
+            ? "bg-[#002147]/95 backdrop-blur-xl shadow-2xl"
+            : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          {/* TOP CONTACT BAR */}
-          <div
-            className={`hidden lg:flex justify-end transition-all duration-500 ${isScrolled ? "h-0 opacity-0 overflow-hidden" : "h-9 opacity-100 mb-1"}`}
-          >
-            <div className="flex items-center gap-5 px-5 py-1.5 rounded-full bg-white/5 border border-white/10">
-              <a
-                href="mailto:helpdesk-scm@ewubd.edu"
-                className="flex items-center gap-2 group"
-              >
-                <Mail size={14} className="text-[#C5A059]" />
-                <span className="text-[11px] font-bold text-white uppercase group-hover:text-[#C5A059] transition-colors tracking-wider">
-                  helpdesk-scm@ewubd.edu
-                </span>
-              </a>
-              <div className="w-px h-3 bg-white/20"></div>
-              <div className="flex items-center gap-2">
-                <Phone size={14} className="text-[#C5A059]" />
-                <span className="text-[11px] font-bold text-white uppercase tracking-wider">
-                  09666775577 | EXT-213/132
-                </span>
+        {/* --- TOP CONTACT BAR: FULL WIDTH DARK OPACITY --- */}
+        {!isScrolled && (
+          <div className="w-full bg-black/40 backdrop-blur-md border-b border-white/5">
+            <div className="max-w-7xl mx-auto px-4 lg:px-8 flex justify-end h-10 items-center">
+              <div className="flex items-center gap-6">
+                <a
+                  href="mailto:helpdesk-scm@ewubd.edu"
+                  className="flex items-center gap-2 group"
+                >
+                  <Mail size={14} className="text-[#C5A059]" />
+                  <span className="text-[10px] font-bold text-white uppercase group-hover:text-[#C5A059] tracking-wider transition-colors">
+                    helpdesk-scm@ewubd.edu
+                  </span>
+                </a>
+                <div className="w-px h-3 bg-white/20"></div>
+                <div className="flex items-center gap-2">
+                  <Phone size={14} className="text-[#C5A059]" />
+                  <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+                    09666775577 | EXT-213/132
+                  </span>
+                </div>
               </div>
             </div>
           </div>
+        )}
 
-          <div className="flex justify-between items-center gap-2">
+        {/* --- MAIN NAV: FULL WIDTH DARK OPACITY --- */}
+        <div
+          className={`w-full transition-all duration-500 ${!isScrolled ? "bg-black/30 backdrop-blur-lg py-3" : "py-2"}`}
+        >
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 flex justify-between items-center">
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
               <div className="relative w-11 h-11 md:w-14 md:h-14 rounded-xl overflow-hidden bg-white/10 border border-white/20 p-1.5 transition-all">
                 <Image
                   src="/images/logo.png"
                   alt="Logo"
                   fill
-                  sizes="(max-width: 768px) 44px, 56px"
+                  sizes="56px"
                   className="object-contain p-1"
                   priority
                 />
               </div>
-              <div className="flex flex-col uppercase leading-none text-white">
+              <div className="flex flex-col uppercase leading-none text-white drop-shadow-md">
                 <h1 className="font-black text-sm md:text-xl tracking-tighter">
-                  DBA <span className="text-[#C5A059]">CONFERENCE</span>
+                  SCM <span className="text-[#C5A059]">CONFERENCE</span>
                 </h1>
-                <p className="text-[7px] md:text-[9px] text-white/40 font-bold tracking-[0.15em] mt-1">
+                <p className="text-[7px] md:text-[9px] text-white/60 font-bold tracking-[0.15em] mt-1">
                   International 2026
                 </p>
               </div>
@@ -130,13 +140,12 @@ export default function Navbar({ user }: { user?: any }) {
 
             <div className="hidden lg:flex items-center gap-1 xl:gap-2">
               <div className="flex items-center gap-0.5">
-                {/* ABOUT WITH SUBMENU */}
                 <div
                   className="relative group"
                   onMouseEnter={() => setIsAboutOpen(true)}
                   onMouseLeave={() => setIsAboutOpen(false)}
                 >
-                  <button className="px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase text-white/70 hover:text-white flex items-center gap-1">
+                  <button className="px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase text-white hover:text-white flex items-center gap-1 cursor-pointer">
                     About{" "}
                     <ChevronDown
                       size={14}
@@ -169,7 +178,11 @@ export default function Navbar({ user }: { user?: any }) {
                     <button
                       key={link.id}
                       onClick={() => scrollToSection(link.id)}
-                      className={`px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase transition-all duration-300 border ${activeSection === link.id ? "bg-white/10 border-white/40 text-white shadow-lg" : "text-white/70 border-transparent hover:text-white"}`}
+                      className={`px-3 cursor-pointer xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase transition-all duration-300 border ${
+                        activeSection === link.id
+                          ? "bg-white/20 border-white/40 text-white"
+                          : "text-white/80 border-transparent hover:text-white"
+                      }`}
                     >
                       {link.name}
                     </button>
@@ -181,14 +194,12 @@ export default function Navbar({ user }: { user?: any }) {
               <div className="flex items-center gap-3 xl:gap-5">
                 <Link
                   href="/signin"
-                  scroll={false}
                   className="text-white font-black text-[10px] hover:text-[#C5A059] uppercase transition-colors"
                 >
-                  sign In
+                  Sign In
                 </Link>
                 <Link
                   href="/signup"
-                  scroll={false}
                   className="bg-[#C5A059] text-[#002147] px-5 py-2.5 rounded-xl font-black text-[10px] hover:bg-white active:scale-95 transition-all uppercase"
                 >
                   Join Now
@@ -197,7 +208,7 @@ export default function Navbar({ user }: { user?: any }) {
             </div>
 
             <button
-              className="lg:hidden p-2 text-white bg-white/5 rounded-xl"
+              className="lg:hidden p-2 text-white bg-black/20 backdrop-blur-md rounded-xl border border-white/10"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu size={22} />
@@ -206,7 +217,7 @@ export default function Navbar({ user }: { user?: any }) {
         </div>
       </nav>
 
-      {/* --- MOBILE DRAWER --- */}
+      {/* MOBILE DRAWER */}
       <div
         className={`fixed inset-0 z-[200] lg:hidden transition-all duration-500 ${isMobileMenuOpen ? "visible" : "invisible"}`}
       >
@@ -230,7 +241,7 @@ export default function Navbar({ user }: { user?: any }) {
               </div>
               <div className="flex flex-col uppercase leading-tight text-white">
                 <h2 className="text-[#C5A059] font-black text-sm">
-                  DBA CONFERENCE
+                  SCM Conference
                 </h2>
                 <p className="text-[9px] text-white/40 font-bold tracking-[0.1em]">
                   INTERNATIONAL 2026
@@ -246,7 +257,6 @@ export default function Navbar({ user }: { user?: any }) {
           </div>
 
           <div className="flex-grow overflow-y-auto space-y-1">
-            {/* ABOUT MOBILE SUBMENU */}
             <div className="p-4 border-b border-white/5">
               <p className="text-[9px] font-black text-[#C5A059] uppercase tracking-widest mb-3">
                 About
@@ -289,7 +299,6 @@ export default function Navbar({ user }: { user?: any }) {
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href="/signin"
-                scroll={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="py-3.5 border border-white/10 text-white rounded-xl font-black uppercase text-[10px] bg-white/5 text-center"
               >
@@ -297,7 +306,6 @@ export default function Navbar({ user }: { user?: any }) {
               </Link>
               <Link
                 href="/signup"
-                scroll={false}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="py-3.5 bg-[#C5A059] text-[#002147] rounded-xl font-black uppercase text-[10px] shadow-lg text-center"
               >

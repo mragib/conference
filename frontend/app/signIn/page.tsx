@@ -31,7 +31,7 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col">
             <h2 className="text-white font-black text-sm md:text-lg uppercase tracking-tight">
-              DBA <span className="text-[#C5A059]">CONFERENCE</span>
+              SCM <span className="text-[#C5A059]">CONFERENCE</span>
             </h2>
             <span className="text-white/60 text-[8px] md:text-[10px] tracking-[0.15em] mt-1 uppercase">
               INTERNATIONAL 2026

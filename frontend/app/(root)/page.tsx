@@ -27,9 +27,12 @@ export default function Home() {
         <Highlights />
       </section>
 
+      <section id="important-dates" className="scroll-mt-20">
+        <KeyDates />
+      </section>
+
       <section id="guidelines" className="scroll-mt-20">
         <Guidelines />
-        <KeyDates />
       </section>
 
       <section id="speakers" className="scroll-mt-20">

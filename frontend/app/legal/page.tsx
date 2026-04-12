@@ -3,18 +3,16 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import {
-  CheckCircle,
   Database,
   EyeOff,
   FileText,
-  Gavel,
   Globe,
   Lock,
   ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
 
-// --- SUB-COMPONENTS ---
+// --- SUB-COMPONENTS (Original logic preserved) ---
 function PrivacySection() {
   const sections = [
     {
@@ -50,18 +48,18 @@ function PrivacySection() {
   ];
 
   return (
-    <div className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] p-5 md:p-12 shadow-xl border border-slate-100 animate-in fade-in zoom-in duration-700">
-      <div className="space-y-6 md:space-y-12">
+    <div className="bg-white rounded-[2.5rem] p-8 md:p-16 shadow-xl border border-slate-100 animate-in fade-in zoom-in duration-700 w-full">
+      <div className="space-y-12">
         {sections.map((sec, i) => (
-          <div key={i} className="flex flex-row gap-4 md:gap-6 group">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-slate-50 flex items-center justify-center text-[#003366] group-hover:bg-[#003366] group-hover:text-white transition-all shrink-0">
-              <sec.icon size={20} className="md:w-6 md:h-6" />
+          <div key={i} className="flex flex-row gap-8 group max-w-4xl">
+            <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-[#003366] group-hover:bg-[#003366] group-hover:text-white transition-all shrink-0 shadow-sm">
+              <sec.icon size={24} />
             </div>
             <div>
-              <h4 className="font-bold text-[#003366] uppercase text-[11px] md:text-sm tracking-tight mb-1">
+              <h4 className="font-black text-[#003366] uppercase text-sm tracking-widest mb-2">
                 {sec.title}
               </h4>
-              <p className="text-slate-500 text-[11px] md:text-sm leading-relaxed font-medium">
+              <p className="text-slate-500 text-base leading-relaxed font-medium">
                 {sec.content}
               </p>
             </div>
@@ -96,7 +94,7 @@ function TermsSection() {
     },
     {
       label: "Certification",
-      desc: "Blockchain-verified digital certificates will be issued to all participants. Physical copies are available upon request.",
+      desc: "Blockchain-verified digital certificates will be issued to all participants.",
     },
     {
       label: "Intellectual Property",
@@ -105,20 +103,20 @@ function TermsSection() {
   ];
 
   return (
-    <div className="bg-[#003366] rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-12 shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-700">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 relative z-10">
+    <div className="bg-[#003366] rounded-[2.5rem] p-8 md:p-16 shadow-2xl relative overflow-hidden animate-in fade-in zoom-in duration-700 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
         {terms.map((term, i) => (
           <div
             key={i}
-            className="border-l-2 border-[#C5A059]/30 pl-4 hover:border-[#C5A059] transition-colors"
+            className="border-l-2 border-[#C5A059]/30 pl-6 hover:border-[#C5A059] transition-colors"
           >
-            <div className="flex items-center gap-2 mb-1">
-              <FileText size={12} className="text-[#C5A059]" />
-              <h4 className="font-bold text-[#C5A059] text-[9px] uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-3 mb-2">
+              <FileText size={16} className="text-[#C5A059]" />
+              <h4 className="font-bold text-[#C5A059] text-xs uppercase tracking-[0.2em]">
                 {term.label}
               </h4>
             </div>
-            <p className="text-white/70 text-[11px] leading-relaxed italic">
+            <p className="text-white/80 text-sm leading-relaxed italic">
               {term.desc}
             </p>
           </div>
@@ -133,55 +131,48 @@ function EthicsSection() {
     {
       title: "Double-Blind Peer Review",
       content:
-        "To ensure unbiased evaluation, both the reviewer and author identities are concealed throughout the review process. Reviewers are assigned based on expertise to avoid institutional bias.",
+        "To ensure unbiased evaluation, both the reviewer and author identities are concealed throughout the review process.",
     },
     {
       title: "AI Disclosure & Transparency",
       content:
-        "Authors must explicitly disclose the use of Generative AI tools in the drafting or data analysis phases. AI cannot be listed as an author, and final accountability remains with the human contributors.",
+        "Authors must explicitly disclose the use of Generative AI tools in the drafting or data analysis phases.",
     },
     {
       title: "COPE Compliance & Integrity",
       content:
-        "Conference DBA 2026 strictly adheres to the Code of Conduct and Best Practice Guidelines set by the Committee on Publication Ethics (COPE) regarding data fabrication and falsification.",
+        "Conference DBA 2026 strictly adheres to the Code of Conduct and Best Practice Guidelines set by COPE.",
     },
     {
       title: "Conflict of Interest",
       content:
-        "All participants must disclose any financial, professional, or personal relationships that could inappropriately influence their research findings or the review outcome.",
+        "All participants must disclose any relationships that could inappropriately influence their research findings.",
     },
     {
       title: "Inclusive Research Practices",
       content:
-        "We prioritize diversity in our scientific committee. Research involving marginalized communities must demonstrate ethical sensitivity and evidence of community-based participatory research values.",
+        "We prioritize diversity in our scientific committee and research involvement.",
     },
     {
       title: "Sustainability & Green Research",
       content:
-        "In line with Dhaka 2026 climate initiatives, we encourage 'Carbon-Aware Research'. Preference is given to studies that demonstrate environmentally sustainable methodologies and resource management.",
+        "Preference is given to studies that demonstrate environmentally sustainable methodologies.",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 animate-in fade-in zoom-in duration-700">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in zoom-in duration-700 w-full">
       {ethics.map((item, i) => (
         <div
           key={i}
-          className="bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-[#C5A059]/20 shadow-lg relative group overflow-hidden"
+          className="bg-white p-10 rounded-[2.5rem] border border-[#C5A059]/20 shadow-lg relative group overflow-hidden"
         >
-          <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-            <CheckCircle size={40} className="text-[#C5A059]" />
-          </div>
-
-          <h4 className="text-[#003366] font-black uppercase text-[10px] md:text-xs tracking-widest mb-3 flex items-center gap-2">
-            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#C5A059]" />{" "}
-            {item.title}
+          <h4 className="text-[#003366] font-black uppercase text-sm tracking-widest mb-4 flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-[#C5A059]" /> {item.title}
           </h4>
-
-          <p className="text-slate-500 text-[11px] md:text-sm leading-relaxed font-medium">
+          <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">
             {item.content}
           </p>
-
           <div className="absolute bottom-0 left-0 w-0 h-1 bg-[#C5A059] group-hover:w-full transition-all duration-500" />
         </div>
       ))}
@@ -193,55 +184,40 @@ export default function LegalPage() {
   const [activeTab, setActiveTab] = useState("privacy");
 
   return (
-    <div className="relative min-h-screen w-full bg-[#FDFCFB] selection:bg-[#C5A059] selection:text-white">
+    <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
       <Navbar />
 
-      {/* --- HERO HEADER --- */}
-      <div className="w-full bg-[#003366] pt-28 pb-12 md:pt-48 md:pb-20 px-6 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[160px] bg-gradient-to-b from-black/40 via-black/10 to-transparent pointer-events-none z-10" />
+      {/* --- COMPACT FULL WIDTH HEADER (Badge Removed) --- */}
+      <section className="w-full flex flex-col items-center justify-center relative overflow-hidden px-5 md:px-10 pt-28 md:pt-36 pb-6">
+        <div className="max-w-7xl w-full relative z-10">
+          <header className="text-center flex flex-col items-center">
+            <h2 className="text-[#C5A059] text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] mb-1">
+              Protocol Ref:{" "}
+              <span className="text-[#003366]">EWU-DBA-2026-LEG</span>
+            </h2>
 
-        <div className="max-w-7xl mx-auto flex justify-center md:justify-end mb-8 md:-mb-10 relative z-20">
-          <div className="relative flex flex-row items-center gap-3 bg-[#001A41] border border-white/10 p-1.5 pr-4 md:p-2 md:pr-6 rounded-full md:rounded-2xl shadow-2xl">
-            <div className="absolute top-0 right-2 md:-top-1 md:-right-1 w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-[#32CD32] shadow-[0_0_10px_#32CD32] animate-pulse"></div>
-            <div className="w-7 h-7 md:w-10 md:h-10 bg-[#C5A059] rounded-full md:rounded-2xl flex items-center justify-center text-[#001A41]">
-              <ShieldCheck size={16} className="md:w-5 md:h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <p className="text-[6px] md:text-[7px] font-black text-[#C5A059] uppercase tracking-wider">
-                Institutional
-              </p>
-              <p className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-widest">
-                Verified by Authority
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="flex flex-row items-center justify-center gap-3 md:gap-6 mb-2">
-            <div className="w-10 h-10 md:w-16 md:h-16 bg-white/5 rounded-xl md:rounded-[1.5rem] text-[#C5A059] flex items-center justify-center border border-white/10 shadow-lg">
-              <Gavel size={20} className="md:w-8 md:h-8" />
-            </div>
-            <h1 className="text-2xl md:text-6xl font-black text-white tracking-tighter uppercase">
-              Legal <span className="text-[#C5A059]">Compliance</span>
+            <h1 className="text-3xl md:text-5xl font-black text-[#003366] leading-tight uppercase tracking-tighter">
+              LEGAL <span className="text-[#C5A059]">& COMPLIANCE</span>
             </h1>
-          </div>
-          <p className="text-slate-400 text-[7px] md:text-[10px] font-black uppercase tracking-[0.3em] mt-2">
-            Protocol Ref: EWU-DBA-2026-LEG
-          </p>
-        </div>
-      </div>
 
-      <main className="relative z-10 flex flex-col items-center -mt-6 md:-mt-10 pb-20 px-4">
-        {/* Tab Switcher */}
-        <div className="flex bg-white p-1 md:p-2 rounded-xl md:rounded-2xl shadow-xl border border-slate-100 mb-10 md:mb-16">
+            <p className="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest max-w-2xl mt-3 border-t border-slate-100 pt-4">
+              Research Sovereignty • Data Integrity • Ethical Standards
+            </p>
+          </header>
+        </div>
+      </section>
+
+      {/* --- CONTENT AREA --- */}
+      <main className="relative z-10 flex flex-col items-center pb-24 px-4 max-w-7xl mx-auto w-full">
+        {/* Compact Tab Switcher */}
+        <div className="flex bg-slate-50 p-1 rounded-xl shadow-sm border border-slate-200 mb-10">
           {["privacy", "terms", "ethics"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 md:px-10 py-2.5 md:py-4 rounded-lg md:rounded-[1.2rem] text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`px-6 md:px-12 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
                 activeTab === tab
-                  ? "bg-[#003366] text-white shadow-lg"
+                  ? "bg-[#003366] text-white shadow-md scale-105"
                   : "text-slate-400 hover:text-[#003366]"
               }`}
             >
@@ -250,7 +226,7 @@ export default function LegalPage() {
           ))}
         </div>
 
-        <div className="max-w-4xl w-full">
+        <div className="w-full">
           {activeTab === "privacy" && <PrivacySection />}
           {activeTab === "terms" && <TermsSection />}
           {activeTab === "ethics" && <EthicsSection />}

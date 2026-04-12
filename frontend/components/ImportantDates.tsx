@@ -120,10 +120,14 @@ export default function KeyDates() {
               </p>
             </div>
           </div>
-
-          <button className="w-full md:w-auto bg-[#003366] text-white px-10 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-[#003366] transition-all shadow-xl active:scale-95 shadow-[#003366]/10">
-            Download Full Schedule
-          </button>
+          <a
+            href="/template/conference_schedule.pdf"
+            download="Conference_Schedule.pdf"
+          >
+            <button className="w-full md:w-auto cursor-pointer bg-[#003366] text-white px-10 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-[#003366] transition-all shadow-xl active:scale-95 shadow-[#003366]/10">
+              Download Full Schedule
+            </button>
+          </a>
         </div>
       </div>
     </section>

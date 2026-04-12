@@ -12,7 +12,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Hero() {
-  // Replace with your actual session logic (e.g., from next-auth)
   const session = null;
 
   return (
@@ -23,7 +22,8 @@ export default function Hero() {
         style={{ backgroundImage: "url('/images/hero.jpg')" }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#003366]/60 via-black/40 to-black/80" />
+      {/* 🚀 LIGHTER OVERLAY: Reduced opacity levels for a brighter look */}
+      <div className="absolute " />
 
       {/* Animated Ambient Glow */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#C5A059]/20 rounded-full blur-[120px] animate-pulse pointer-events-none" />
@@ -33,15 +33,15 @@ export default function Hero() {
           {/* --- REDESIGNED TWO-COLUMN BADGE --- */}
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
             <div className="flex flex-col items-center md:items-end md:border-r md:border-white/20 md:pr-8">
-              <h3 className="text-[#C5A059] text-[11px] md:text-[13px] font-black uppercase tracking-[0.3em] leading-tight text-center md:text-right">
+              <h3 className="text-[#C5A059] text-[11px] md:text-[13px] font-black uppercase tracking-[0.3em] leading-tight text-center md:text-right drop-shadow-md">
                 Department of Business Administration
               </h3>
-              <span className="text-slate-400 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] mt-1">
+              <span className="text-slate-100 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] mt-1 drop-shadow-sm">
                 East West University
               </span>
             </div>
 
-            <div className="flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full hover:bg-white/10 transition-colors cursor-default">
+            <div className="flex items-center gap-3 bg-black/20 backdrop-blur-xl border border-white/20 px-5 py-2 rounded-full hover:bg-white/10 transition-colors cursor-default">
               <Sparkles size={14} className="text-[#C5A059] animate-pulse" />
               <h2 className="text-[#C5A059] text-[10px] md:text-[11px] font-black uppercase tracking-[0.4em] whitespace-nowrap">
                 Academic Excellence 2026
@@ -49,7 +49,8 @@ export default function Hero() {
             </div>
           </div>
 
-          <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[3.5rem] font-black leading-[1.1] tracking-tighter uppercase mb-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 px-2 text-white">
+          {/* 🚀 READABILITY: Added shadow filter to maintain contrast on lighter BG */}
+          <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[3.5rem] font-black leading-[1.1] tracking-tighter uppercase mb-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 px-2 text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">
             International Conference on <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C5A059] to-[#E5C07B]">
               Building Resilient Supply Chains
@@ -58,7 +59,7 @@ export default function Hero() {
 
           {/* DATE & TIME SECTION WITH COUNTDOWN */}
           <div className="flex flex-col items-center gap-6 mb-10">
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8 bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 bg-black/30 backdrop-blur-xl border border-white/20 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl">
               <div className="flex items-center gap-3 px-2 md:px-4 border-r border-white/10">
                 <Calendar className="text-[#C5A059] w-4 h-4 md:w-5 md:h-5" />
                 <div className="text-left">
@@ -93,7 +94,7 @@ export default function Hero() {
             <Link
               href="/cfp"
               scroll={false}
-              className="group flex items-center justify-center gap-2 border border-white/30 bg-white/5 backdrop-blur-md px-8 py-4 rounded-xl font-bold uppercase text-[0.6875rem] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 text-white"
+              className="group flex items-center justify-center gap-2 border border-white/40 bg-black/20 backdrop-blur-md px-8 py-4 rounded-xl font-bold uppercase text-[0.6875rem] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 text-white shadow-lg"
             >
               <FileText
                 size={16}
@@ -112,7 +113,7 @@ export default function Hero() {
               </Link>
             ) : (
               <Link
-                href="/signUp"
+                href="/signup"
                 scroll={false}
                 className="flex items-center justify-center gap-2 bg-[#C5A059] text-[#003366] px-10 py-4 rounded-xl font-black uppercase text-[0.6875rem] tracking-widest shadow-2xl hover:bg-white transition-all duration-300 active:scale-95"
               >

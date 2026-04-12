@@ -46,13 +46,15 @@ export default function Footer() {
               />
             </Link>
             <h2 className="text-xl font-black tracking-tighter border-l-4 border-[#C5A059] pl-4 leading-tight uppercase">
-              DBA <span className="text-[#C5A059]"> Conference</span> <br />{" "}
+              SCM <span className="text-[#C5A059]"> Conference</span> <br />{" "}
               2026
             </h2>
           </div>
           <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
             The Conference on Building Resilient Supply Chains offers a vibrant
-            forum...
+            forum for exploring how organizations can effectively anticipate,
+            withstand, and recover from disruptions in today's volatile global
+            landscape.
           </p>
         </div>
 
@@ -100,14 +102,14 @@ export default function Footer() {
           <div className="flex flex-col gap-3 w-full max-w-[240px]">
             {/* UPDATED TO PARALLEL ROUTE LINKS */}
             <Link
-              href="/login"
+              href="/signin"
               scroll={false}
               className="w-full flex items-center justify-center border border-white/20 bg-white/5 backdrop-blur-md px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center"
             >
               Login to Dashboard
             </Link>
             <Link
-              href="/signUp"
+              href="/signup"
               scroll={false}
               className="w-full flex items-center justify-center border border-white/20 bg-white/5 backdrop-blur-md px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center"
             >
@@ -155,7 +157,7 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-medium text-slate-500 uppercase tracking-widest">
         <p className="text-center md:text-left">
-          Copyright © 2026 | DBA Conference | All Rights Reserved | Developed by
+          Copyright © 2026 | SCM Conference | All Rights Reserved | Developed by
           ICS, EWU.
         </p>
         <div className="flex gap-8">

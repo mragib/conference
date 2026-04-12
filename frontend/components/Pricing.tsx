@@ -68,7 +68,7 @@ export default function Pricing() {
             Registration <span className="text-[#C5A059]">Fee</span>
           </h3>
           <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">
-            Select your category to join the DBA Conference 2026
+            Select your category to join the SCM Conference 2026
           </p>
         </div>
 

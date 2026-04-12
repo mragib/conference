@@ -44,11 +44,11 @@ export default function CFPModal({
       onStartSubmission();
     } else {
       /**
-       * 🚀 FIX: router.dismiss() is invalid.
-       * We use router.push() to navigate to the signUp page.
-       * Next.js will automatically handle the closing of the intercepted route slot.
+       * 🚀 FIX: To break out of the intercepted modal state and ensure the
+       * login/signup page UI actually renders, we use window.location.href.
+       * This performs a full refresh to the target route.
        */
-      router.push("/signUp");
+      window.location.href = "/signup";
     }
   };
 
@@ -67,7 +67,7 @@ export default function CFPModal({
             </div>
             <div className="flex flex-col text-left">
               <h2 className="text-white font-black text-sm md:text-xl leading-none tracking-tight uppercase">
-                DBA <span className="text-[#C5A059]">CONFERENCE</span>
+                SCM <span className="text-[#C5A059]">CONFERENCE</span>
               </h2>
               <span className="text-white/60 text-[8px] md:text-[11px] tracking-[0.3em] mt-1 font-bold uppercase">
                 INTERNATIONAL 2026
@@ -84,7 +84,7 @@ export default function CFPModal({
 
         {/* --- MODAL CONTENT BODY --- */}
         <div className="flex flex-col md:flex-row overflow-hidden flex-grow items-stretch">
-          {/* Left Panel: Sidebar (Fixed Layout Fix) */}
+          {/* Left Panel: Sidebar */}
           <div className="w-full md:w-[42%] bg-[#003366] p-6 md:p-10 text-white flex flex-col relative overflow-hidden shrink-0">
             <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#C5A059]/10 rounded-full blur-[100px] pointer-events-none"></div>
 
