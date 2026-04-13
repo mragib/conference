@@ -24,6 +24,7 @@ export default function Navbar({ user }: { user?: any }) {
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -45,8 +46,6 @@ export default function Navbar({ user }: { user?: any }) {
     setMounted(true);
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-
-      // 🚀 BYPASS LOGIC: Force solid if on About or Legal pages OR if scrolled
       const isSpecialPage =
         pathname.startsWith("/about-") || pathname === "/legal";
       setIsScrolled(scrollPos > 10 || isSpecialPage);
@@ -86,9 +85,9 @@ export default function Navbar({ user }: { user?: any }) {
             : "bg-transparent"
         }`}
       >
-        {/* --- TOP CONTACT BAR: FULL WIDTH DARK OPACITY --- */}
+        {/* --- TOP CONTACT BAR: HIDDEN ON MOBILE (hidden lg:block) --- */}
         {!isScrolled && (
-          <div className="w-full bg-black/40 backdrop-blur-md border-b border-white/5">
+          <div className="hidden lg:block w-full bg-black/40 backdrop-blur-md border-b border-white/5">
             <div className="max-w-7xl mx-auto px-4 lg:px-8 flex justify-end h-10 items-center">
               <div className="flex items-center gap-6">
                 <a
@@ -112,7 +111,7 @@ export default function Navbar({ user }: { user?: any }) {
           </div>
         )}
 
-        {/* --- MAIN NAV: FULL WIDTH DARK OPACITY --- */}
+        {/* --- MAIN NAV --- */}
         <div
           className={`w-full transition-all duration-500 ${!isScrolled ? "bg-black/30 backdrop-blur-lg py-3" : "py-2"}`}
         >
@@ -217,7 +216,7 @@ export default function Navbar({ user }: { user?: any }) {
         </div>
       </nav>
 
-      {/* MOBILE DRAWER */}
+      {/* --- MOBILE DRAWER --- */}
       <div
         className={`fixed inset-0 z-[200] lg:hidden transition-all duration-500 ${isMobileMenuOpen ? "visible" : "invisible"}`}
       >
@@ -257,22 +256,32 @@ export default function Navbar({ user }: { user?: any }) {
           </div>
 
           <div className="flex-grow overflow-y-auto space-y-1">
-            <div className="p-4 border-b border-white/5">
-              <p className="text-[9px] font-black text-[#C5A059] uppercase tracking-widest mb-3">
+            {/* MOBILE ABOUT DROPDOWN */}
+            <div className="border-b border-white/5">
+              <button
+                onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
+                className="w-full flex items-center justify-between p-4 font-black uppercase text-xs tracking-wide text-[#C5A059]"
+              >
                 About
-              </p>
-              <div className="grid grid-cols-1 gap-2">
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-300 ${isMobileAboutOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${isMobileAboutOpen ? "max-h-40 bg-white/5" : "max-h-0"}`}
+              >
                 <Link
                   href="/about-ewu"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-white/60 font-bold uppercase text-[11px] py-2"
+                  className="block p-4 pl-8 text-white/60 font-bold uppercase text-[11px] border-b border-white/5"
                 >
                   About EWU
                 </Link>
                 <Link
                   href="/about-conference"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-white/60 font-bold uppercase text-[11px] py-2"
+                  className="block p-4 pl-8 text-white/60 font-bold uppercase text-[11px]"
                 >
                   About Conference
                 </Link>
@@ -295,7 +304,27 @@ export default function Navbar({ user }: { user?: any }) {
               ))}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-white/10">
+          {/* --- MOBILE DRAWER BOTTOM: CONTACT + AUTH ACTIONS --- */}
+          <div className="mt-auto pt-6 border-t border-white/10 space-y-4">
+            {/* Contact row moved here for mobile ONLY */}
+            <div className="space-y-3 px-2">
+              <a
+                href="mailto:helpdesk-scm@ewubd.edu"
+                className="flex items-center gap-3 text-white/50 hover:text-[#C5A059] transition-colors"
+              >
+                <Mail size={16} className="text-[#C5A059]" />
+                <span className="text-[10px] font-bold uppercase tracking-wider">
+                  helpdesk-scm@ewubd.edu
+                </span>
+              </a>
+              <div className="flex items-center gap-3 text-white/50">
+                <Phone size={16} className="text-[#C5A059]" />
+                <span className="text-[10px] font-bold uppercase tracking-wider">
+                  09666775577 | EXT-213/132
+                </span>
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href="/signin"

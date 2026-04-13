@@ -52,12 +52,12 @@ export default function Partners() {
             <Handshake size={18} /> Global Alliances
           </div>
           <h3 className="text-4xl md:text-6xl font-black text-[#003366] uppercase tracking-tighter leading-none">
-            Corporate & Academic <br />
+            Corporate & Academic{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C5A059] to-[#E5C07B]">
               Partners
             </span>
           </h3>
-          <p className="text-slate-400 text-xs md:text-sm font-bold uppercase tracking-[0.2em] max-w-2xl mx-auto">
+          <p className="text-slate-400 text-xs md:text-sm font-bold uppercase tracking-[0.2em] max-w-1.5xl mx-auto">
             Collaborating with leading institutions to build resilient supply
             chains
           </p>

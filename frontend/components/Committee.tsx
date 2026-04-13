@@ -151,7 +151,7 @@ export default function Committee() {
         <div className="mt-12 flex flex-col items-center">
           <button
             onClick={() => setShowFullCommittee(true)}
-            className="flex items-center gap-2 bg-[#003366] hover:bg-[#C5A059] text-white px-10 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95"
+            className="flex items-center gap-2 bg-[#003366] hover:bg-[#C5A059] text-white px-10 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95 cursor-pointer"
           >
             <Users size={16} /> View Full Committee
           </button>
@@ -180,7 +180,7 @@ export default function Committee() {
                 </div>
                 <button
                   onClick={() => setShowFullCommittee(false)}
-                  className="text-white/40 hover:text-[#C5A059] transition-colors p-2"
+                  className="text-white/40 hover:text-[#C5A059] transition-colors p-2 cursor-pointer"
                 >
                   <X size={28} />
                 </button>

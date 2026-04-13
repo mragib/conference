@@ -235,7 +235,7 @@ export default function Contact() {
 
                 <button
                   disabled={loading}
-                  className="w-full bg-[#003366] text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
+                  className="w-full bg-[#003366] text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? (
                     <Loader2 className="animate-spin" size={14} />

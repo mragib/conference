@@ -80,7 +80,7 @@ export default function FAQ() {
                 </p>
                 <button
                   onClick={() => scrollToSection("contact")}
-                  className="w-full bg-[#C5A059] text-[#003366] py-3.5 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg"
+                  className="w-full bg-[#C5A059] text-[#003366] py-3.5 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg cursor-pointer"
                 >
                   <MessageCircle size={14} /> Contact Secretariat
                 </button>
@@ -101,7 +101,7 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full flex items-center justify-between p-5 md:p-6 text-left outline-none"
+                  className="w-full flex items-center justify-between p-5 md:p-6 text-left outline-none cursor-pointer"
                 >
                   <div className="flex items-center gap-4">
                     <div
