@@ -111,7 +111,7 @@ export default function Footer() {
               scroll={false}
               className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
             >
-              <LogIn size={14} /> Login to Dashboard
+              <LogIn size={14} /> Login
             </Link>
             <Link
               href="/signup"

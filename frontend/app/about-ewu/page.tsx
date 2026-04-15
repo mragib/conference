@@ -48,13 +48,13 @@ export default function AboutEWUPage() {
                 <div className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border-2 border-[#C5A059] shadow-sm transform transition-transform hover:-translate-y-1">
                   <ShieldCheck className="text-[#C5A059] mb-1.5" size={20} />
                   <p className="text-[8px] font-black text-[#003366] uppercase leading-tight">
-                    ICAB <br /> Recognized
+                    ACCA <br /> Accredited
                   </p>
                 </div>
                 <div className="flex flex-col items-center text-center p-3 bg-white rounded-2xl border-2 border-[#C5A059] shadow-sm transform transition-transform hover:-translate-y-1">
                   <GraduationCap className="text-[#C5A059] mb-1.5" size={20} />
                   <p className="text-[8px] font-black text-[#003366] uppercase leading-tight">
-                    SCM <br /> Major
+                    AACSB <br /> Member
                   </p>
                 </div>
               </div>
@@ -69,9 +69,9 @@ export default function AboutEWUPage() {
                 </h2>
                 {/* Refined Title: More readable and compact */}
                 <h4 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter">
-                  About East West University <br />
+                  East West University <br />&<br />
                   <span className="text-xl md:text-3xl text-[#C5A059]">
-                    & Department of Business Administration
+                    Department of Business Administration
                   </span>
                 </h4>
               </header>

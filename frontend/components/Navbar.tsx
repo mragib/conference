@@ -131,9 +131,9 @@ export default function Navbar({ user }: { user?: any }) {
                 <h1 className="font-black text-sm md:text-xl tracking-tighter">
                   SCM <span className="text-[#C5A059]">CONFERENCE</span>
                 </h1>
-                <p className="text-[7px] md:text-[9px] text-white/60 font-bold tracking-[0.15em] mt-1">
+                {/* <p className="text-[7px] md:text-[9px] text-white/60 font-bold tracking-[0.15em] mt-1">
                   International 2026
-                </p>
+                </p> */}
               </div>
             </Link>
 
@@ -242,9 +242,9 @@ export default function Navbar({ user }: { user?: any }) {
                 <h2 className="text-[#C5A059] font-black text-sm">
                   SCM Conference
                 </h2>
-                <p className="text-[9px] text-white/40 font-bold tracking-[0.1em]">
+                {/* <p className="text-[9px] text-white/40 font-bold tracking-[0.1em]">
                   INTERNATIONAL 2026
-                </p>
+                </p> */}
               </div>
             </div>
             <button

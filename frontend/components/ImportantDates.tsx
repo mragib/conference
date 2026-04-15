@@ -76,10 +76,6 @@ export default function KeyDates() {
                   />
                 </div>
 
-                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">
-                  Deadline Cycle 2026
-                </p>
-
                 <h4 className="text-base lg:text-lg font-bold text-[#003366] mb-2 leading-tight group-hover:text-[#C5A059] transition-colors">
                   {item.title}
                 </h4>
@@ -112,7 +108,7 @@ export default function KeyDates() {
             </div>
             <div>
               <p className="font-black text-sm uppercase tracking-tighter">
-                Submission Window Active
+                Submission Window Active from July 01, 2026
               </p>
               <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
                 Timezone:{" "}

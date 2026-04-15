@@ -40,7 +40,7 @@ export default function AboutConferencePage() {
               <div className="relative group">
                 <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transition-all duration-700">
                   <img
-                    src="/images/ewu-dawn.jpg"
+                    src="/images/ewu-campus.jpg"
                     alt="Conference Venue"
                     // 🚀 Reduced height for a more standard look
                     className="w-full h-auto lg:h-[420px] object-cover"
@@ -90,15 +90,12 @@ export default function AboutConferencePage() {
             {/* RIGHT COLUMN: Detailed Content */}
             <div className="lg:col-span-7 space-y-10">
               <header className="space-y-2 text-left">
-                <h2 className="text-[#C5A059] text-[10px] md:text-xs font-black uppercase tracking-[0.4em]">
-                  Conference <span className="font-bold">Prospectus</span> 2026
-                </h2>
-                <h4 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter">
                   About The Conference <br />
                   <span className="text-xl md:text-3xl text-[#C5A059]">
-                    on Building Resilient Supply Chains
+                    Building Resilient Supply Chains
                   </span>
-                </h4>
+                </h2>
               </header>
 
               <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify italic">
@@ -131,8 +128,8 @@ export default function AboutConferencePage() {
                   <div className="h-px flex-grow bg-slate-100"></div>
                 </div>
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-wider text-center">
-                  Papers and abstracts are invited under the following sub
-                  themes:
+                  Papers, abstracts and posters are invited under the following
+                  sub themes:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {subThemes.map((theme, index) => (

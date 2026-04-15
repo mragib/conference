@@ -2,14 +2,14 @@
 
 import {
   BadgeDollarSign,
+  BookOpen,
   ChevronRight,
-  ClipboardCheck,
   Download,
   FileDown,
+  FileEdit,
   FileText,
   Layers,
   Map,
-  Scale,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -32,6 +32,26 @@ export default function Guidelines() {
 
   const steps = [
     {
+      title: "Abstract Formatting Guideline",
+      desc: "A Structured Abstracts should be between 500 to 750 words, including Purpose, Design/Methodology, Findings, Theoretical Implications and Practical Implications.",
+      icon: FileEdit,
+      color: "text-orange-500",
+      bg: "bg-orange-500/10",
+      link: "/template/abstract_formatting_guideline.pdf",
+      isExternal: true,
+      isDownload: true,
+    },
+    {
+      title: "Full Paper Formatting Guideline",
+      desc: "Technical requirements for the structure of the manuscript, layout, and submission requirements.",
+      icon: BookOpen,
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      link: "/template/paper_guide.pdf",
+      isExternal: true,
+      isDownload: true,
+    },
+    {
       title: "Registration Fees",
       desc: "Breakdown for Students, Professionals, and International attendees.",
       icon: BadgeDollarSign,
@@ -39,25 +59,18 @@ export default function Guidelines() {
       bg: "bg-emerald-500/10",
       link: "pricing",
       isExternal: false,
+      isDownload: false,
     },
-    {
-      title: "Submission Guide",
-      desc: "Technical requirements for abstracts and the review process.",
-      icon: ClipboardCheck,
-      color: "text-[#C5A059]",
-      bg: "bg-[#C5A059]/10",
-      link: "submission",
-      isExternal: false,
-    },
-    {
-      title: "Publication Ethics",
-      desc: "Guidelines on plagiarism and COPE ethical standards.",
-      icon: Scale,
-      color: "text-red-500",
-      bg: "bg-red-500/10",
-      link: "/legal",
-      isExternal: true,
-    },
+    // {
+    //   title: "Publication Ethics",
+    //   desc: "Guidelines on plagiarism and COPE ethical standards.",
+    //   icon: Scale,
+    //   color: "text-red-500",
+    //   bg: "bg-red-500/10",
+    //   link: "/legal",
+    //   isExternal: true,
+    //   isDownload: false,
+    // },
   ];
 
   return (
@@ -110,7 +123,20 @@ export default function Guidelines() {
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-50">
-                {step.isExternal ? (
+                {step.isDownload ? (
+                  <a
+                    href={step.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn cursor-pointer"
+                  >
+                    View Details
+                    <ChevronRight
+                      size={12}
+                      className="group-hover/btn:translate-x-1 transition-transform"
+                    />
+                  </a>
+                ) : step.isExternal ? (
                   <Link
                     href={step.link}
                     className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn"
@@ -142,7 +168,7 @@ export default function Guidelines() {
           ))}
         </div>
 
-        {/* --- REPLACED MODAL WITH PERMANENT DOWNLOAD KIT SECTION --- */}
+        {/* Download Kit Section */}
         <div className="mt-12 p-8 md:p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
             <FileDown size={120} className="text-[#003366]" />
@@ -174,7 +200,7 @@ export default function Guidelines() {
                   size={18}
                   className="text-blue-500 group-hover:scale-110 transition-transform"
                 />
-                <span>Abstract Guide</span>
+                <span>Sample Abstract</span>
               </a>
 
               <a
@@ -186,7 +212,7 @@ export default function Guidelines() {
                   size={18}
                   className="text-emerald-500 group-hover:scale-110 transition-transform"
                 />
-                <span>Paper Guide</span>
+                <span>Sample Full Paper</span>
               </a>
 
               <a

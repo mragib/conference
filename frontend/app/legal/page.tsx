@@ -229,7 +229,7 @@ export default function LegalPage() {
         <div className="w-full">
           {activeTab === "privacy" && <PrivacySection />}
           {activeTab === "terms" && <TermsSection />}
-          {activeTab === "ethics" && <EthicsSection />}
+          {/* {activeTab === "ethics" && <EthicsSection />} */}
         </div>
       </main>
 
