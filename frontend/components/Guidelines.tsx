@@ -124,7 +124,7 @@ export default function Guidelines() {
                 ) : (
                   <button
                     onClick={() => scrollToSection(step.link)}
-                    className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn"
+                    className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn cursor-pointer"
                   >
                     View Details
                     <ChevronRight

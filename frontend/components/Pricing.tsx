@@ -152,7 +152,7 @@ export default function Pricing() {
               {/* Card Footer: Action */}
               <div className="p-8 pt-0">
                 <Link
-                  href="/signUp"
+                  href="/signup"
                   scroll={false}
                   className={`w-full py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-md flex items-center justify-center text-center ${
                     tier.highlight
@@ -173,7 +173,7 @@ export default function Pricing() {
             <div className="bg-[#003366] rounded-2xl px-8 py-5 flex items-center gap-8 border-2 border-[#C5A059]/30 relative overflow-hidden group shadow-lg transition-all hover:shadow-[0_20px_40px_rgba(0,26,51,0.2)]">
               <div className="relative z-10">
                 <p className="text-[#C5A059] text-[8px] font-black uppercase tracking-widest mb-1">
-                  Listener Only
+                  Delegates/Other Participants
                 </p>
                 <h4 className="text-white font-black text-sm uppercase transition-transform group-hover:-translate-y-0.5">
                   (Without Paper)
@@ -184,7 +184,7 @@ export default function Pricing() {
                   BDT 5000/=
                 </span>
                 <Link
-                  href="/signUp"
+                  href="/signup"
                   scroll={false}
                   className="bg-white text-[#003366] px-6 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
                 >

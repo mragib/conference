@@ -28,11 +28,11 @@ export default function Committee() {
     {
       name: "Dr. Ravi Shankar PhD",
       role: "Professor",
-      title: "IIT Delhi, Delhi",
+      title: "Indian Institute of Technology Delhi, Delhi",
     },
     {
       name: "Dr. Rahat Munir",
-      role: "Professor",
+      role: "Distinguished Professor",
       title: "Macquarie University, Sydney",
     },
     {
@@ -53,14 +53,19 @@ export default function Committee() {
     {
       name: "Dr. Partha Priya Datta",
       role: "Professor",
-      title: "IIM Calcutta, India",
+      title: "Indian Institute of Management-Calcutta",
     },
     {
       name: "Dr. Laura Yang",
       role: "Professor",
-      title: "Shanghai University of Int. Business & Economics",
+      title:
+        "Shanghai University of International Business and Economics, Shanghai",
     },
-    { name: "Dr. A.K.M Masud", role: "Professor", title: "BUET, Dhaka" },
+    {
+      name: "Dr. A.K.M Masud",
+      role: "Professor",
+      title: "Bangladesh University of Engineering and Technology, Dhaka",
+    },
     {
       name: "Dr. Smaraki Pattanayak",
       role: "Professor",
@@ -79,7 +84,7 @@ export default function Committee() {
     {
       name: "Dr. Choudhury Abul Anam Rashed",
       role: "Professor",
-      title: "SUST, Sylhet",
+      title: "Shahjalal University of Science and Technology, Sylhet",
     },
     {
       name: "Dr. Salma Karim",
@@ -151,7 +156,7 @@ export default function Committee() {
         <div className="mt-12 flex flex-col items-center">
           <button
             onClick={() => setShowFullCommittee(true)}
-            className="flex items-center gap-2 bg-[#003366] hover:bg-[#C5A059] text-white px-10 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95"
+            className="flex items-center gap-2 bg-[#003366] hover:bg-[#C5A059] text-white px-10 py-4 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-xl active:scale-95 cursor-pointer"
           >
             <Users size={16} /> View Full Committee
           </button>
@@ -180,7 +185,7 @@ export default function Committee() {
                 </div>
                 <button
                   onClick={() => setShowFullCommittee(false)}
-                  className="text-white/40 hover:text-[#C5A059] transition-colors p-2"
+                  className="text-white/40 hover:text-[#C5A059] transition-colors p-2 cursor-pointer"
                 >
                   <X size={28} />
                 </button>

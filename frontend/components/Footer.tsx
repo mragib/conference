@@ -1,5 +1,16 @@
 "use client";
 
+import {
+  ArrowUp,
+  ChevronRight,
+  ExternalLink,
+  FileText,
+  LogIn,
+  Mail,
+  MapPin,
+  Phone,
+  UserPlus,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,9 +39,11 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#003366] text-white pt-16 pb-36 md:pb-24 px-6 relative overflow-hidden border-t border-white/5">
+      {/* Thematic Accent */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#C5A059]/10 rounded-full -mr-48 -mt-48 blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
+        {/* Branding Section */}
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <Link
@@ -53,74 +66,66 @@ export default function Footer() {
           <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
             The Conference on Building Resilient Supply Chains offers a vibrant
             forum for exploring how organizations can effectively anticipate,
-            withstand, and recover from disruptions in today's volatile global
-            landscape.
+            withstand, and recover from disruptions.
           </p>
         </div>
 
+        {/* Quick Links Section - Timeline Removed */}
         <div>
-          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px]">
-            Quick Links
+          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px] flex items-center gap-2">
+            <span className="w-4 h-px bg-[#C5A059]"></span> Quick Links
           </h3>
           <ul className="space-y-3 text-[13px] text-slate-400 font-medium">
             {[
               "About",
               "Speakers",
-              "Timeline",
               "Guidelines",
               "Important Dates",
               "Committee",
               "FAQ",
             ].map((item) => (
               <li key={item}>
-                {item === "Timeline" ? (
-                  <Link
-                    href="/schedule"
-                    className="hover:text-[#C5A059] transition-colors flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-[1px] bg-[#C5A059] group-hover:w-3 transition-all"></span>
-                    Timeline
-                  </Link>
-                ) : (
-                  <button
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className="hover:text-[#C5A059] transition-colors flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-[1px] bg-[#C5A059] group-hover:w-3 transition-all"></span>
-                    {item}
-                  </button>
-                )}
+                <button
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className="hover:text-[#C5A059] transition-colors flex items-center gap-2 group text-left cursor-pointer"
+                >
+                  <ChevronRight
+                    size={14}
+                    className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all"
+                  />
+                  {item}
+                </button>
               </li>
             ))}
           </ul>
         </div>
 
+        {/* Portal Section */}
         <div className="flex flex-col items-start">
-          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px]">
-            Researcher Portal
+          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px] flex items-center gap-2">
+            <span className="w-4 h-px bg-[#C5A059]"></span> Researcher Portal
           </h3>
           <div className="flex flex-col gap-3 w-full max-w-[240px]">
-            {/* UPDATED TO PARALLEL ROUTE LINKS */}
             <Link
               href="/signin"
               scroll={false}
-              className="w-full flex items-center justify-center border border-white/20 bg-white/5 backdrop-blur-md px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center"
+              className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
             >
-              Login to Dashboard
+              <LogIn size={14} /> Login to Dashboard
             </Link>
             <Link
               href="/signup"
               scroll={false}
-              className="w-full flex items-center justify-center border border-white/20 bg-white/5 backdrop-blur-md px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center"
+              className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
             >
-              Register Now
+              <UserPlus size={14} /> Register Now
             </Link>
             <Link
               href="/cfp"
               scroll={false}
-              className="w-full flex items-center justify-center border border-white/20 bg-white/5 backdrop-blur-md px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center"
+              className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
             >
-              Call for Paper
+              <FileText size={14} /> Call for Paper
             </Link>
             <div className="text-[10px] text-slate-500 mt-2 italic flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -129,56 +134,71 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Contact Info Section */}
         <div>
-          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px]">
-            Location
+          <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px] flex items-center gap-2">
+            <span className="w-4 h-px bg-[#C5A059]"></span> Contact Info
           </h3>
           <div className="space-y-5 text-[13px] text-slate-400 font-medium">
-            <p className="flex items-start gap-3">
+            <div className="flex items-start gap-3">
+              <MapPin size={18} className="text-[#C5A059] shrink-0" />
               <span className="leading-relaxed">
-                <span className="text-[#C5A059] text-[15px]">
+                <span className="text-white font-bold">
                   East West University
-                </span>{" "}
-                <br /> A/2, Jahurul Islam Avenue <br /> Jahurul Islam City,
-                Aftabnagar <br /> Dhaka-1212, Bangladesh
+                </span>
+                <br />
+                A/2, Jahurul Islam Avenue <br />
+                Jahurul Islam City Aftabnagar <br /> Dhaka-1212, Bangladesh
               </span>
-            </p>
-            <p className="flex items-center gap-3">
-              <span className="group-hover:text-white transition-colors">
-                helpdesk-scm@ewubd.edu
-              </span>
-            </p>
-            <p className="flex items-center gap-3">
+            </div>
+            <a
+              href="mailto:helpdesk-scm@ewubd.edu"
+              className="flex items-center gap-3 hover:text-white transition-colors group cursor-pointer"
+            >
+              <Mail
+                size={18}
+                className="text-[#C5A059] group-hover:scale-110 transition-transform"
+              />
+              <span>helpdesk-scm@ewubd.edu</span>
+            </a>
+            <div className="flex items-center gap-3">
+              <Phone size={18} className="text-[#C5A059]" />
               <span>+880 9666775577, Ext-213/132</span>
-            </p>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-medium text-slate-500 uppercase tracking-widest">
-        <p className="text-center md:text-left">
-          Copyright © 2026 | SCM Conference | All Rights Reserved | Developed by
+        <p className="text-center md:text-left leading-loose">
+          Copyright © 2026 |{" "}
+          <span className="text-white/60">SCM Conference</span> | Developed by
           ICS, EWU.
         </p>
-        <div className="flex gap-8">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           <Link
             href="/legal"
-            className="hover:text-[#C5A059] transition-colors"
+            className="hover:text-[#C5A059] transition-colors flex items-center gap-1 cursor-pointer"
           >
-            Privacy Policy
+            Privacy Policy <ExternalLink size={10} />
           </Link>
           <Link
             href="/legal"
-            className="hover:text-[#C5A059] transition-colors"
+            className="hover:text-[#C5A059] transition-colors flex items-center gap-1 cursor-pointer"
           >
-            Terms of Service
+            Terms of Service <ExternalLink size={10} />
           </Link>
         </div>
         <button
           onClick={scrollToTop}
-          className="group flex items-center gap-2 text-slate-400 hover:text-[#C5A059] transition-all bg-white/5 px-4 py-2 rounded-full border border-white/5"
+          className="group flex items-center gap-2 text-slate-400 hover:text-[#C5A059] transition-all bg-white/5 px-5 py-2.5 rounded-full border border-white/5 hover:border-[#C5A059]/30 shadow-lg cursor-pointer"
         >
-          Top
+          <ArrowUp
+            size={14}
+            className="group-hover:-translate-y-1 transition-transform"
+          />
+          <span>Top</span>
         </button>
       </div>
     </footer>

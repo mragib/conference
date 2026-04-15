@@ -5,29 +5,29 @@ import { Bell, Calendar, Clock, CreditCard, FileCheck } from "lucide-react";
 export default function KeyDates() {
   const dates = [
     {
-      title: "Abstract Submission",
-      date: "June 30, 2026",
+      title: "Extended Abstract Submission",
+      date: "July 01 to August 31 2026",
       icon: FileCheck,
       color: "text-[#003366]",
       bg: "bg-[#003366]/5",
     },
     {
-      title: "Acceptance Notification",
-      date: "July 30, 2026",
+      title: "Notification of Acceptance",
+      date: "September 30, 2026",
       icon: Bell,
       color: "text-[#C5A059]",
       bg: "bg-[#C5A059]/10",
     },
     {
       title: "Full Paper Submission",
-      date: "August 30, 2026",
+      date: "October 30, 2026",
       icon: CreditCard,
       color: "text-[#003366]",
       bg: "bg-[#003366]/5",
     },
     {
       title: "Final Notification",
-      date: "September 30, 2026",
+      date: "November 10, 2026",
       icon: Calendar,
       color: "text-[#C5A059]",
       bg: "bg-[#C5A059]/10",

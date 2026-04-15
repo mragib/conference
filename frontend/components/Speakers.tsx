@@ -162,7 +162,7 @@ export default function Keynotes() {
                 </div>
                 <button
                   onClick={() => setSelectedSpeaker(speaker)}
-                  className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#C5A059] transition-all group/btn"
+                  className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#C5A059] transition-all group/btn cursor-pointer"
                 >
                   Read Full Bio{" "}
                   <ArrowUpRight
@@ -176,18 +176,18 @@ export default function Keynotes() {
           ))}
         </div>
 
-        <div className="mt-8 lg:mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-white/10 pt-6 md:pt-8 text-center sm:text-left">
+        {/* <div className="mt-8 lg:mt-12 flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-white/10 pt-6 md:pt-8 text-center sm:text-left">
           <p className="text-white/30 text-[9px] md:text-[10px] font-bold uppercase tracking-widest">
             More Speakers to be announced in{" "}
             <span className="text-[#C5A059]">Phase II</span>
           </p>
-          {/* <button
+          <button
             onClick={() => setShowFullCommittee(true)}
             className="group flex items-center gap-2 bg-white/5 hover:bg-[#C5A059] text-[#C5A059] hover:text-[#003366] px-8 py-3 rounded-full border border-[#C5A059]/30 text-[9px] font-black uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
           >
             <Users size={14} /> View Full Committee
-          </button> */}
-        </div>
+          </button>
+        </div> */}
       </div>
 
       {/* --- SPEAKER BIO MODAL --- */}
@@ -200,7 +200,7 @@ export default function Keynotes() {
           <div className="max-w-3xl w-full bg-[#002855] rounded-[2rem] md:rounded-[3rem] border border-white/10 overflow-hidden relative z-10 shadow-2xl animate-in zoom-in-95 duration-300">
             <button
               onClick={() => setSelectedSpeaker(null)}
-              className="absolute top-6 right-6 text-white/40 hover:text-[#C5A059] transition-all hover:rotate-90 z-20"
+              className="absolute top-6 right-6 text-white/40 hover:text-[#C5A059] transition-all hover:rotate-90 z-20 cursor-pointer"
             >
               <X size={30} />
             </button>
