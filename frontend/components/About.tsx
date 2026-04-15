@@ -25,14 +25,14 @@ export default function About() {
     "Industrial Application of Supply Chain Management",
     "Supply Chain Sustainability",
     "Circular Economy",
-    "Supply Chain Digtization/AI application in SCM",
+    "Supply Chain Digtization/AI application in Supply Chain Management",
     "Supply Chain Management and SDGs",
-    "Geo Politics, Geo Economy and SCM",
+    "Geo Politics, Geo Economy and Supply Chain Management",
     "Supply Chain Finance",
     "Supply Chain Optimization",
-    "Talent Management in SCM",
+    "Talent Management in Supply Chain Management",
     "Outsourcing Logistics Services",
-    "Responsible and Ethical SCM",
+    "Responsible and Ethical Supply Chain Management",
     "Building Adaptive and Risk-Intelligent Supply Chains",
   ];
 
@@ -272,7 +272,7 @@ function ModalWrapper({
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-red-500 transition-colors relative z-10"
+            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-red-500 transition-colors relative z-10 cursor-pointer"
           >
             <X size={20} />
           </button>
@@ -286,7 +286,7 @@ function ModalWrapper({
           </span>
           <button
             onClick={onClose}
-            className="text-[#003366] font-black text-[10px] uppercase tracking-widest hover:text-[#C5A059] transition-colors"
+            className="text-[#003366] font-black text-[10px] uppercase tracking-widest hover:text-[#C5A059] transition-colors cursor-pointer"
           >
             Close View
           </button>

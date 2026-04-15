@@ -10,7 +10,6 @@ import KeyDates from "@/components/ImportantDates";
 import Marquee from "@/components/Marquee";
 import Partners from "@/components/Partners";
 import Pricing from "@/components/Pricing";
-import Speakers from "@/components/Speakers";
 
 export default function Home() {
   return (
@@ -34,10 +33,10 @@ export default function Home() {
       <section id="guidelines" className="scroll-mt-20">
         <Guidelines />
       </section>
-
+      {/* 
       <section id="speakers" className="scroll-mt-20">
         <Speakers />
-      </section>
+      </section> */}
 
       <section id="committee" className="scroll-mt-20">
         <Committee />

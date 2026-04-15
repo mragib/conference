@@ -28,14 +28,14 @@ export default function CFPModal({
     "Industrial Application of Supply Chain Management",
     "Supply Chain Sustainability",
     "Circular Economy",
-    "Supply Chain Digtization/AI application in SCM",
+    "Supply Chain Digtization/AI application in Supply Chain Management",
     "Supply Chain Management and SDGs",
-    "Geo Politics, Geo Economy and SCM",
+    "Geo Politics, Geo Economy and Supply Chain Management",
     "Supply Chain Finance",
     "Supply Chain Optimization",
-    "Talent Management in SCM",
+    "Talent Management in Supply Chain Management",
     "Outsourcing Logistics Services",
-    "Responsible and Ethical SCM",
+    "Responsible and Ethical Supply Chain Management",
     "Building Adaptive and Risk-Intelligent Supply Chains",
   ];
 

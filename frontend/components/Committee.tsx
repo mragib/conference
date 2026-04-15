@@ -28,11 +28,11 @@ export default function Committee() {
     {
       name: "Dr. Ravi Shankar PhD",
       role: "Professor",
-      title: "IIT Delhi, Delhi",
+      title: "Indian Institute of Technology Delhi, Delhi",
     },
     {
       name: "Dr. Rahat Munir",
-      role: "Professor",
+      role: "Distinguished Professor",
       title: "Macquarie University, Sydney",
     },
     {
@@ -53,14 +53,19 @@ export default function Committee() {
     {
       name: "Dr. Partha Priya Datta",
       role: "Professor",
-      title: "IIM Calcutta, India",
+      title: "Indian Institute of Management-Calcutta",
     },
     {
       name: "Dr. Laura Yang",
       role: "Professor",
-      title: "Shanghai University of Int. Business & Economics",
+      title:
+        "Shanghai University of International Business and Economics, Shanghai",
     },
-    { name: "Dr. A.K.M Masud", role: "Professor", title: "BUET, Dhaka" },
+    {
+      name: "Dr. A.K.M Masud",
+      role: "Professor",
+      title: "Bangladesh University of Engineering and Technology, Dhaka",
+    },
     {
       name: "Dr. Smaraki Pattanayak",
       role: "Professor",
@@ -79,7 +84,7 @@ export default function Committee() {
     {
       name: "Dr. Choudhury Abul Anam Rashed",
       role: "Professor",
-      title: "SUST, Sylhet",
+      title: "Shahjalal University of Science and Technology, Sylhet",
     },
     {
       name: "Dr. Salma Karim",
