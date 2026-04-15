@@ -26,6 +26,7 @@ export class UserService {
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = await this.findByEmail(createUserDto.email);
+
     if (user) {
       throw new ConflictException('User with this email already exists');
     }
@@ -37,7 +38,12 @@ export class UserService {
 
     const newUser = await this.userRepository.save(createUserDto);
 
-    return newUser;
+    return {
+      status: 'success',
+      statusCode: 200,
+      data: newUser,
+      message: 'User Registration Complete',
+    };
   }
 
   async changeRole(changeRole: ChangeRoleDto): Promise<ApiResponse<User>> {

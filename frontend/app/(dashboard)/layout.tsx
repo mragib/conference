@@ -14,7 +14,7 @@ export default async function layout({
     redirect("/");
   return (
     <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
-      <Sidebar />
+      <Sidebar user={session.user} />
       <main className="flex-1 overflow-y-auto p-6 md:p-10 custom-scrollbar">
         <header className="h-28 md:h-32 bg-[#001A41] flex items-center justify-between px-6 md:px-12 shadow-2xl shrink-0 z-20">
           <div className="flex items-center gap-4 md:gap-6">

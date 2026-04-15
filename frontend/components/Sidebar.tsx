@@ -25,6 +25,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import SignOutButton from "./signOutButton";
 
 const Sidebar = ({ user }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -217,6 +218,7 @@ const Sidebar = ({ user }: any) => {
               </p>
             </div>
           </div>
+          <SignOutButton />
 
           {/* <button
             onClick={() => signOut({ callbackUrl: "/" })}

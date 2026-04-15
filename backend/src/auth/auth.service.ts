@@ -32,7 +32,27 @@ export class AuthService {
     private refreshConfigaration: ConfigType<typeof refreshConfig>,
   ) {}
   async create(createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    const userResponse = await this.userService.create(createUserDto);
+    const { accessToken, refreshToken } = await this.generateToken(
+      userResponse.data.id,
+    );
+
+    const hashedRefreshToken = await hash(refreshToken);
+    await this.userService.updateRefreshToken(
+      userResponse.data.id,
+      hashedRefreshToken,
+    );
+
+    return {
+      id: userResponse.data.id,
+      name: userResponse.data.name,
+      role: userResponse.data.role,
+      accessToken,
+      refreshToken,
+      status: userResponse.status,
+      statusCode: userResponse.statusCode,
+      message: userResponse.message,
+    };
   }
 
   async validateLocalUser(email: string, password: string) {

@@ -33,3 +33,6 @@ GET http://localhost:8000/topic
 
 ### View all Topic ###
 GET http://103.133.165.52:8000/topic
+
+### View all Topic ###
+GET http://api-dbaconf.ewubd.edu/topic

@@ -38,7 +38,26 @@ export async function signup(
     body: JSON.stringify(validationFields.data),
   });
 
+  if (!response.ok) {
+    const resData = await response.json();
+    return {
+      message: resData.message,
+    };
+  }
+
   const resData = await response.json();
+
+  console.log(resData);
+
+  await createSession({
+    user: {
+      id: resData.id,
+      name: resData.name,
+      role: resData.role,
+    },
+    accessToken: resData.accessToken,
+    refreshToken: resData.refreshToken,
+  });
   return resData;
   // redirect("/dashboard");
 }
