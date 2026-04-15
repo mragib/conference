@@ -64,9 +64,9 @@ export default function LoginPage() {
               <h2 className="text-white font-black text-sm md:text-lg uppercase tracking-tight leading-none">
                 SCM <span className="text-[#C5A059]">CONFERENCE</span>
               </h2>
-              <span className="text-white/60 text-[8px] md:text-[10px] tracking-[0.15em] mt-1 uppercase font-medium">
+              {/* <span className="text-white/60 text-[8px] md:text-[10px] tracking-[0.15em] mt-1 uppercase font-medium">
                 INTERNATIONAL 2026
-              </span>
+              </span> */}
             </div>
           </div>
 

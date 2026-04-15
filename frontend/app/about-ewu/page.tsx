@@ -68,8 +68,10 @@ export default function AboutEWUPage() {
                   <span className="font-bold">Since 1996</span>
                 </h2>
                 {/* Refined Title: More readable and compact */}
-                <h4 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter">
-                  East West University <br />&<br />
+                <h4 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#003366] leading-[1.1] uppercase tracking-tighter text-center justify-items-center">
+                  East West University <br />
+                  <span className="text-xl md:text-3xl text-[#C5A059]">&</span>
+                  <br />
                   <span className="text-xl md:text-3xl text-[#C5A059]">
                     Department of Business Administration
                   </span>
