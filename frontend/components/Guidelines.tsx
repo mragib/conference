@@ -14,10 +14,12 @@ import {
   Map,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 export default function Guidelines() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null); // Ref for outside click detection
 
   useEffect(() => {
     if (activeModal) {
@@ -26,6 +28,13 @@ export default function Guidelines() {
       document.body.style.overflow = "unset";
     }
   }, [activeModal]);
+
+  // Handler for closing when clicking the dark backdrop
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      setActiveModal(null);
+    }
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -203,13 +212,29 @@ export default function Guidelines() {
             </div>
           </div>
         </div>
+
+        <div className="mt-8 flex justify-center lg:justify-end">
+          <Link
+            href="/signup"
+            scroll={false}
+            className="w-full md:w-auto px-10 py-4 bg-[#003366] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-all shadow-2xl active:scale-95 flex items-center justify-center gap-3"
+          >
+            Start Your Submission <ChevronRight size={16} />
+          </Link>
+        </div>
       </div>
 
-      {/* --- TEXT MODALS --- */}
+      {/* --- TEXT MODALS WITH OUTSIDE CLICK FIXED --- */}
       {activeModal && (
-        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-6 bg-[#001021]/95 backdrop-blur-md animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-5xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden relative flex flex-col">
-            {/* 🚀 THEMATIC MODAL HEADER */}
+        <div
+          className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-6 bg-[#001021]/95 backdrop-blur-md animate-in fade-in duration-300 cursor-pointer"
+          onClick={handleOutsideClick}
+        >
+          <div
+            ref={modalRef}
+            className="bg-white w-full max-w-5xl max-h-[90vh] rounded-[2.5rem] shadow-2xl overflow-hidden relative flex flex-col cursor-default"
+          >
+            {/* Thematic Modal Header */}
             <div className="w-full bg-[#003366] p-5 md:px-10 md:py-6 flex items-center justify-between border-b border-white/10 relative overflow-hidden shrink-0">
               <div className="flex items-center gap-4 md:gap-6 relative z-10">
                 <div className="bg-white/10 p-2 rounded-xl backdrop-blur-sm border border-white/10 shrink-0">
@@ -272,7 +297,6 @@ export default function Guidelines() {
                   </div>
                 </div>
               ) : (
-                /* 🚀 FULL PAPER CONTENT FROM ATTACHMENT image_f949c1.png */
                 <div className="space-y-8">
                   <div className="bg-[#C5A059]/10 p-4 rounded-xl text-center border-b-4 border-[#C5A059]">
                     <h4 className="font-black text-[#003366] uppercase text-lg">
