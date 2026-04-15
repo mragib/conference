@@ -22,7 +22,7 @@ export default function Hero() {
       />
 
       {/* FIXED READABILITY OVERLAY */}
-      <div className="absolute inset-0 z-0" />
+      <div className="absolute inset-0 z-0 bg-black/20" />
 
       {/* Animated Ambient Glow */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-[120px] animate-pulse pointer-events-none" />
@@ -31,7 +31,8 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto text-center text-white flex flex-col items-center">
           {/* --- TOP BADGES --- */}
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 mb-8 md:mb-10 animate-in fade-in slide-in-from-top-4 duration-1000">
-            <div className="flex flex-col items-center md:items-end md:border-r md:border-white/20 md:pr-8">
+            {/* 🚀 UPDATED: Added background container for better readability */}
+            <div className="flex flex-col items-center md:items-end bg-black/40 backdrop-blur-md border border-white/10 px-6 py-2.5 rounded-2xl md:rounded-r-none md:border-r-0">
               <h3 className="text-[#C5A059] text-[10px] md:text-[13px] font-black uppercase tracking-[0.3em] leading-tight text-center md:text-right drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 Department of Business Administration
               </h3>

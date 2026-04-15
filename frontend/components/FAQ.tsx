@@ -26,7 +26,7 @@ export default function FAQ() {
     {
       question: "What is the word limit for Abstracts?",
       answer:
-        "Abstracts should be between 250 to 300 words, including objective, methodology, and results.",
+        "A Structured Abstracts should be between 500 to 750 words, including Purpose, Design/Methodology, Findings, Theoritical Implications and Practical Implications.",
     },
     {
       question: "Can I submit multiple papers?",
@@ -41,7 +41,7 @@ export default function FAQ() {
     {
       question: "Are there specific paper templates?",
       answer:
-        "We follow standard IEEE/APA formats. Templates are available in the Author Guidelines section.",
+        "We follow standard APA formats. Templates are available in the Author Guidelines section.",
     },
   ];
 
