@@ -79,11 +79,11 @@ export default function Partners() {
                 </div>
 
                 {/* Subtle Background Badge for Category */}
-                <div className="absolute bottom-0 left-0 w-full py-2 bg-slate-50 border-t border-slate-100 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex justify-center">
+                {/* <div className="absolute bottom-0 left-0 w-full py-2 bg-slate-50 border-t border-slate-100 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex justify-center">
                   <span className="text-[7px] font-black text-[#003366] uppercase tracking-widest">
                     {partner.cat}
                   </span>
-                </div>
+                </div> */}
 
                 <div className="relative w-full h-full transition-transform duration-700 group-hover:scale-110">
                   <Image

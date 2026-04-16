@@ -37,7 +37,8 @@ export const createSession = async (payload: session) => {
       httpOnly: true,
       secure: true,
       expires: expiredAt,
-      sameSite: "lax",
+      sameSite: "none",
+      // domain: ".ewubd.edu",
       path: "/",
     });
 
@@ -67,7 +68,9 @@ export const getSession = async () => {
 };
 
 export const destroySession = async () => {
+  console.log("Cookie delete start");
   (await cookies()).delete("session");
+  console.log("Cookie delete");
 };
 
 export const updateToken = async ({

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
@@ -23,6 +24,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }: { value: string }) => value?.toLowerCase())
   email: string;
 
   @IsOptional()
@@ -58,6 +60,7 @@ export class CreateGoogleUserDto {
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }: { value: string }) => value?.toLowerCase())
   email: string;
 
   @IsOptional()
@@ -89,6 +92,7 @@ export class CreateReviewerDto {
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: { value: string }) => value?.toLowerCase())
   email: string;
 
   @IsNotEmpty()

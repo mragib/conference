@@ -15,7 +15,7 @@ export class Session {
   @Column({ type: 'text' })
   session: string;
 
-  @OneToOne(() => User, (type) => type.user_session)
+  @OneToOne(() => User, (type) => type.user_session, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: User;
 

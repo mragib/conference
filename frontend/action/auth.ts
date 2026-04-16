@@ -1,6 +1,6 @@
 "use server";
 
-import { BACKEND_URL } from "@/lib/constants";
+import { BACKEND_URL, FRONTEND_URL } from "@/lib/constants";
 import { createSession } from "@/lib/session";
 import {
   ApiResponse,
@@ -79,6 +79,8 @@ export async function signin(
     };
   }
 
+  console.log(validationFields);
+
   const response = await fetch(`${BACKEND_URL}/auth/signin`, {
     method: "POST",
     headers: {
@@ -86,6 +88,7 @@ export async function signin(
     },
     body: JSON.stringify(validationFields.data),
   });
+  console.log(response);
 
   if (!response.ok) {
     const resData = await response.json();
@@ -135,14 +138,11 @@ export const refreshToken = async (oldRefreshToken: string) => {
       headers.Cookie = `${sessionCookie.name}=${sessionCookie.value}`;
     }
 
-    const updateRes = await fetch(
-      `http://localhost:3000/api/auth/refresh-token`,
-      {
-        method: "POST",
-        body: JSON.stringify({ accessToken, refreshToken }),
-        headers,
-      },
-    );
+    const updateRes = await fetch(`${FRONTEND_URL}/api/auth/refresh-token`, {
+      method: "POST",
+      body: JSON.stringify({ accessToken, refreshToken }),
+      headers,
+    });
 
     // console.log("Update token response:", updateRes);
 

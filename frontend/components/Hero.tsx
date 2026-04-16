@@ -17,12 +17,12 @@ export default function Hero() {
     <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
       {/* Dynamic Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
-        style={{ backgroundImage: "url('/images/hero.jpg')" }}
+        className="absolute inset-0 bg-cover bg-center scale-100 animate-slow-zoom"
+        style={{ backgroundImage: "url('/images/new-hero.webp')" }}
       />
 
       {/* FIXED READABILITY OVERLAY */}
-      <div className="absolute inset-0 z-0 bg-black/20" />
+      <div className="absolute inset-0 z-0" />
 
       {/* Animated Ambient Glow */}
       <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-[120px] animate-pulse pointer-events-none" />
