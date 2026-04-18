@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmY2NlZDEyOS0wZGExLTRmNjQtYTM0YS0xOThmMmM0OTczYzAiLCJpYXQiOjE3NzU0NzM0NzUsImV4cCI6MTc3NjA3ODI3NX0.9zrTr8ESsFYFHhVnwLET8C1RilkEuRlezmQ-J0juGLM
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzYzMzExNzgsImV4cCI6MTc3NjkzNTk3OH0.dmG4YSmdkqvDkthXQtENf1UZJs6e_ueVmysfYKxSYpA
 
 ###Sign In ###
 POST http://localhost:8000/auth/signin
@@ -24,7 +24,70 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "name":"typescript"
+    "name":"Strategic Issues in Supply Chain Management"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Global Supply Chain Integration"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Industrial Application of Supply Chain Management"
+    
+}
+
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Supply Chain Sustainability"
+    
+}
+
+
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Supply Chain Digtization/AI application in Supply Chain Management"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Supply Chain Management and SDGs"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Geo Politics, Geo Economy and Supply Chain Management"
     
 }
 
@@ -36,3 +99,21 @@ GET http://103.133.165.52:8000/topic
 
 ### View all Topic ###
 GET http://api-dbaconf.ewubd.edu/topic
+
+
+[
+    "Strategic Issues in Supply Chain Management",
+    "Global Supply Chain Integration",
+    "Industrial Application of Supply Chain Management",
+    "Supply Chain Sustainability",
+    "Circular Economy",
+    "Supply Chain Digtization/AI application in Supply Chain Management",
+    "Supply Chain Management and SDGs",
+    "Geo Politics, Geo Economy and Supply Chain Management",
+    "Supply Chain Finance",
+    "Supply Chain Optimization",
+    "Talent Management in Supply Chain Management",
+    "Outsourcing Logistics Services",
+    "Responsible and Ethical Supply Chain Management",
+    "Building Adaptive and Risk-Intelligent Supply Chains",
+  ];

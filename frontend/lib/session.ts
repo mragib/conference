@@ -67,10 +67,26 @@ export const getSession = async () => {
   }
 };
 
+export const getPublicSession = async () => {
+  const cookieStore = (await cookies()).get("session")?.value;
+  if (!cookieStore) return null;
+  try {
+    if (cookieStore) {
+      const data = await getSessionBySessionId(cookieStore);
+
+      const { payload } = await jwtVerify(data.session, encodedSecret);
+      return payload as session;
+    } else {
+      redirect("/dashboard");
+    }
+  } catch (error) {
+    console.error("JWT Verification Error:", error);
+    redirect("/dashboard");
+  }
+};
+
 export const destroySession = async () => {
-  console.log("Cookie delete start");
   (await cookies()).delete("session");
-  console.log("Cookie delete");
 };
 
 export const updateToken = async ({

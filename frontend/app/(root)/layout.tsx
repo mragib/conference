@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { getSession } from "@/lib/session";
+import { getPublicSession } from "@/lib/session";
 import { ReactNode } from "react";
 
 export default async function RootContentLayout({
@@ -7,7 +7,7 @@ export default async function RootContentLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getSession();
+  const session = await getPublicSession();
 
   return (
     <>

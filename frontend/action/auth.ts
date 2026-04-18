@@ -1,13 +1,15 @@
 "use server";
 
 import { BACKEND_URL, FRONTEND_URL } from "@/lib/constants";
-import { createSession } from "@/lib/session";
+import { authFetch } from "@/lib/data-service";
+import { createSession, destroySession } from "@/lib/session";
 import {
   ApiResponse,
   FormState,
   SigninFormSchema,
   SignupFormSchema,
 } from "@/lib/type";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -47,8 +49,6 @@ export async function signup(
 
   const resData = await response.json();
 
-  console.log(resData);
-
   await createSession({
     user: {
       id: resData.id,
@@ -79,8 +79,6 @@ export async function signin(
     };
   }
 
-  console.log(validationFields);
-
   const response = await fetch(`${BACKEND_URL}/auth/signin`, {
     method: "POST",
     headers: {
@@ -88,7 +86,6 @@ export async function signin(
     },
     body: JSON.stringify(validationFields.data),
   });
-  console.log(response);
 
   if (!response.ok) {
     const resData = await response.json();
@@ -174,3 +171,18 @@ export const forgotPassword = async ({ email }: { email: string }) => {
 
   return resData;
 };
+
+export async function signout(state: ApiResponse, data: FormData) {
+  const response = await authFetch(`${BACKEND_URL}/auth/signout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.ok) {
+    await destroySession();
+  }
+  revalidatePath("/");
+  redirect("/");
+}
