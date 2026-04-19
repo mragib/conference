@@ -1,10 +1,18 @@
 "use client";
 
-import { ChevronDown, Mail, Menu, Phone, X } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  Mail,
+  Menu,
+  Phone,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SignOutButtonNavbar from "./signOutButtonNavbar";
 
 const navLinks = [
   { name: "About", id: "about" },
@@ -189,21 +197,32 @@ export default function Navbar({ user }: { user?: any }) {
               </div>
 
               <div className="h-5 w-px bg-white/10 mx-1 xl:mx-2"></div>
-
-              <div className="flex items-center gap-3 xl:gap-5">
-                <Link
-                  href="/signin"
-                  className="text-white font-black text-[10px] hover:text-[#C5A059] uppercase transition-colors"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="bg-[#C5A059] text-[#002147] px-5 py-2.5 rounded-xl font-black text-[10px] hover:bg-white active:scale-95 transition-all uppercase"
-                >
-                  Join Now
-                </Link>
-              </div>
+              {user ? (
+                <div className="flex items-center gap-5">
+                  <Link
+                    href="/dashboard"
+                    className="text-white hover:text-[#C5A059] transition-all font-bold flex items-center gap-2 uppercase"
+                  >
+                    <LayoutDashboard size={16} /> Dashboard
+                  </Link>
+                  <SignOutButtonNavbar />
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 xl:gap-5">
+                  <Link
+                    href="/signin"
+                    className="text-white font-black text-[10px] hover:text-[#C5A059] uppercase transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="bg-[#C5A059] text-[#002147] px-5 py-2.5 rounded-xl font-black text-[10px] hover:bg-white active:scale-95 transition-all uppercase"
+                  >
+                    Join Now
+                  </Link>
+                </div>
+              )}
             </div>
 
             <button

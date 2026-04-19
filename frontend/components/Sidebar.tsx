@@ -95,7 +95,7 @@ const Sidebar = ({ user }: any) => {
     <>
       {/* Mobile Trigger Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#003366] flex items-center justify-between px-6 z-[60] shadow-md border-b border-white/5">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3 cursor-pointer">
           <Image
             src="/images/logo.png"
             alt="Logo"
@@ -104,9 +104,9 @@ const Sidebar = ({ user }: any) => {
             className="object-contain"
           />
           <h2 className="text-sm font-black text-white uppercase tracking-tighter">
-            Conference <span className="text-[#C5A059]">DBA</span>
+            SCM <span className="text-[#C5A059]">Conference</span>
           </h2>
-        </div>
+        </Link>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
@@ -131,7 +131,10 @@ const Sidebar = ({ user }: any) => {
       >
         {/* BRANDED HEADER */}
         <div className="mb-10 flex flex-col items-center text-center animate-in fade-in duration-500">
-          <div className="relative w-16 h-16 mb-4 p-2 bg-white/10 rounded-2xl border border-white/10 shadow-xl">
+          <Link
+            href="/"
+            className="relative w-16 h-16 mb-4 p-2 bg-white/10 rounded-2xl border border-white/10 shadow-xl"
+          >
             <Image
               src="/images/logo.png"
               alt="Logo"
@@ -140,9 +143,9 @@ const Sidebar = ({ user }: any) => {
               className="object-contain p-2"
               priority
             />
-          </div>
+          </Link>
           <h2 className="text-xl font-black uppercase tracking-tighter leading-none text-white">
-            CONFERENCE <span className="text-[#C5A059]">DBA</span>
+            SCM <span className="text-[#C5A059]">CONFERENCE</span>
           </h2>
           <p className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] mt-2">
             INTERNATIONAL 2026

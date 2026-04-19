@@ -127,7 +127,7 @@ export const ProfileFormSchema = z.object({
     .trim(),
   last_name: z
     .string()
-    .min(2, "First Name Should be at leaste 2 characters long")
+    .min(2, "Last Name Should be at leaste 2 characters long")
     .trim(),
 
   countryObj: z.object({
@@ -143,8 +143,9 @@ export const ProfileFormSchema = z.object({
     label: z.string(),
     value: z.string().min(1, "User type is required"),
   }),
-
+  email: z.string(),
   user_type: z.string().trim().optional(),
+  contact_number: z.string().min(1, "Contact Number is required").trim().trim(),
 });
 
 export const ProfileServerSchema = ProfileFormSchema.omit({
@@ -153,4 +154,47 @@ export const ProfileServerSchema = ProfileFormSchema.omit({
 }).extend({
   country: z.string(),
   user_type: z.string(),
+});
+
+export const OtpFormSchema = z.object({
+  otp: z.string().min(6),
+  email: z.string(),
+});
+
+export const AbstractFormSchema = z.object({
+  title: z
+    .string()
+    .min(2, "Title Should be at leaste 2 characters long")
+    .trim(),
+  topic: z
+    .object({
+      label: z.string(),
+      value: z.string().min(1, "Topic is required"),
+    })
+    .optional()
+    .refine((val) => val && val.value, {
+      message: "Topic is required",
+    }),
+  topicId: z.string().trim().optional(),
+
+  keyword: z.string().min(1, "Keyword is required").trim(),
+
+  description: z.string().min(1, "Abstract is required").trim(),
+
+  ip_address: z.string().trim().optional(),
+
+  co_authors: z
+    .array(
+      z.object({
+        first_name: z.string().min(1).trim(),
+        last_name: z.string().min(1).trim(),
+        email: z.string().email().trim(),
+        organization: z.string().min(1).trim(),
+      }),
+    )
+    .min(1, "At least one co-author is required")
+    .refine(
+      (authors) => new Set(authors.map((a) => a.email)).size === authors.length,
+      "Duplicate co-author emails are not allowed",
+    ),
 });

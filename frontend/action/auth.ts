@@ -4,8 +4,10 @@ import { BACKEND_URL, FRONTEND_URL } from "@/lib/constants";
 import { authFetch } from "@/lib/data-service";
 import { createSession, destroySession } from "@/lib/session";
 import {
+  AdvanceFormState,
   ApiResponse,
   FormState,
+  OtpFormSchema,
   SigninFormSchema,
   SignupFormSchema,
 } from "@/lib/type";
@@ -185,4 +187,26 @@ export async function signout(state: ApiResponse, data: FormData) {
   }
   revalidatePath("/");
   redirect("/");
+}
+
+export async function otp(
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> {
+  const payload: any = Object.fromEntries(data.entries());
+
+  const validation = OtpFormSchema.safeParse(payload);
+
+  if (!validation.success) {
+    const fields: Record<string, string> = {};
+
+    for (const key of Object.keys(payload)) {
+      fields[key] = payload[key].toString();
+    }
+    return {
+      errors: validation.error.flatten().fieldErrors,
+
+      success: false,
+    };
+  }
 }

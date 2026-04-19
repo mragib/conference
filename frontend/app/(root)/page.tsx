@@ -10,8 +10,10 @@ import KeyDates from "@/components/ImportantDates";
 import Marquee from "@/components/Marquee";
 import Partners from "@/components/Partners";
 import Pricing from "@/components/Pricing";
+import { getPublicSession } from "@/lib/session";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getPublicSession();
   return (
     <>
       <section id="home">
@@ -58,7 +60,7 @@ export default function Home() {
         <Contact />
       </section>
 
-      <Footer />
+      <Footer user={session?.user} />
     </>
   );
 }

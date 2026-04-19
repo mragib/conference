@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@lexical/react": "^0.43.0",
+    "@lexkit/editor": "^0.0.38",
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "jose": "^6.2.2",
+    "lexical": "^0.43.0",
     "lucide-react": "^1.7.0",
     "next": "16.2.1",
     "next-auth": "^4.24.13",

@@ -22,6 +22,9 @@ export class Profile {
   @Column({ length: 150 })
   last_name: string;
 
+  @Column()
+  contact_number: string;
+
   @Column({ length: 70 })
   country: string;
 

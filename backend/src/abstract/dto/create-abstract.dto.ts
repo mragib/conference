@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  MaxLength,
 } from 'class-validator';
 import { CoAuthor } from 'src/co-author/entities/co-author.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -12,7 +11,6 @@ import { User } from 'src/user/entities/user.entity';
 export class CreateAbstractDto {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(255)
   title: string;
 
   @IsString()

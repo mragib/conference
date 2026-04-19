@@ -21,6 +21,10 @@ export class CreateProfileDto {
 
   @IsString()
   @IsNotEmpty()
+  contact_number: string;
+
+  @IsString()
+  @IsNotEmpty()
   @MaxLength(70)
   country: string;
 

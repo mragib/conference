@@ -1,17 +1,15 @@
 "use client";
 
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import FloatingInput from "@/components/ui/FloatingInput";
+import FloatingSelect from "@/components/ui/FloatingSelect";
 import { useConfirm } from "@/hooks/useConfirm";
-import {
-  COUNTRY_NAME,
-  customSelectStyles,
-  USER_TYPE_ARRAY,
-} from "@/lib/constants";
+import { COUNTRY_NAME, USER_TYPE_ARRAY } from "@/lib/constants";
 import { createProfile } from "@/lib/data-service";
 import { ProfileFormSchema, USER_TYPE } from "@/lib/type";
 import { changeForSelectArray } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Mail, Save, User } from "lucide-react";
+import { Loader2, Save, User } from "lucide-react";
 import {
   startTransition,
   useActionState,
@@ -22,7 +20,6 @@ import {
 
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import Select from "react-select";
 import z from "zod";
 
 const filterCountry = changeForSelectArray(COUNTRY_NAME);
@@ -30,8 +27,10 @@ const filterUserType = changeForSelectArray(USER_TYPE_ARRAY);
 const ProfileForm = ({
   userEmail,
   user,
+  userName,
 }: {
   userEmail: string;
+  userName?: string;
   user?: any;
 }) => {
   const [state, action, isPending] = useActionState(createProfile, {
@@ -40,16 +39,21 @@ const ProfileForm = ({
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  const names = userName && userName.trim().split(/\s+/);
+
   const {
     register,
     handleSubmit,
     control,
-    reset,
     formState: { errors: rhfErrors, isSubmitSuccessful },
   } = useForm<z.output<typeof ProfileFormSchema>>({
     resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
       ...user,
+      first_name:
+        !user && names ? names.slice(0, -1).join(" ") : user.first_name,
+      last_name: !user && names ? names[names?.length - 1] : user.last_name,
+      email: userEmail,
       countryObj: filterCountry.find((c) => c.value === "BD"),
       user_typeObj: filterUserType.find((c) => c.value === USER_TYPE.ACADEMIC),
       ...(state?.fields ?? {}),
@@ -126,109 +130,104 @@ const ProfileForm = ({
           <h2 className="text-xl font-black text-[#003366] uppercase tracking-tighter flex items-center gap-3">
             <User size={22} className="text-[#C5A059]" /> Basic Information
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
             <div className="space-y-3">
-              <label
-                className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1"
-                htmlFor="first_name"
-              >
-                First Name
-              </label>
-              <input
-                required
-                type="text"
-                readOnly={isDisable}
-                id="first_name"
+              <FloatingInput
+                label="First Name"
                 {...register("first_name", { required: true })}
                 defaultValue={state?.fields?.first_name}
-                className={`${state?.errors?.first_name || rhfErrors.first_name?.message ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+                readOnly={isDisable}
+                error={rhfErrors.first_name?.message}
               />
             </div>
-
             <div className="space-y-3">
-              <label
-                className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1"
-                htmlFor="last_name"
-              >
-                Last Name
-              </label>
-              <input
-                required
-                type="text"
-                readOnly={isDisable}
-                id="last_name"
-                defaultValue={state?.fields?.last_name}
+              <FloatingInput
+                label="Last Name"
                 {...register("last_name", { required: true })}
-                className={`${state?.errors?.last_name || rhfErrors.last_name?.message ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+                defaultValue={state?.fields?.last_name}
+                readOnly={isDisable}
+                error={rhfErrors.last_name?.message}
               />
             </div>
 
             <div className="space-y-3">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                Email (Immutable)
-              </label>
-              <div className="w-full px-6 py-4 rounded-2xl bg-slate-100 border border-slate-200 text-slate-400 flex items-center gap-3 cursor-not-allowed font-bold">
-                <Mail size={16} /> {userEmail}
-              </div>
+              <FloatingInput
+                label="Email"
+                {...register("email", { required: true })}
+                defaultValue={state?.fields?.email}
+                readOnly={true}
+                error={rhfErrors.email?.message}
+              />
             </div>
+
             <div className="space-y-3">
-              <label
-                className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1"
-                htmlFor="organization"
-              >
-                Organization
-              </label>
-              <input
-                required
-                type="text"
+              <FloatingInput
+                label="Contact Number"
+                {...register("contact_number", { required: true })}
+                defaultValue={state?.fields?.contact_number}
                 readOnly={isDisable}
-                id="organization"
+                error={rhfErrors.contact_number?.message}
+              />
+            </div>
+
+            <div className="space-y-3">
+              <FloatingInput
+                label="Organization"
                 {...register("organization", { required: true })}
                 defaultValue={state?.fields?.organization}
-                className={`${state?.errors?.organization || rhfErrors.organization?.message ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+                readOnly={isDisable}
+                error={rhfErrors.organization?.message}
               />
             </div>
 
             <div className="space-y-3">
-              <label
-                className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1"
-                htmlFor="designation"
-              >
-                Designation
-              </label>
-              <input
-                required
-                type="text"
-                id="designation"
-                readOnly={isDisable}
+              <FloatingInput
+                label="Designation"
                 {...register("designation", { required: true })}
                 defaultValue={state?.fields?.designation}
-                className={`${state?.errors?.designation || rhfErrors.designation?.message ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+                readOnly={isDisable}
+                error={rhfErrors.designation?.message}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="label" htmlFor="country">
-                Country
-              </label>
               <Controller
                 name="countryObj"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: "Country is required" }}
                 render={({ field }) => (
-                  <Select
-                    instanceId="country"
-                    {...field}
+                  <FloatingSelect
+                    label="Country"
                     options={filterCountry}
-                    isMulti={false}
+                    value={field.value}
+                    onChange={field.onChange}
                     isDisabled={isDisable}
-                    styles={customSelectStyles}
+                    error={rhfErrors.countryObj?.message}
                   />
                 )}
               />
             </div>
 
             <div className="space-y-2">
+              <Controller
+                name="user_typeObj"
+                control={control}
+                rules={{ required: "Participant Group  is required" }}
+                render={({ field }) => (
+                  <FloatingSelect
+                    label="Participant Group "
+                    options={filterUserType}
+                    value={field.value}
+                    onChange={field.onChange}
+                    isDisabled={isDisable}
+                    error={rhfErrors.countryObj?.message}
+                  />
+                )}
+              />
+            </div>
+
+            {/* <div className="space-y-2">
               <label className="label">User Type</label>
               <Controller
                 name="user_typeObj"
@@ -245,13 +244,13 @@ const ProfileForm = ({
                   />
                 )}
               />
-            </div>
+            </div> */}
           </div>
         </div>
 
         <button
           disabled={isPending || isDisable}
-          className="w-full py-5 bg-[#001A41] text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl shadow-2xl hover:bg-[#C5A059] hover:text-[#001A41] active:scale-[0.98] transition-all flex items-center justify-center gap-4 disabled:opacity-50"
+          className="w-full cursor-pointer py-5 bg-[#001A41] text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl shadow-2xl hover:bg-[#C5A059] hover:text-[#001A41] active:scale-[0.98] transition-all flex items-center justify-center gap-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
         >
           {isPending ? (
             <Loader2 className="animate-spin" />

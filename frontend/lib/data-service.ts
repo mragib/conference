@@ -5,6 +5,7 @@ import { BACKEND_URL } from "@/lib/constants";
 import { revalidatePath } from "next/cache";
 import { getSession } from "./session";
 import {
+  AbstractFormSchema,
   AdvanceFormState,
   ApiResponse,
   APIStatus,
@@ -391,6 +392,8 @@ export const createProfile = async (
 
   const validation = ProfileServerSchema.safeParse(payload);
 
+  console.log(validation);
+
   if (!validation.success) {
     const fields: Record<string, string> = {};
 
@@ -422,6 +425,49 @@ export const createProfile = async (
     };
   }
 
+  return {
+    success: response.ok,
+  };
+};
+
+export const createAbstract = async (
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> => {
+  const payload: any = Object.fromEntries(data.entries());
+
+  const validation = AbstractFormSchema.safeParse(payload);
+
+  if (!validation.success) {
+    const fields: Record<string, string> = {};
+
+    for (const key of Object.keys(payload)) {
+      fields[key] = payload[key].toString();
+    }
+
+    revalidatePath("/dashboard/abstracts");
+
+    return {
+      errors: validation.error.flatten().fieldErrors,
+
+      success: false,
+    };
+  }
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/abstract`,
+    "POST",
+    JSON.stringify(validation.data),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: resData.error,
+      success: false,
+    };
+  }
   return {
     success: response.ok,
   };

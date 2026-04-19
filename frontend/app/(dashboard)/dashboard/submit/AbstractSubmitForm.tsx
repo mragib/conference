@@ -1,24 +1,16 @@
 "use client";
-import { customSelectStyles } from "@/lib/constants";
-import { Topic } from "@/lib/type";
+import { RichEditor } from "@/components/RichEditor";
+import FloatingInput from "@/components/ui/FloatingInput";
+import FloatingSelect from "@/components/ui/FloatingSelect";
+import { createAbstract } from "@/lib/data-service";
+import { AbstractFormSchema, Topic } from "@/lib/type";
 import { changeForSelectArray } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Send, Trash } from "lucide-react";
+import { useActionState, useEffect, useRef } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import Select from "react-select";
-
-interface abstractForm {
-  title: string;
-  description: string;
-  keyword: string;
-  remarks: string;
-  topic: { label: string; value: string };
-  co_authors: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    organization: string;
-  }[];
-}
+import toast from "react-hot-toast";
+import z from "zod";
 
 const AbstractSubmitForm = ({
   topics,
@@ -27,14 +19,20 @@ const AbstractSubmitForm = ({
   topics: Topic[];
   user: any;
 }) => {
+  const [state, action, isPending] = useActionState(createAbstract, {
+    success: false,
+  });
+
+  const formRef = useRef<HTMLFormElement>(null);
+
   const {
     register,
     handleSubmit,
     control,
-
     reset,
-    formState: { errors },
-  } = useForm<abstractForm>({
+    formState: { errors: rhfErrors, isSubmitSuccessful },
+  } = useForm<z.output<typeof AbstractFormSchema>>({
+    resolver: zodResolver(AbstractFormSchema),
     defaultValues: {
       co_authors: [
         {
@@ -45,6 +43,7 @@ const AbstractSubmitForm = ({
         },
       ],
     },
+    mode: "onTouched",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -52,11 +51,30 @@ const AbstractSubmitForm = ({
     name: "co_authors",
   });
 
+  useEffect(() => {
+    if (isSubmitSuccessful && state?.success) {
+      toast.success("Abstract created successfully!");
+    }
+  }, [isSubmitSuccessful, state?.success]);
+
   const filterTopics = changeForSelectArray(topics);
 
-  function onsubmit(data: any) {
-    console.log("data", data);
-  }
+  const onsubmit = async (data: z.output<typeof AbstractFormSchema>) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === "topic") return;
+
+      // 3. Append strings/primitives
+      if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
+
+    if (data.topic?.value) {
+      formData.append("topicId", data.topic.value);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onsubmit)} className="space-y-8 w-full">
@@ -68,12 +86,12 @@ const AbstractSubmitForm = ({
 
         {/* Title */}
         <div className="space-y-2">
-          <label className="label">Research Title</label>
-          <input
+          <FloatingInput
+            label="Research Title"
             {...register("title", { required: true })}
-            placeholder="Full title of your research paper..."
-            className={`${errors.title ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+            error={rhfErrors.title?.message}
           />
+
           <p className="text-xs text-slate-500 leading-relaxed">
             The title should be concise, informative and reflective of the main
             focus of the study
@@ -82,18 +100,17 @@ const AbstractSubmitForm = ({
 
         {/* Topic */}
         <div className="space-y-2">
-          <label className="label">Sub Theme</label>
           <Controller
             name="topic"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: "Sub theme is required" }}
             render={({ field }) => (
-              <Select
-                {...field}
-                instanceId={"topics"}
+              <FloatingSelect
+                label="Sub Theme"
                 options={filterTopics}
-                isMulti={false}
-                styles={customSelectStyles}
+                value={field.value}
+                onChange={field.onChange}
+                error={rhfErrors.topic?.message}
               />
             )}
           />
@@ -104,11 +121,10 @@ const AbstractSubmitForm = ({
 
         {/* Keywords */}
         <div className="space-y-2">
-          <label className="label">Keywords</label>
-          <input
+          <FloatingInput
+            label="Keywords"
             {...register("keyword", { required: true })}
-            placeholder="e.g. AI, Machine Learning, NLP"
-            className={`${errors.keyword ? "border-red-500" : "border-slate-100"} input-style resize-none`}
+            error={rhfErrors.keyword?.message}
           />
           <p className="text-xs text-slate-500 leading-relaxed">
             Provide up to six relevant keywords that reflect the core themes of
@@ -117,7 +133,7 @@ const AbstractSubmitForm = ({
         </div>
 
         {/* Abstract */}
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <label className="label">Abstract</label>
           <textarea
             {...register("description", { required: true, maxLength: 750 })}
@@ -130,7 +146,8 @@ const AbstractSubmitForm = ({
             following elements: Purpose, Design/Methodology, Findings, Research
             Implications, Practical Implications
           </p>
-        </div>
+        </div> */}
+        <RichEditor />
       </div>
 
       {/* ===== CO-AUTHORS ===== */}
@@ -146,36 +163,31 @@ const AbstractSubmitForm = ({
               className="grid gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:shadow-sm transition
           grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_2fr_2fr_2fr_auto]"
             >
-              <input
+              <FloatingInput
+                label="First Name"
                 {...register(`co_authors.${index}.first_name`)}
-                placeholder="First Name"
-                className="input-style"
               />
 
-              <input
+              <FloatingInput
+                label="Last Name"
                 {...register(`co_authors.${index}.last_name`)}
-                placeholder="Last Name"
-                className="input-style"
               />
 
-              <input
+              <FloatingInput
+                label="Email"
                 {...register(`co_authors.${index}.email`)}
-                type="email"
-                placeholder="Email"
-                className="input-style"
               />
 
-              <input
+              <FloatingInput
+                label="Organization"
                 {...register(`co_authors.${index}.organization`)}
-                placeholder="Organization"
-                className="input-style"
               />
 
-              {fields.length > 1 && (
+              {index !== 0 && (
                 <button
                   type="button"
                   onClick={() => remove(index)}
-                  className="flex items-center justify-center h-full px-3 rounded-lg text-red-500 hover:bg-red-100 transition"
+                  className="flex items-center justify-center h-full px-3 rounded-lg text-red-500 hover:bg-red-100 transition cursor-pointer"
                 >
                   <Trash size={18} />
                 </button>
@@ -185,7 +197,7 @@ const AbstractSubmitForm = ({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 mt-6">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3 mt-6 ">
           <button
             type="button"
             onClick={() =>
@@ -196,7 +208,7 @@ const AbstractSubmitForm = ({
                 organization: "",
               })
             }
-            className="px-5 py-2.5 rounded-xl bg-[#003366] text-white font-semibold hover:bg-[#002244] transition-all"
+            className="px-5 cursor-pointer py-2.5 rounded-xl bg-[#003366] text-white font-semibold hover:bg-[#002244] transition-all"
           >
             + Add Author
           </button>
@@ -219,7 +231,7 @@ const AbstractSubmitForm = ({
                 ],
               })
             }
-            className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all cursor-pointer"
           >
             Reset Form
           </button>

@@ -145,7 +145,7 @@ const ForgotPasswordForm = () => {
               className="w-full py-3 md:py-4 rounded-xl font-black shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 bg-[#003366] text-white text-xs md:text-sm uppercase tracking-widest cursor-pointer active:scale-[0.98] hover:bg-[#002147]"
             >
               <Send size={16} />
-              Send Link
+              Send otp
             </button>
           </form>
         </div>

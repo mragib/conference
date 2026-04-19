@@ -17,7 +17,7 @@ export class Abstract {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'text' })
   title: string;
 
   @Column({ type: 'text' })

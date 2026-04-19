@@ -5,6 +5,7 @@ import {
   ChevronRight,
   ExternalLink,
   FileText,
+  LayoutDashboard,
   LogIn,
   Mail,
   MapPin,
@@ -14,8 +15,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import SignOutButton from "./signOutButton";
 
-export default function Footer() {
+export default function Footer({ user }: { user?: any }) {
   const router = useRouter();
 
   const scrollToSection = (id: any) => {
@@ -105,21 +107,38 @@ export default function Footer() {
           <h3 className="text-[#C5A059] font-black mb-6 uppercase tracking-[0.2em] text-[11px] flex items-center gap-2">
             <span className="w-4 h-px bg-[#C5A059]"></span> Researcher Portal
           </h3>
+
           <div className="flex flex-col gap-3 w-full max-w-[240px]">
-            <Link
-              href="/signin"
-              scroll={false}
-              className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
-            >
-              <LogIn size={14} /> Login
-            </Link>
-            <Link
-              href="/signup"
-              scroll={false}
-              className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
-            >
-              <UserPlus size={14} /> Register Now
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  scroll={false}
+                  className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
+                >
+                  <LayoutDashboard size={14} /> Dashboard
+                </Link>
+                <SignOutButton className="w-full text-red-400 flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-red-400 hover:text-white transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer" />
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  scroll={false}
+                  className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
+                >
+                  <LogIn size={14} /> Login
+                </Link>
+                <Link
+                  href="/signup"
+                  scroll={false}
+                  className="w-full flex items-center justify-center gap-3 border border-white/20 bg-white/5 backdrop-blur-md px-6 py-3.5 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-[#003366] transition-all duration-300 active:scale-95 shadow-sm text-center cursor-pointer"
+                >
+                  <UserPlus size={14} /> Register Now
+                </Link>
+              </>
+            )}
+
             <Link
               href="/cfp"
               scroll={false}
