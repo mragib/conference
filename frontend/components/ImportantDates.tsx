@@ -37,17 +37,16 @@ export default function KeyDates() {
   return (
     <section
       id="importantdates"
-      // Change: min-h-screen with flex centering and responsive padding
       className="min-h-screen w-full flex items-center justify-center bg-[#FDFCFB] relative overflow-hidden py-24 md:py-16"
     >
-      {/* Background Decorative Element - Ambient Glow */}
+      {/* Background Decorative Element */}
       <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-[#C5A059] rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#003366] rounded-full blur-[120px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col justify-center h-full">
-        {/* Header Section - font-black specifically for titles */}
+        {/* Header Section */}
         <div className="text-center mb-8 lg:mb-12">
           <h2 className="text-[#C5A059] text-[10px] md:text-xs font-black uppercase tracking-[0.4em] mb-2">
             Important Timeline
@@ -58,15 +57,15 @@ export default function KeyDates() {
           <div className="w-16 h-1 bg-[#C5A059] mx-auto mt-6"></div>
         </div>
 
-        {/* Grid Section - Optimized for Viewport Height */}
+        {/* Grid Section - Updated to items-start for left-alignment */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {dates.map((item, index) => (
             <div
               key={index}
-              className="group relative p-6 lg:p-8 rounded-[2rem] bg-white border border-slate-100 hover:border-[#C5A059] hover:shadow-[0_20px_50px_rgba(197,160,89,0.12)] transition-all duration-500 hover:-translate-y-1 flex flex-col justify-between overflow-hidden"
+              className="group relative p-6 lg:p-8 rounded-[2rem] bg-white border border-slate-100 hover:border-[#C5A059] hover:shadow-[0_20px_50px_rgba(197,160,89,0.12)] transition-all duration-500 hover:-translate-y-1 flex flex-col justify-between overflow-hidden items-start text-left"
             >
-              <div>
-                {/* Icon Container with Interaction */}
+              <div className="w-full">
+                {/* Icon Container */}
                 <div
                   className={`w-12 h-12 lg:w-14 lg:h-14 ${item.bg} ${item.color} rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#003366] group-hover:text-white transition-all duration-500 shadow-sm`}
                 >
@@ -76,12 +75,12 @@ export default function KeyDates() {
                   />
                 </div>
 
-                <h4 className="text-base lg:text-lg font-bold text-[#003366] mb-2 leading-tight group-hover:text-[#C5A059] transition-colors">
+                <h4 className="text-base lg:text-lg font-bold text-[#003366] mb-2 leading-tight group-hover:text-[#C5A059] transition-colors text-left">
                   {item.title}
                 </h4>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4 text-left">
                 <p className="text-xl lg:text-2xl font-black text-[#003366] tracking-tighter">
                   {item.date}
                 </p>
@@ -117,8 +116,8 @@ export default function KeyDates() {
             </div>
           </div>
           <a
-            href="/template/conference_schedule.pdf"
-            download="Conference_Schedule.pdf"
+            href="/template/conference_full_schedule.pdf"
+            download="Conference_Full_Schedule.pdf"
           >
             <button className="w-full md:w-auto cursor-pointer bg-[#003366] text-white px-10 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-[#003366] transition-all shadow-xl active:scale-95 shadow-[#003366]/10">
               Download Full Schedule

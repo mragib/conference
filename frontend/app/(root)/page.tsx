@@ -2,7 +2,6 @@ import About from "@/components/About";
 import Committee from "@/components/Committee";
 import Contact from "@/components/Contact";
 import FAQ from "@/components/FAQ";
-import Footer from "@/components/Footer";
 import Guidelines from "@/components/Guidelines";
 import Hero from "@/components/Hero";
 import Highlights from "@/components/Highlights";
@@ -60,7 +59,7 @@ export default async function Home() {
         <Contact />
       </section>
 
-      <Footer user={session?.user} />
+      {/* <Footer user={session?.user} /> */}
     </>
   );
 }

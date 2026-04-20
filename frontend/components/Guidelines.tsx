@@ -180,7 +180,7 @@ export default function Guidelines() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <a
-                href="/template/abstract_formatting_guideline.pdf"
+                href="/template/sample_abstract.pdf"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-slate-100 text-[#003366] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:border-[#C5A059] hover:shadow-xl transition-all active:scale-95 group"
               >
                 <FileText
@@ -190,7 +190,7 @@ export default function Guidelines() {
                 <span>Sample Abstract</span>
               </a>
               <a
-                href="/template/paper_guide.pdf"
+                href="/template/sample_full_paper.pdf"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-white border-2 border-slate-100 text-[#003366] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:border-[#C5A059] hover:shadow-xl transition-all active:scale-95 group"
               >
                 <FileText
@@ -200,7 +200,7 @@ export default function Guidelines() {
                 <span>Sample Full Paper</span>
               </a>
               <a
-                href="/template/event_flyer.pdf"
+                href="/template/conference_flyer_updated.pdf"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-[#C5A059] text-[#003366] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#003366] hover:text-white transition-all active:scale-95 group"
               >
                 <Map
@@ -374,8 +374,8 @@ export default function Guidelines() {
                           Layout & Submission Requirements
                         </h5>
                         <ul className="text-[10px] font-bold text-slate-600 space-y-2 uppercase leading-tight">
-                          <li>• Font: Times New Roman, Size 12, Spacing 1.5</li>
-                          <li>• Length: 6-8 Pages (Within 6000 words)</li>
+                          <li>• Font: Times New Roman, Spacing 1.5</li>
+                          <li>• Length: 6-8 Pages (3500 to 4000 Words)</li>
                           <li>
                             • Margins: 2.54cm Top/Bottom, 3.18cm Left/Right
                           </li>
@@ -401,7 +401,7 @@ export default function Guidelines() {
                 href={
                   activeModal === "abstract"
                     ? "/template/abstract_formatting_guideline.pdf"
-                    : "/template/paper_guide.pdf"
+                    : "/template/full_paper_formatting_guideline.pdf"
                 }
                 className="flex items-center gap-2 px-6 py-3 bg-[#003366] text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#C5A059] transition-colors"
                 download

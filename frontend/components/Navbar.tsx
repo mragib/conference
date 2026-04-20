@@ -10,70 +10,36 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import SignOutButtonNavbar from "./signOutButtonNavbar";
 
 const navLinks = [
-  { name: "About", id: "about" },
-  { name: "Dates", id: "important-dates" },
-  { name: "Guidelines", id: "guidelines" },
-  { name: "Committee", id: "committee" },
-  { name: "Registration Fee", id: "pricing" },
-  { name: "Partners", id: "partners" },
-  { name: "Contact", id: "contact" },
+  { name: "Dates", href: "/key-dates" },
+  { name: "Guidelines", href: "/guidelines" },
+  { name: "Committee", href: "/committee" },
+  { name: "Registration Fee", href: "/pricing" },
+  { name: "Partners", href: "/partners" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar({ user }: { user?: any }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    } else {
-      router.push(`/#${id}`);
-    }
-  };
-
   useEffect(() => {
     setMounted(true);
+
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      const isSpecialPage =
-        pathname.startsWith("/about-") || pathname === "/legal";
-      setIsScrolled(scrollPos > 10 || isSpecialPage);
 
-      if (scrollPos < 300) {
-        setActiveSection("");
-        return;
-      }
+      const isInnerPage = pathname !== "/"; // 👈 ALL inner pages
 
-      const sections = navLinks.map((link) => document.getElementById(link.id));
-      const scrollPosition = scrollPos + 150;
-      sections.forEach((section) => {
-        if (
-          section &&
-          scrollPosition >= section.offsetTop &&
-          scrollPosition < section.offsetTop + section.offsetHeight
-        ) {
-          setActiveSection(section.id);
-        }
-      });
+      setIsScrolled(scrollPos > 10 || isInnerPage);
     };
 
     handleScroll();
@@ -81,8 +47,7 @@ export default function Navbar({ user }: { user?: any }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  if (!mounted)
-    return <div className="h-20 bg-transparent fixed top-0 w-full z-[100]" />;
+  if (!mounted) return null;
 
   return (
     <>
@@ -93,7 +58,7 @@ export default function Navbar({ user }: { user?: any }) {
             : "bg-transparent"
         }`}
       >
-        {/* --- TOP CONTACT BAR: HIDDEN ON MOBILE (hidden lg:block) --- */}
+        {/* --- TOP CONTACT BAR: HIDDEN ON MOBILE --- */}
         {!isScrolled && (
           <div className="hidden lg:block w-full bg-black/40 backdrop-blur-md border-b border-white/5">
             <div className="max-w-7xl mx-auto px-4 lg:px-8 flex justify-end h-10 items-center">
@@ -139,62 +104,56 @@ export default function Navbar({ user }: { user?: any }) {
                 <h1 className="font-black text-sm md:text-xl tracking-tighter">
                   SCM <span className="text-[#C5A059]">CONFERENCE</span>
                 </h1>
-                {/* <p className="text-[7px] md:text-[9px] text-white/60 font-bold tracking-[0.15em] mt-1">
-                  International 2026
-                </p> */}
               </div>
             </Link>
 
+            {/* Desktop Navigation Links */}
             <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-              <div className="flex items-center gap-0.5">
-                <div
-                  className="relative group"
-                  onMouseEnter={() => setIsAboutOpen(true)}
-                  onMouseLeave={() => setIsAboutOpen(false)}
-                >
-                  <button className="px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase text-white hover:text-white flex items-center gap-1 cursor-pointer">
-                    About{" "}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform ${isAboutOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {isAboutOpen && (
-                    <div className="absolute top-full left-0 w-48 pt-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="bg-[#002147] border border-white/10 rounded-2xl p-2 shadow-2xl backdrop-blur-xl">
-                        <Link
-                          href="/about-ewu"
-                          className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
-                        >
-                          About EWU
-                        </Link>
-                        <Link
-                          href="/about-conference"
-                          className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
-                        >
-                          About Conference
-                        </Link>
-                      </div>
+              <div
+                className="relative group"
+                onMouseEnter={() => setIsAboutOpen(true)}
+                onMouseLeave={() => setIsAboutOpen(false)}
+              >
+                <button className="px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase text-white hover:text-white flex items-center gap-1 cursor-pointer">
+                  About{" "}
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${isAboutOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {isAboutOpen && (
+                  <div className="absolute top-full left-0 w-48 pt-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="bg-[#002147] border border-white/10 rounded-2xl p-2 shadow-2xl backdrop-blur-xl">
+                      <Link
+                        href="/about-ewu"
+                        className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
+                      >
+                        About EWU
+                      </Link>
+                      <Link
+                        href="/about-conference"
+                        className="block px-4 py-3 rounded-xl text-[10px] font-bold text-white/70 hover:text-white hover:bg-white/5 transition-colors uppercase"
+                      >
+                        About Conference
+                      </Link>
                     </div>
-                  )}
-                </div>
-
-                {navLinks
-                  .filter((l) => l.id !== "about")
-                  .map((link) => (
-                    <button
-                      key={link.id}
-                      onClick={() => scrollToSection(link.id)}
-                      className={`px-3 cursor-pointer xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase transition-all duration-300 border ${
-                        activeSection === link.id
-                          ? "bg-white/20 border-white/40 text-white"
-                          : "text-white/80 border-transparent hover:text-white"
-                      }`}
-                    >
-                      {link.name}
-                    </button>
-                  ))}
+                  </div>
+                )}
               </div>
+
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 xl:px-4 py-2 rounded-full text-[10px] xl:text-[11px] font-black uppercase transition-all duration-300 border ${
+                    pathname === link.href
+                      ? "bg-white/20 border-white/40 text-white"
+                      : "text-white/80 border-transparent hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
 
               <div className="h-5 w-px bg-white/10 mx-1 xl:mx-2"></div>
               {user ? (
@@ -257,14 +216,9 @@ export default function Navbar({ user }: { user?: any }) {
                   className="object-contain p-1"
                 />
               </div>
-              <div className="flex flex-col uppercase leading-tight text-white">
-                <h2 className="text-[#C5A059] font-black text-sm">
-                  SCM Conference
-                </h2>
-                {/* <p className="text-[9px] text-white/40 font-bold tracking-[0.1em]">
-                  INTERNATIONAL 2026
-                </p> */}
-              </div>
+              <h2 className="text-[#C5A059] font-black text-sm uppercase">
+                SCM Conference
+              </h2>
             </div>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
@@ -307,25 +261,24 @@ export default function Navbar({ user }: { user?: any }) {
               </div>
             </div>
 
-            {navLinks
-              .filter((l) => l.id !== "about")
-              .map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl font-bold uppercase transition-all text-xs tracking-wide group border-b border-white/5 last:border-0 ${activeSection === link.id ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5"}`}
-                >
-                  {link.name}
-                  <div
-                    className={`w-1.5 h-1.5 rounded-full transition-all ${activeSection === link.id ? "bg-[#C5A059] scale-125 shadow-[0_0_8px_#C5A059]" : "bg-white/10 group-hover:bg-[#C5A059]"}`}
-                  />
-                </button>
-              ))}
+            {/* Mobile Nav Links */}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`w-full flex items-center justify-between p-4 rounded-xl font-bold uppercase transition-all text-xs tracking-wide group border-b border-white/5 last:border-0 ${pathname === link.href ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5"}`}
+              >
+                {link.name}
+                <div
+                  className={`w-1.5 h-1.5 rounded-full transition-all ${pathname === link.href ? "bg-[#C5A059] scale-125 shadow-[0_0_8px_#C5A059]" : "bg-white/10 group-hover:bg-[#C5A059]"}`}
+                />
+              </Link>
+            ))}
           </div>
 
           {/* --- MOBILE DRAWER BOTTOM: CONTACT + AUTH ACTIONS --- */}
           <div className="mt-auto pt-6 border-t border-white/10 space-y-4">
-            {/* Contact row moved here for mobile ONLY */}
             <div className="space-y-3 px-2">
               <a
                 href="mailto:helpdesk-scm@ewubd.edu"

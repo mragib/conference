@@ -35,14 +35,13 @@ export default function AboutConferencePage() {
 
         <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-20 md:pt-32 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
-            {/* LEFT COLUMN: Reduced Photo Size & Bold Highlighted Stats */}
+            {/* LEFT COLUMN: Image & Compact Venue/Host Boxes */}
             <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32">
               <div className="relative group">
                 <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transition-all duration-700">
                   <img
-                    src="/images/ewu-campus.jpg"
+                    src="/images/scm-conference.png"
                     alt="Conference Venue"
-                    // 🚀 Reduced height for a more standard look
                     className="w-full h-auto lg:h-[420px] object-cover"
                   />
                   <div className="absolute top-6 left-6 z-30 w-16 h-16 bg-black/40 backdrop-blur-md rounded-2xl p-2 border border-white/50">
@@ -55,31 +54,31 @@ export default function AboutConferencePage() {
                 </div>
               </div>
 
-              {/* 🚀 Bold Highlighted Venue & Host Section */}
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-4 p-5 bg-white rounded-2xl border-2 border-[#C5A059] shadow-lg transform transition-transform hover:-translate-y-1">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-[#C5A059] border border-slate-100 shadow-sm">
-                    <MapPin size={24} />
+              {/* Venue & Host Section - Increased Font Size */}
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3 p-3 pr-8 bg-white rounded-xl border-2 border-[#C5A059] shadow-sm w-fit transition-transform hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-[#C5A059] border border-slate-100">
+                    <MapPin size={20} />
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-[#003366]/40 uppercase tracking-widest leading-none mb-1">
                       Venue
                     </p>
-                    <p className="text-xs md:text-sm font-black text-[#003366] uppercase">
+                    <p className="text-sm font-black text-[#003366] uppercase whitespace-nowrap">
                       East West University, Dhaka
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 p-5 bg-white rounded-2xl border-2 border-[#C5A059] shadow-lg transform transition-transform hover:-translate-y-1">
-                  <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-[#C5A059] border border-slate-100 shadow-sm">
-                    <School size={24} />
+                <div className="flex items-center gap-3 p-3 pr-8 bg-white rounded-xl border-2 border-[#C5A059] shadow-sm w-fit transition-transform hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-[#C5A059] border border-slate-100">
+                    <School size={20} />
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-[#003366]/40 uppercase tracking-widest leading-none mb-1">
                       Host
                     </p>
-                    <p className="text-xs md:text-sm font-black text-[#003366] uppercase">
+                    <p className="text-sm font-black text-[#003366] uppercase whitespace-nowrap">
                       Dept. of Business Administration
                     </p>
                   </div>
