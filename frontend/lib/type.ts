@@ -179,7 +179,15 @@ export const AbstractFormSchema = z.object({
 
   keyword: z.string().min(1, "Keyword is required").trim(),
 
-  description: z.string().min(1, "Abstract is required").trim(),
+  description: z
+    .string()
+    .trim()
+    .refine((val) => {
+      const text = val.replace(/<[^>]+>/g, "").trim();
+      const words = text.split(/\s+/).filter(Boolean);
+
+      return words.length > 0 && words.length <= 750;
+    }, "Abstract must be between 1 and 750 words"),
 
   ip_address: z.string().trim().optional(),
 

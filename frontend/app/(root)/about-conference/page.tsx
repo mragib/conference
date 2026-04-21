@@ -1,7 +1,5 @@
 "use client";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { CheckCircle2, MapPin, School } from "lucide-react";
 
 export default function AboutConferencePage() {
@@ -24,8 +22,6 @@ export default function AboutConferencePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
-      <Navbar />
-
       <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden px-5 md:px-10 py-24 lg:py-0">
         {/* Background Accents */}
         <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
@@ -148,8 +144,6 @@ export default function AboutConferencePage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

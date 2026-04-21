@@ -392,8 +392,6 @@ export const createProfile = async (
 
   const validation = ProfileServerSchema.safeParse(payload);
 
-  console.log(validation);
-
   if (!validation.success) {
     const fields: Record<string, string> = {};
 

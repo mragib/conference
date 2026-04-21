@@ -34,6 +34,7 @@ const AbstractSubmitForm = ({
   } = useForm<z.output<typeof AbstractFormSchema>>({
     resolver: zodResolver(AbstractFormSchema),
     defaultValues: {
+      description: "",
       co_authors: [
         {
           first_name: user.data.first_name,
@@ -60,6 +61,7 @@ const AbstractSubmitForm = ({
   const filterTopics = changeForSelectArray(topics);
 
   const onsubmit = async (data: z.output<typeof AbstractFormSchema>) => {
+    console.log(data);
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
@@ -76,64 +78,71 @@ const AbstractSubmitForm = ({
     }
   };
 
+  function onError(error) {
+    console.log(error);
+  }
+
   return (
-    <form onSubmit={handleSubmit(onsubmit)} className="space-y-8 w-full">
+    <form
+      onSubmit={handleSubmit(onsubmit, onError)}
+      className="space-y-8 w-full"
+    >
       {/* ===== BASIC INFO ===== */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
         <h2 className="text-lg font-semibold text-[#003366] border-b pb-2">
           Basic Information
         </h2>
+        <div className="grid gap-8">
+          {/* Title */}
+          <div className="space-y-1">
+            <FloatingInput
+              label="Research Title"
+              {...register("title", { required: true })}
+              error={rhfErrors.title?.message}
+            />
 
-        {/* Title */}
-        <div className="space-y-2">
-          <FloatingInput
-            label="Research Title"
-            {...register("title", { required: true })}
-            error={rhfErrors.title?.message}
-          />
+            <p className="text-xs text-slate-500 leading-relaxed">
+              The title should be concise, informative and reflective of the
+              main focus of the study
+            </p>
+          </div>
 
-          <p className="text-xs text-slate-500 leading-relaxed">
-            The title should be concise, informative and reflective of the main
-            focus of the study
-          </p>
-        </div>
+          {/* Topic */}
+          <div className="space-y-1">
+            <Controller
+              name="topic"
+              control={control}
+              rules={{ required: "Sub theme is required" }}
+              render={({ field }) => (
+                <FloatingSelect
+                  label="Sub Theme"
+                  options={filterTopics}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={rhfErrors.topic?.message}
+                />
+              )}
+            />
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Please select sub theme that describe your abstract
+            </p>
+          </div>
 
-        {/* Topic */}
-        <div className="space-y-2">
-          <Controller
-            name="topic"
-            control={control}
-            rules={{ required: "Sub theme is required" }}
-            render={({ field }) => (
-              <FloatingSelect
-                label="Sub Theme"
-                options={filterTopics}
-                value={field.value}
-                onChange={field.onChange}
-                error={rhfErrors.topic?.message}
-              />
-            )}
-          />
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Please select sub theme that describe your abstract
-          </p>
-        </div>
+          {/* Keywords */}
+          <div className="space-y-1">
+            <FloatingInput
+              label="Keywords"
+              {...register("keyword", { required: true })}
+              error={rhfErrors.keyword?.message}
+            />
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Provide up to six relevant keywords that reflect the core themes
+              of the study.(seperated by comma)
+            </p>
+          </div>
 
-        {/* Keywords */}
-        <div className="space-y-2">
-          <FloatingInput
-            label="Keywords"
-            {...register("keyword", { required: true })}
-            error={rhfErrors.keyword?.message}
-          />
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Provide up to six relevant keywords that reflect the core themes of
-            the study.(seperated by comma)
-          </p>
-        </div>
-
-        {/* Abstract */}
-        {/* <div className="space-y-2">
+          {/* Abstract */}
+          {/* <div className="space-y-2">
           <label className="label">Abstract</label>
           <textarea
             {...register("description", { required: true, maxLength: 750 })}
@@ -147,7 +156,33 @@ const AbstractSubmitForm = ({
             Implications, Practical Implications
           </p>
         </div> */}
-        <RichEditor />
+          <div className="space-y-3">
+            <Controller
+              name="description"
+              control={control}
+              rules={{ required: "Abstract is required" }}
+              render={({ field }) => (
+                <div className="space-y-2">
+                  <RichEditor value={field.value} onChange={field.onChange} />
+                  {rhfErrors.description && (
+                    <p className="text-xs text-red-500">
+                      {rhfErrors.description.message}
+                    </p>
+                  )}
+                </div>
+              )}
+            />
+            <ol className="text-xs list-disc text-slate-500 leading-relaxed list-inside">
+              <li>Within 500-750 words</li>
+              <li>Purpose</li>
+
+              <li>Design/Methodology</li>
+              <li>Findings</li>
+              <li>Research Implications</li>
+              <li>Practical Implications</li>
+            </ol>
+          </div>
+        </div>
       </div>
 
       {/* ===== CO-AUTHORS ===== */}

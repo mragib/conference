@@ -70,3 +70,13 @@ export function changeForDatabaseObject(data: any) {
     id: data.value, // Keep original type
   };
 }
+
+export const getWordCount = (text: string) => {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+};
+
+export const formatErrors = (errors?: Record<string, string[]>) => {
+  if (!errors) return "Something went wrong";
+
+  return Object.values(errors).flat().join("\n");
+};

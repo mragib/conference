@@ -1,29 +1,49 @@
 "use client";
 
 import { googlesignin, signup } from "@/action/auth";
+import { SignupFormSchema } from "@/lib/type";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Eye, EyeOff, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import z from "zod";
 
 const SignupForm = () => {
   const router = useRouter();
-  const [state, action] = useActionState(signup, undefined);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [state, action] = useActionState(signup, {
+    success: false,
+  });
+  const formRef = useRef<HTMLFormElement>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: rhfErrors, isSubmitSuccessful },
+  } = useForm<z.output<typeof SignupFormSchema>>({
+    resolver: zodResolver(SignupFormSchema),
+    defaultValues: {
+      ...(state?.fields ?? {}),
+    },
+    mode: "onTouched",
+  });
 
   useEffect(() => {
     if (!state) return;
-    if (state.statusCode === 200) {
-      toast.success(state.message || "Signup successful", { duration: 5000 });
+
+    if (isSubmitSuccessful && state.success) {
+      toast.success("Signup successful");
       router.push("/dashboard");
-    } else if (state.message || state.error) {
-      toast.error(state.message || "Signup failed.", {
-        duration: 5000,
-      });
+      return;
     }
-  }, [state, router]);
+
+    if (state.success === false && state.errors) {
+      toast.error(Object.values(state.errors).flat().join("\n"));
+    }
+  }, [isSubmitSuccessful, state, router]);
 
   const handleClose = () => router.back();
 
@@ -33,7 +53,19 @@ const SignupForm = () => {
     }
   };
 
-  const formRef = useRef<HTMLDivElement>(null);
+  const onsubmit = async (data: z.output<typeof SignupFormSchema>) => {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
+
+    action(formData);
+  };
+
+  const modalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
@@ -56,7 +88,7 @@ const SignupForm = () => {
       <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#003366]/40 rounded-full blur-[120px] pointer-events-none" />
 
       <div
-        ref={formRef}
+        ref={modalRef}
         className="w-full max-w-[950px] max-h-[98vh] md:max-h-[90vh] bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-2xl overflow-hidden flex flex-col relative z-10 animate-in fade-in zoom-in duration-500 border border-white/10"
         onClick={(e) => e.stopPropagation()}
       >
@@ -135,31 +167,35 @@ const SignupForm = () => {
               </button>
             </form>
 
-            <form action={action} className="space-y-4">
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit(onsubmit)}
+              className="space-y-4"
+            >
               {/* 🚀 FIXED: Placeholder style only, Smaller Font size */}
               <input
                 type="text"
-                name="name"
+                {...register("name", { required: true })}
                 required
                 placeholder="FULL NAME"
-                className="w-full px-5 py-3 border border-slate-200 bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800 uppercase placeholder:text-[#003366]/30 placeholder:tracking-[0.15em]"
+                className="w-full px-5 py-3 border border-slate-200 bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800 capitalize placeholder:text-[#003366]/30 placeholder:tracking-[0.15em]"
               />
 
               <input
                 type="email"
-                name="email"
+                {...register("email", { required: true })}
                 required
                 placeholder="EMAIL ADDRESS"
-                className="w-full px-5 py-3 border border-slate-200 bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800 uppercase placeholder:text-[#003366]/30 placeholder:tracking-[0.15em]"
+                className="w-full px-5 py-3 border border-slate-200 bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800 lowercase placeholder:text-[#003366]/30 placeholder:tracking-[0.15em] placeholder:uppercase"
               />
 
               <div className="relative flex items-center">
                 <input
                   type={showPassword ? "text" : "password"}
-                  name="password"
+                  {...register("password", { required: true })}
                   required
                   placeholder="PASSWORD"
-                  className="w-full px-5 py-3 border border-slate-200 bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800 uppercase placeholder:text-[#003366]/30 placeholder:tracking-[0.15em]"
+                  className={`w-full px-5 py-3 border ${rhfErrors.password ? "border-red-400" : "border-slate-200"}  bg-slate-50/30 rounded-xl focus:ring-1 focus:ring-[#C5A059] outline-none text-xs font-bold text-slate-800  placeholder:text-[#003366]/30 placeholder:tracking-[0.15em] placeholder:uppercase`}
                 />
                 <button
                   type="button"

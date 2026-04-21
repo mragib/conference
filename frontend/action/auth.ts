@@ -16,21 +16,23 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signup(
-  state: ApiResponse,
+  state: AdvanceFormState,
   data: FormData,
-): Promise<ApiResponse> {
-  const name = data.get("name");
-  const email = data.get("email");
-  const password = data.get("password");
+): Promise<AdvanceFormState> {
+  const payload: any = Object.fromEntries(data.entries());
 
-  const validationFields = SignupFormSchema.safeParse({
-    name,
-    email,
-    password,
-  });
-  if (!validationFields.success) {
+  const validation = SignupFormSchema.safeParse(payload);
+  if (!validation.success) {
+    const fields: Record<string, string> = {};
+
+    for (const key of Object.keys(payload)) {
+      fields[key] = payload[key].toString();
+    }
+
     return {
-      error: validationFields.error.flatten().fieldErrors,
+      success: false,
+      errors: validation.error.flatten().fieldErrors,
+      fields,
     };
   }
 
@@ -39,13 +41,14 @@ export async function signup(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(validationFields.data),
+    body: JSON.stringify(validation.data),
   });
 
   if (!response.ok) {
     const resData = await response.json();
     return {
-      message: resData.message,
+      errors: resData.error,
+      success: false,
     };
   }
 
@@ -60,7 +63,9 @@ export async function signup(
     accessToken: resData.accessToken,
     refreshToken: resData.refreshToken,
   });
-  return resData;
+  return {
+    success: response.ok,
+  };
   // redirect("/dashboard");
 }
 

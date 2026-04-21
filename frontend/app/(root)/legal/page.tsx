@@ -1,7 +1,5 @@
 "use client";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import {
   Database,
   EyeOff,
@@ -185,8 +183,6 @@ export default function LegalPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
-      <Navbar />
-
       {/* --- COMPACT FULL WIDTH HEADER (Badge Removed) --- */}
       <section className="w-full flex flex-col items-center justify-center relative overflow-hidden px-5 md:px-10 pt-28 md:pt-36 pb-6">
         <div className="max-w-7xl w-full relative z-10">
@@ -208,7 +204,7 @@ export default function LegalPage() {
       </section>
 
       {/* --- CONTENT AREA --- */}
-      <main className="relative z-10 flex flex-col items-center pb-24 px-4 max-w-7xl mx-auto w-full">
+      <section className="relative z-10 flex flex-col items-center pb-24 px-4 max-w-7xl mx-auto w-full">
         {/* Compact Tab Switcher */}
         <div className="flex bg-slate-50 p-1 rounded-xl shadow-sm border border-slate-200 mb-10">
           {["privacy", "terms", "ethics"].map((tab) => (
@@ -231,9 +227,7 @@ export default function LegalPage() {
           {activeTab === "terms" && <TermsSection />}
           {/* {activeTab === "ethics" && <EthicsSection />} */}
         </div>
-      </main>
-
-      <Footer />
+      </section>
     </div>
   );
 }
