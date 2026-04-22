@@ -42,7 +42,7 @@ export default function AboutEWUPage() {
               <div className="relative group">
                 <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transition-all duration-700">
                   <img
-                    src="/images/about-conference.jpg"
+                    src="/images/alor_minar_ewu.jpg"
                     alt="East West University Campus"
                     className="w-full h-auto lg:h-[450px] object-cover"
                   />

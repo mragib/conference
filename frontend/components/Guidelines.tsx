@@ -200,7 +200,7 @@ export default function Guidelines() {
                 <span>Sample Full Paper</span>
               </a>
               <a
-                href="/template/conference_flyer_updated.pdf"
+                href="/template/conference_flyer_updated_final.pdf"
                 className="flex items-center justify-center gap-3 px-6 py-4 bg-[#C5A059] text-[#003366] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#003366] hover:text-white transition-all active:scale-95 group"
               >
                 <Map
@@ -280,6 +280,8 @@ export default function Guidelines() {
                       "Findings",
                       "Theoretical Implications",
                       "Practical Implications",
+                      "Key Words (Max 5 Words)",
+                      "References (Max 4-5)",
                     ].map((item, i) => (
                       <div
                         key={i}
@@ -297,21 +299,39 @@ export default function Guidelines() {
                   </div>
                 </div>
               ) : (
-                <div className="space-y-8">
+                <div className="space-y-6">
+                  {/* Thematic Header: Structure Section moved to Top */}
                   <div className="bg-[#C5A059]/10 p-4 rounded-xl text-center border-b-4 border-[#C5A059]">
                     <h4 className="font-black text-[#003366] uppercase text-lg">
                       Structure of the Manuscript
                     </h4>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Full Paper Manuscript Note */}
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                    <h5 className="font-black text-[#003366] uppercase text-xs tracking-widest mb-2 border-b border-slate-200 pb-2 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-[#C5A059] rounded-full" />
+                      Full Paper Manuscript
+                    </h5>
+                    <p className="text-sm text-slate-700 font-medium leading-relaxed">
+                      <span className="text-[#C5A059] font-black mr-2">**</span>
+                      There will be no full paper review conducted for your
+                      manuscript. However, your full paper may be considered for
+                      inclusion in the special issue publication, subject to the
+                      editorial team’s discretion.
+                    </p>
+                  </div>
+
+                  {/* Responsive Grid for Details */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {/* Left Column */}
                     <div className="space-y-4">
-                      <div className="p-5 border border-slate-100 rounded-2xl bg-slate-50 group hover:border-[#C5A059] transition-colors">
-                        <h5 className="font-black text-[#003366] uppercase text-xs tracking-widest mb-3 border-b border-slate-200 pb-2 flex items-center gap-2">
-                          <div className="w-2 h-2 bg-[#C5A059] rounded-full" />{" "}
+                      <div className="p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-[#C5A059] transition-colors">
+                        <h5 className="font-black text-[#003366] uppercase text-xs tracking-widest mb-2 border-b border-slate-200 pb-2 flex items-center gap-2">
+                          <div className="w-2 h-2 bg-[#C5A059] rounded-full" />
                           Title & Keywords
                         </h5>
-                        <p className="text-xs text-slate-600 font-bold mb-3 italic">
+                        <p className="text-xs text-slate-600 font-bold mb-2 italic">
                           The title should be concise, informative, and
                           reflective of the main focus of the study.
                         </p>
@@ -321,12 +341,12 @@ export default function Guidelines() {
                         </p>
                       </div>
 
-                      <div className="p-5 border border-slate-100 rounded-2xl bg-slate-50 group hover:border-[#C5A059] transition-colors">
-                        <h5 className="font-black text-[#003366] uppercase text-xs tracking-widest mb-3 border-b border-slate-200 pb-2 flex items-center gap-2">
-                          <div className="w-2 h-2 bg-[#C5A059] rounded-full" />{" "}
+                      <div className="p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-[#C5A059] transition-colors">
+                        <h5 className="font-black text-[#003366] uppercase text-xs tracking-widest mb-2 border-b border-slate-200 pb-2 flex items-center gap-2">
+                          <div className="w-2 h-2 bg-[#C5A059] rounded-full" />
                           Main Body & References
                         </h5>
-                        <ul className="text-xs text-slate-600 font-bold grid grid-cols-2 gap-2 uppercase tracking-tighter">
+                        <ul className="text-xs text-slate-600 font-bold grid grid-cols-2 gap-1 uppercase tracking-tighter">
                           <li>• Introduction</li>
                           <li>• Lit. Review</li>
                           <li>• Methodology</li>
@@ -334,7 +354,7 @@ export default function Guidelines() {
                           <li>• Discussion</li>
                           <li>• Conclusion</li>
                         </ul>
-                        <div className="mt-4 pt-4 border-t border-slate-200">
+                        <div className="mt-3 pt-3 border-t border-slate-200">
                           <p className="text-[10px] font-black text-[#C5A059] uppercase mb-1">
                             References Style:
                           </p>
@@ -346,18 +366,19 @@ export default function Guidelines() {
                       </div>
                     </div>
 
+                    {/* Right Column */}
                     <div className="space-y-4">
-                      <div className="p-5 border border-red-100 rounded-2xl bg-red-50/50">
-                        <h5 className="font-black text-red-600 uppercase text-xs tracking-widest mb-3 border-b border-red-100 pb-2 flex items-center gap-2">
-                          <AlertCircle size={14} /> Common Pitfalls to Avoid
+                      <div className="p-4 border border-red-100 rounded-2xl bg-red-50/50">
+                        <h5 className="font-black text-red-600 uppercase text-xs tracking-widest mb-2 border-b border-red-100 pb-2 flex items-center gap-2">
+                          <AlertCircle size={14} /> Common Pitfalls
                         </h5>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                           <li className="text-[11px] leading-relaxed">
                             <span className="font-black text-red-800 uppercase block">
                               Failure to Follow Template:
                             </span>
-                            Manuscripts that do not adhere to the required
-                            formatting template may face rejection.
+                            Manuscripts not adhering to the formatting template
+                            may face rejection.
                           </li>
                           <li className="text-[11px] leading-relaxed">
                             <span className="font-black text-red-800 uppercase block">
@@ -369,11 +390,11 @@ export default function Guidelines() {
                         </ul>
                       </div>
 
-                      <div className="p-5 border border-slate-100 rounded-2xl bg-slate-50">
-                        <h5 className="font-black text-[#C5A059] uppercase text-xs tracking-widest mb-3 border-b border-slate-200 pb-2">
-                          Layout & Submission Requirements
+                      <div className="p-4 border border-slate-100 rounded-2xl bg-slate-50">
+                        <h5 className="font-black text-[#C5A059] uppercase text-xs tracking-widest mb-2 border-b border-slate-200 pb-2">
+                          Layout & Submission
                         </h5>
-                        <ul className="text-[10px] font-bold text-slate-600 space-y-2 uppercase leading-tight">
+                        <ul className="text-[10px] font-bold text-slate-600 space-y-1.5 uppercase leading-tight">
                           <li>• Font: Times New Roman, Spacing 1.5</li>
                           <li>• Length: 6-8 Pages (3500 to 4000 Words)</li>
                           <li>
@@ -381,8 +402,7 @@ export default function Guidelines() {
                           </li>
                           <li>• Format: Word (.doc/.docx) or PDF</li>
                           <li>
-                            • AI Policy: Tools only for editing/proofreading,
-                            not content production.
+                            • AI Policy: Tools for editing only, not production.
                           </li>
                         </ul>
                       </div>

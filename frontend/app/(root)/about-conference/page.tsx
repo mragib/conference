@@ -93,7 +93,7 @@ export default function AboutConferencePage() {
                 </h2>
               </header>
 
-              <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify italic">
+              <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify">
                 <p>
                   The Conference on Building Resilient Supply Chains offers a
                   vibrant forum for exploring how organizations can effectively
@@ -122,7 +122,7 @@ export default function AboutConferencePage() {
                   </h5>
                   <div className="h-px flex-grow bg-slate-100"></div>
                 </div>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider text-center">
+                <p className="text-slate-600 text-xs font-bold uppercase tracking-wider text-center">
                   Papers, abstracts and posters are invited under the following
                   sub themes:
                 </p>
