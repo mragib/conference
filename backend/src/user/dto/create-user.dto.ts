@@ -41,11 +41,23 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  otp?: string;
+  otp?: string | null;
 
   @IsDate()
   @IsOptional()
-  otp_expiry?: Date;
+  otp_expiry?: Date | null;
+
+  @IsString()
+  @IsOptional()
+  reset_token?: string | null;
+
+  @IsDate()
+  @IsOptional()
+  invite_expiry?: Date | null;
+
+  @IsString()
+  @IsOptional()
+  invite_token?: string | null;
 
   @IsOptional()
   @IsEnum(Role)

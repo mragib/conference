@@ -1,14 +1,10 @@
 "use client";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { Award, GraduationCap, ShieldCheck } from "lucide-react";
 
 export default function AboutEWUPage() {
   return (
     <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
-      <Navbar />
-
       <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden px-5 md:px-10 py-24 lg:py-0">
         {/* Background Accents */}
         <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
@@ -16,7 +12,7 @@ export default function AboutEWUPage() {
           <div className="absolute bottom-[-5%] right-[-5%] w-[40vw] h-[40vw] bg-[#003366]/10 rounded-full blur-[120px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-20 md:pt-32 pb-20">
+        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-10 md:pt-32 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
             {/* LEFT COLUMN: Image & Stats */}
             <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32">
@@ -46,7 +42,7 @@ export default function AboutEWUPage() {
               <div className="relative group">
                 <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white transition-all duration-700">
                   <img
-                    src="/images/about-conference.jpg"
+                    src="/images/alor_minar_ewu.jpg"
                     alt="East West University Campus"
                     className="w-full h-auto lg:h-[450px] object-cover"
                   />
@@ -115,8 +111,6 @@ export default function AboutEWUPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

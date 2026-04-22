@@ -1,4 +1,5 @@
 import z from "zod";
+import { getWordCount } from "./utils";
 
 export type FormState =
   | {
@@ -161,40 +162,85 @@ export const OtpFormSchema = z.object({
   email: z.string(),
 });
 
-export const AbstractFormSchema = z.object({
-  title: z
-    .string()
-    .min(2, "Title Should be at leaste 2 characters long")
-    .trim(),
-  topic: z
-    .object({
-      label: z.string(),
-      value: z.string().min(1, "Topic is required"),
-    })
-    .optional()
-    .refine((val) => val && val.value, {
-      message: "Topic is required",
-    }),
-  topicId: z.string().trim().optional(),
-
-  keyword: z.string().min(1, "Keyword is required").trim(),
-
-  description: z.string().min(1, "Abstract is required").trim(),
-
-  ip_address: z.string().trim().optional(),
-
-  co_authors: z
-    .array(
-      z.object({
-        first_name: z.string().min(1).trim(),
-        last_name: z.string().min(1).trim(),
-        email: z.string().email().trim(),
-        organization: z.string().min(1).trim(),
+export const AbstractFormSchema = z
+  .object({
+    title: z
+      .string()
+      .min(2, "Title Should be at leaste 2 characters long")
+      .trim(),
+    topic: z
+      .object({
+        label: z.string(),
+        value: z.string().min(1, "Topic is required"),
+      })
+      .optional()
+      .refine((val) => val && val.value, {
+        message: "Sub Theme is required",
       }),
-    )
-    .min(1, "At least one co-author is required")
-    .refine(
-      (authors) => new Set(authors.map((a) => a.email)).size === authors.length,
-      "Duplicate co-author emails are not allowed",
-    ),
-});
+    topicId: z.string().trim().optional(),
+
+    keyword: z.string().min(1, "Keyword is required").trim(),
+
+    purpose: z.string().trim().min(1, "Purpose is required"),
+
+    methodology: z.string().trim().min(1, "Methodology is required"),
+
+    findings: z.string().trim().min(1, "Findings  is required"),
+
+    theoretical: z
+      .string()
+      .trim()
+      .min(1, "Theoretical Implications is required"),
+
+    practical: z.string().trim().min(1, "Practical Implications is required"),
+
+    ip_address: z.string().trim().optional(),
+
+    co_authors: z
+      .array(
+        z.object({
+          first_name: z.string().min(1).trim(),
+          last_name: z.string().min(1).trim(),
+          email: z.string().email().trim(),
+          organization: z.string().min(1).trim(),
+        }),
+      )
+      .min(1, "At least one co-author is required")
+      .refine(
+        (authors) =>
+          new Set(authors.map((a) => a.email)).size === authors.length,
+        "Duplicate co-author emails are not allowed",
+      ),
+  })
+  .refine(
+    (data) => {
+      const total =
+        getWordCount(data.purpose) +
+        getWordCount(data.methodology) +
+        getWordCount(data.findings) +
+        getWordCount(data.theoretical) +
+        getWordCount(data.practical);
+
+      return total <= 750;
+    },
+    {
+      message: "Total word limit must not exceed 750",
+    },
+  );
+
+export const ResetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+      .regex(/[a-z]/, "Must contain at least one lowercase letter")
+      .regex(/[0-9]/, "Must contain at least one number")
+      .regex(/[^A-Za-z0-9]/, "Must contain at least one special character"),
+
+    confirm: z.string(),
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: "Passwords do not match",
+    path: ["confirm"],
+  });

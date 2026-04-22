@@ -214,7 +214,9 @@ export const getSessionBySessionId = async (sessionId: string) => {
   const response = await fetch(`${BACKEND_URL}/session/` + sessionId, {
     credentials: "include",
   });
-  if (!response.ok) throw new Error("Session Id is not found");
+  if (!response.ok) {
+    return null;
+  }
   const data = await response.json();
 
   return data;
@@ -391,8 +393,6 @@ export const createProfile = async (
   const payload: any = Object.fromEntries(data.entries());
 
   const validation = ProfileServerSchema.safeParse(payload);
-
-  console.log(validation);
 
   if (!validation.success) {
     const fields: Record<string, string> = {};

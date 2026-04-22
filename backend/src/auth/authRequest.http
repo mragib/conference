@@ -28,7 +28,7 @@ POST http://localhost:8000/auth/signup
 Content-Type: application/json
 
 {
-    "name":"test",
+    "name":"admin",
     "email":"admin@gmail.com",
     "phone":"01743189984",
     "password":"test123",
@@ -62,4 +62,31 @@ Content-Type: application/json
 
 {
     "email":"diner.ragib@gmail.com"
+}
+
+### Verify OTP
+POST http://localhost:8000/auth/verify-otp
+Content-Type: application/json
+
+{
+  "email": "diner.ragib@gmail.com",
+  "otp": "220355"
+}
+
+### Reset password
+POST http://localhost:8000/auth/reset-password
+Content-Type: application/json
+
+{
+  "resetToken": "e4911318-850e-4b0d-be8d-b7bf27d4d72f",
+  "password": "newPassword123"
+}
+
+### Login
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "diner.ragib@gmail.com",
+  "password": "newPassword123"
 }

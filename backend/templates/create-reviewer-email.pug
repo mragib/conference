@@ -4,13 +4,27 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Reviewer Invitation
-  body
-    h1 OTP Verification
-    p Hello #{name}, you have been selected as a reviewer. 
-    p Your OTP code is: 
-      strong #{otp}
-    
-    //- Fix: Attributes must be in parentheses, and variables need interpolation or concatenation
-    p Please click the link below to set your password:
-    a(href=`http://localhost:3000/otp?email=${email}`) Set your Password
-    p strong this will expire after 30 minutes
+  body(style="font-family: Arial, sans-serif; line-height:1.6;")
+    h2 Hello #{name},
+
+    p You have been invited to join as a 
+      strong Reviewer 
+      |  for the DBA Conference.
+
+    p Please click the button below to set your password and activate your account:
+
+    a(
+      href=link
+      style="display:inline-block;padding:10px 20px;background:#003366;color:#fff;text-decoration:none;border-radius:6px;margin:10px 0;"
+    ) Set Your Password
+
+    p If the button does not work, copy and paste this link into your browser:
+
+    p
+      | #{link}
+
+    p This link will expire in 24 hours.
+
+    br
+    p Regards,
+    p DBA Conference Team

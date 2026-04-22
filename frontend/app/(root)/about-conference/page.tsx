@@ -1,7 +1,5 @@
 "use client";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { CheckCircle2, MapPin, School } from "lucide-react";
 
 export default function AboutConferencePage() {
@@ -24,8 +22,6 @@ export default function AboutConferencePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
-      <Navbar />
-
       <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden px-5 md:px-10 py-24 lg:py-0">
         {/* Background Accents */}
         <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
@@ -33,7 +29,7 @@ export default function AboutConferencePage() {
           <div className="absolute bottom-[-5%] right-[-5%] w-[40vw] h-[40vw] bg-[#003366]/10 rounded-full blur-[120px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-20 md:pt-32 pb-20">
+        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-10 md:pt-32 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
             {/* LEFT COLUMN: Image & Compact Venue/Host Boxes */}
             <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32">
@@ -97,7 +93,7 @@ export default function AboutConferencePage() {
                 </h2>
               </header>
 
-              <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify italic">
+              <div className="space-y-6 text-slate-600 text-sm md:text-base leading-relaxed font-medium border-l-4 border-[#C5A059]/30 pl-6 text-justify">
                 <p>
                   The Conference on Building Resilient Supply Chains offers a
                   vibrant forum for exploring how organizations can effectively
@@ -126,7 +122,7 @@ export default function AboutConferencePage() {
                   </h5>
                   <div className="h-px flex-grow bg-slate-100"></div>
                 </div>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider text-center">
+                <p className="text-slate-600 text-xs font-bold uppercase tracking-wider text-center">
                   Papers, abstracts and posters are invited under the following
                   sub themes:
                 </p>
@@ -148,8 +144,6 @@ export default function AboutConferencePage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

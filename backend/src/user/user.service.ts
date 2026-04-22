@@ -3,9 +3,12 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
+import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
 import { ApiResponse, Role } from 'src/types/types';
 import { In, IsNull, Not, Repository } from 'typeorm';
@@ -23,6 +26,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private mailService: MailService,
+    private readonly configService: ConfigService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = await this.findByEmail(createUserDto.email);
@@ -164,32 +168,42 @@ export class UserService {
 
   async makeReviewer(createReviewerDto: CreateReviewerDto) {
     const { email, name, topic } = createReviewerDto;
+
+    const existingUser = await this.findByEmail(email);
+
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+
+    const invite_token = crypto
+      .createHash('sha256')
+      .update(rawToken)
+      .digest('hex');
+    const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
+    const user = await this.userRepository.save({
+      email,
+      name,
+      role: Role.REVIEWER,
+      topic,
+      invite_token,
+      invite_expiry,
+      is_active: false,
+    });
+
+    const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
     try {
-      const existingUser = await this.findByEmail(email);
-
-      if (existingUser) {
-        throw new ConflictException('User with this email already exists');
-      }
-
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const otp_expiry = new Date(Date.now() + 30 * 60 * 1000); // OTP valid for 10 minutes
-
-      const user = await this.userRepository.save({
-        email,
-        name,
-        role: Role.REVIEWER,
-        topic,
-        otp,
-        otp_expiry,
-      });
-
       await this.mailService.sendEmail(
         user.email,
-        'DBA Confereance Reviewer Registration',
+        'DBA Conference Reviewer Registration',
         'create-reviewer-email',
-        { otp, name, email },
+        {
+          name,
+          link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
+        },
       );
-
       return {
         status: 'success',
         statuscode: 200,
@@ -200,6 +214,7 @@ export class UserService {
       if (error instanceof ConflictException) {
         throw error;
       }
+      await this.userRepository.delete(user.id);
       throw new InternalServerErrorException('Something went Wrong!');
     }
   }
@@ -255,6 +270,41 @@ export class UserService {
       statuscode: 200,
       data: user,
       count,
+    };
+  }
+
+  async findByResetToken(resetToken: string) {
+    return await this.userRepository.findOne({
+      where: {
+        reset_token: resetToken,
+        deletedAt: IsNull(),
+      },
+    });
+  }
+
+  async validateInvite(token: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await this.userRepository.findOne({
+      where: { invite_token: hashedToken },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid invite link');
+    }
+
+    if (!user.invite_expiry || user.invite_expiry < new Date()) {
+      throw new UnauthorizedException('Invite expired');
+    }
+
+    if (user.is_active) {
+      throw new UnauthorizedException('Account already activated');
+    }
+
+    return {
+      email: user.email,
+      name: user.name,
+      role: user.role,
     };
   }
 }

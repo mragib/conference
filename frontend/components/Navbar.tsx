@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import SignOutButton from "./signOutButton";
 import SignOutButtonNavbar from "./signOutButtonNavbar";
 
 const navLinks = [
@@ -297,8 +298,7 @@ export default function Navbar({ user }: { user?: any }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <Link
+            {/* <Link
                 href="/signin"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="py-3.5 border border-white/10 text-white rounded-xl font-black uppercase text-[10px] bg-white/5 text-center"
@@ -311,8 +311,33 @@ export default function Navbar({ user }: { user?: any }) {
                 className="py-3.5 bg-[#C5A059] text-[#002147] rounded-xl font-black uppercase text-[10px] shadow-lg text-center"
               >
                 Join Now
-              </Link>
-            </div>
+              </Link> */}
+            {user ? (
+              <div className="grid grid-cols-2 gap-3">
+                <Link
+                  href="/dashboard"
+                  className="text-white hover:text-[#C5A059] transition-all font-bold flex items-center gap-2 uppercase border-2 border-[#C5A059] px-4 py-3.5 rounded-xl text-center"
+                >
+                  <LayoutDashboard size={16} /> Dashboard
+                </Link>
+                <SignOutButton className="text-white hover:text-[#C5A059] transition-all font-bold flex items-center gap-2 uppercase border-2 border-[#C5A059] px-4 py-3.5 rounded-xl text-center" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
+                <Link
+                  href="/signin"
+                  className="py-3.5 border border-white/10 text-white rounded-xl font-black uppercase text-[10px] bg-white/5 text-center"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="py-3.5 bg-[#C5A059] text-[#002147] rounded-xl font-black uppercase text-[10px] shadow-lg text-center"
+                >
+                  Join Now
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -47,6 +47,10 @@ const FloatingSelect = ({
                 borderColor: error ? "#ef4444" : "#2563eb",
               },
             }),
+            menu: (base) => ({
+              ...base,
+              zIndex: 9999,
+            }),
           }}
         />
 

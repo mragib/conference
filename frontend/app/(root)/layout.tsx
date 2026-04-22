@@ -15,7 +15,7 @@ export default async function RootContentLayout({
     <div className="relative min-h-screen w-full bg-white selection:bg-[#C5A059] selection:text-white">
       <Navbar user={session?.user} />
       <main>{children}</main>
-      <Footer />
+      <Footer user={session?.user} />
     </div>
   );
 }
