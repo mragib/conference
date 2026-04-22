@@ -214,7 +214,9 @@ export const getSessionBySessionId = async (sessionId: string) => {
   const response = await fetch(`${BACKEND_URL}/session/` + sessionId, {
     credentials: "include",
   });
-  if (!response.ok) throw new Error("Session Id is not found");
+  if (!response.ok) {
+    return null;
+  }
   const data = await response.json();
 
   return data;

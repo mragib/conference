@@ -29,7 +29,7 @@ export default function AboutConferencePage() {
           <div className="absolute bottom-[-5%] right-[-5%] w-[40vw] h-[40vw] bg-[#003366]/10 rounded-full blur-[120px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-20 md:pt-32 pb-20">
+        <div className="max-w-7xl mx-auto w-full h-full flex flex-col justify-center relative z-10 pt-10 md:pt-32 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16 items-start">
             {/* LEFT COLUMN: Image & Compact Venue/Host Boxes */}
             <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32">

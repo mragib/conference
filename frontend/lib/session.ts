@@ -2,7 +2,6 @@
 
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { createSessionDB, getSessionBySessionId } from "./data-service";
 import { Role } from "./type";
 
@@ -52,41 +51,64 @@ export const createSession = async (payload: session) => {
 export const getSession = async () => {
   const cookieStore = (await cookies()).get("session")?.value;
   if (!cookieStore) return null;
-  try {
-    if (cookieStore) {
-      const data = await getSessionBySessionId(cookieStore);
 
-      const { payload } = await jwtVerify(data.session, encodedSecret);
-      return payload as session;
-    } else {
-      redirect("/signin");
-    }
+  const data = await getSessionBySessionId(cookieStore);
+
+  if (!data) {
+    return null;
+  }
+
+  try {
+    const { payload } = await jwtVerify(data.session, encodedSecret);
+    return payload as session;
   } catch (error) {
     console.error("JWT Verification Error:", error);
-    redirect("/signin");
+    return null;
   }
 };
+
+// export const getPublicSession = async () => {
+//   const cookieStore = (await cookies()).get("session")?.value;
+//   if (!cookieStore) return null;
+//   try {
+//     if (cookieStore) {
+//       const data = await getSessionBySessionId(cookieStore);
+
+//       const { payload } = await jwtVerify(data.session, encodedSecret);
+//       return payload as session;
+//     } else {
+//       redirect("/dashboard");
+//     }
+//   } catch (error) {
+//     console.error("JWT Verification Error:", error);
+//     redirect("/dashboard");
+//   }
+// };
 
 export const getPublicSession = async () => {
   const cookieStore = (await cookies()).get("session")?.value;
-  if (!cookieStore) return null;
-  try {
-    if (cookieStore) {
-      const data = await getSessionBySessionId(cookieStore);
 
-      const { payload } = await jwtVerify(data.session, encodedSecret);
-      return payload as session;
-    } else {
-      redirect("/dashboard");
+  if (!cookieStore) return null;
+
+  try {
+    const data = await getSessionBySessionId(cookieStore);
+
+    // ✅ SAFE GUARD (THIS FIXES YOUR CRASH)
+    if (!data?.session) {
+      return null;
     }
+
+    const { payload } = await jwtVerify(data.session, encodedSecret);
+
+    return payload as session;
   } catch (error) {
     console.error("JWT Verification Error:", error);
-    redirect("/dashboard");
+    return null; // ❌ never redirect in layout-level function
   }
 };
-
 export const destroySession = async () => {
-  (await cookies()).delete("session");
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
 };
 
 export const updateToken = async ({

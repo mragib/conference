@@ -1,5 +1,9 @@
 import Committee from "@/components/Committee";
 
 export default function KeyDatesPage() {
-  return <Committee />;
+  return (
+    <div className="pt-10 md:pt-20">
+      <Committee />
+    </div>
+  );
 }

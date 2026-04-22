@@ -12,15 +12,7 @@ import {
   RichText,
 } from "@lexkit/editor";
 import { $getRoot } from "lexical";
-import {
-  Bold,
-  Italic,
-  Link,
-  List,
-  ListOrdered,
-  Redo,
-  Undo,
-} from "lucide-react";
+import { Bold, Italic, Redo, Undo } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const extensions = [
@@ -65,50 +57,6 @@ function Toolbar() {
         <Italic size={16} />
       </button>
 
-      <div className="w-px h-5 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={() => {
-          editor?.focus?.();
-          commands.toggleUnorderedList();
-        }}
-        className={baseBtn}
-      >
-        <List size={16} />
-      </button>
-
-      <button
-        type="button"
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={() => {
-          editor?.focus?.();
-          commands.toggleOrderedList();
-        }}
-        className={baseBtn}
-      >
-        <ListOrdered size={16} />
-      </button>
-
-      <div className="w-px h-5 bg-gray-300 mx-1" />
-
-      <button
-        type="button"
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={() => {
-          editor?.focus?.();
-
-          const url = prompt("Enter URL");
-          if (!url) return;
-
-          commands.insertLink(url);
-        }}
-        className={baseBtn}
-      >
-        <Link size={16} />
-      </button>
-
       <div className="ml-auto flex gap-1">
         <button
           type="button"
@@ -134,34 +82,15 @@ function Toolbar() {
   );
 }
 
-function Editor({ onChange }: any) {
+function Editor({ value, onChange, PLACEHOLDER }: any) {
   const { editor } = useEditor();
   const lastRef = useRef("");
   const [wordCount, setWordCount] = useState(0);
-  const MAX_WORDS = 750;
-
-  // useEffect(() => {
-  //   if (!editor) return;
-
-  //   const interval = setInterval(() => {
-  //     editor.getEditorState().read(() => {
-  //       const html = $generateHtmlFromNodes(editor, null) || "";
-  //       console.log(html);
-  //       if (html !== lastRef.current) {
-  //         lastRef.current = html;
-  //         onChange(html);
-  //       }
-  //     });
-  //   }, 300);
-
-  //   return () => clearInterval(interval);
-  // }, [editor, onChange]);
 
   useEffect(() => {
     if (!editor) return;
 
     const isFirstRun = { current: true };
-    const lastRef = { current: "" };
 
     return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
@@ -197,30 +126,24 @@ function Editor({ onChange }: any) {
       <Toolbar />
 
       <RichText
-        placeholder="Your Abstract"
+        placeholder={PLACEHOLDER}
         classNames={{
           container: "p-2",
           contentEditable:
-            "min-h-[200px] outline-none text-gray-800 text-[15px] leading-relaxed",
+            "min-h-[70px] outline-none text-gray-800 text-[15px] leading-relaxed",
           placeholder: "text-gray-400 p-2",
         }}
       />
       <div className="flex justify-between text-sm mt-2 p-2">
-        <p className={wordCount > MAX_WORDS ? "text-red-500" : "text-gray-500"}>
-          Words: {wordCount} / {MAX_WORDS}
-        </p>
-
-        {wordCount > MAX_WORDS && (
-          <p className="text-red-500 font-medium">Limit exceeded!</p>
-        )}
+        <p className={"text-gray-500"}>Words: {wordCount}</p>
       </div>
     </div>
   );
 }
-export function RichEditor({ value, onChange }: any) {
+export function RichEditor({ value, onChange, PLACEHOLDER }: any) {
   return (
     <Provider extensions={extensions}>
-      <Editor value={value} onChange={onChange} />
+      <Editor value={value} onChange={onChange} PLACEHOLDER={PLACEHOLDER} />
     </Provider>
   );
 }

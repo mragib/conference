@@ -45,6 +45,16 @@ export class User {
   @Column({ type: 'timestamp', nullable: true })
   otp_expiry: Date | null;
 
+  @Exclude()
+  @Column({ type: 'text', nullable: true })
+  reset_token: string | null;
+
+  @Column({ type: 'text', nullable: true })
+  invite_token: string | null;
+
+  @Column({ type: 'timestamp', nullable: true })
+  invite_expiry: Date | null;
+
   @Column('simple-enum', { enum: Role, default: Role.RESEARCHER })
   role: Role;
 

@@ -1,22 +1,18 @@
-import { forgotPassword } from "@/action/auth";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import OtpForm from "./OtpForm";
 
-const OtpPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) => {
-  const { email } = await searchParams;
-  if (!email) redirect("/forgot-password");
-  const data = await forgotPassword({ email });
-  if (data.statusCode === 401) {
-    redirect("/forgot-password?error=unauthorized");
+const OtpPage = async () => {
+  const cookieStore = await cookies();
+  const email = cookieStore.get("reset_email");
+
+  if (!email) {
+    redirect("/forgot-password");
   }
   return (
     <Suspense fallback={null}>
-      <OtpForm email={email} />
+      <OtpForm />
     </Suspense>
   );
 };

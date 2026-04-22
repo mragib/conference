@@ -72,7 +72,14 @@ export function changeForDatabaseObject(data: any) {
 }
 
 export const getWordCount = (text: string) => {
-  return text.trim().split(/\s+/).filter(Boolean).length;
+  if (!text) return 0;
+
+  const cleanText = text
+    .replace(/<[^>]*>/g, " ") // remove HTML tags
+    .replace(/&nbsp;/g, " ") // fix non-breaking spaces
+    .replace(/\s+/g, " "); // normalize spaces
+
+  return cleanText.trim() ? cleanText.trim().split(" ").length : 0;
 };
 
 export const formatErrors = (errors?: Record<string, string[]>) => {
@@ -80,3 +87,31 @@ export const formatErrors = (errors?: Record<string, string[]>) => {
 
   return Object.values(errors).flat().join("\n");
 };
+
+export function getPasswordStrength(password: string) {
+  const rules = {
+    length: password.length >= 8,
+    upper: /[A-Z]/.test(password),
+    lower: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  };
+
+  const score = Object.values(rules).filter(Boolean).length;
+
+  let label = "Very Weak";
+  let color = "bg-red-500";
+
+  if (score === 5) {
+    label = "Strong";
+    color = "bg-green-500";
+  } else if (score >= 3) {
+    label = "Medium";
+    color = "bg-yellow-500";
+  } else if (score >= 2) {
+    label = "Weak";
+    color = "bg-orange-500";
+  }
+
+  return { rules, score, label, color };
+}

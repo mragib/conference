@@ -7,7 +7,6 @@ import {
   AdvanceFormState,
   ApiResponse,
   FormState,
-  OtpFormSchema,
   SigninFormSchema,
   SignupFormSchema,
 } from "@/lib/type";
@@ -165,20 +164,6 @@ export const googlesignin = async () => {
   redirect(`${BACKEND_URL}/auth/google/login`);
 };
 
-export const forgotPassword = async ({ email }: { email: string }) => {
-  const response = await fetch(`${BACKEND_URL}/auth/forgot-password`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  const resData = await response.json();
-
-  return resData;
-};
-
 export async function signout(state: ApiResponse, data: FormData) {
   const response = await authFetch(`${BACKEND_URL}/auth/signout`, {
     method: "POST",
@@ -194,24 +179,134 @@ export async function signout(state: ApiResponse, data: FormData) {
   redirect("/");
 }
 
-export async function otp(
-  state: AdvanceFormState,
-  data: FormData,
-): Promise<AdvanceFormState> {
-  const payload: any = Object.fromEntries(data.entries());
+export const forgotPassword = async ({ email }: { email: string }) => {
+  const res = await fetch(`${BACKEND_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
 
-  const validation = OtpFormSchema.safeParse(payload);
+  const data = await res.json();
 
-  if (!validation.success) {
-    const fields: Record<string, string> = {};
+  if (!res.ok) {
+    return { success: false, message: data.message };
+  }
 
-    for (const key of Object.keys(payload)) {
-      fields[key] = payload[key].toString();
-    }
+  // 🍪 store email temporarily (10 min)
+  const cookieStore = await cookies();
+  cookieStore.set("reset_email", email, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true,
+    maxAge: 60 * 10,
+    path: "/",
+  });
+
+  return { success: true };
+};
+
+export const verifyOtp = async (otp: string) => {
+  const cookieStore = await cookies();
+  const email = cookieStore.get("reset_email")?.value;
+
+  if (!email) {
     return {
-      errors: validation.error.flatten().fieldErrors,
-
       success: false,
+      message: "Session expired. Please try again.",
     };
   }
-}
+
+  const res = await fetch(`${BACKEND_URL}/auth/verify-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, otp }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { success: false, message: data.message };
+  }
+
+  // 🍪 store reset token securely
+  cookieStore.set("reset_token", data.resetToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true,
+    maxAge: 60 * 10,
+    path: "/",
+  });
+
+  return { success: true };
+};
+
+export const resetPassword = async (password: string) => {
+  const cookieStore = await cookies();
+
+  const resetToken = cookieStore.get("reset_token")?.value;
+
+  if (!resetToken) {
+    return {
+      success: false,
+      message: "Reset session expired",
+    };
+  }
+
+  const res = await fetch(`${BACKEND_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ resetToken, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { success: false, message: data.message };
+  }
+
+  // 🧹 cleanup cookies
+  cookieStore.delete("reset_email");
+  cookieStore.delete("reset_token");
+
+  return {
+    success: true,
+    message: "Password updated successfully",
+  };
+};
+
+export const validateInvite = async (token: string) => {
+  const res = await fetch(`${BACKEND_URL}/user/validate-invite`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { success: false, message: data.message };
+  }
+  return { success: true, data };
+};
+
+export const setPassword = async ({
+  token,
+  password,
+}: {
+  token: string;
+  password: string;
+}) => {
+  const res = await fetch(`${BACKEND_URL}/auth/set-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, password }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { success: false, message: data.message };
+  }
+
+  return { success: true };
+};

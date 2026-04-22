@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzYzMzExNzgsImV4cCI6MTc3NjkzNTk3OH0.dmG4YSmdkqvDkthXQtENf1UZJs6e_ueVmysfYKxSYpA
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjE5MjRiNi0zZmFkLTQ3ZTgtOWM3OC1jMTBkYjk3NDM3MjciLCJpYXQiOjE3NzY3NDgxMzQsImV4cCI6MTc3NzM1MjkzNH0.QniwyJOzAL0wGSI3KCeAAJHIf8cRGADYlyUEMVZlhwM
 
 ###Sign In ###
 POST http://localhost:8000/auth/signin
@@ -88,6 +88,66 @@ Authorization: Bearer {{token}}
 
 {
     "name":"Geo Politics, Geo Economy and Supply Chain Management"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Supply Chain Finance"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Supply Chain Optimization"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Talent Management in Supply Chain Management"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Outsourcing Logistics Services"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Responsible and Ethical Supply Chain Management"
+    
+}
+
+### Create Topic ###
+POST http://localhost:8000/topic
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name":"Building Adaptive and Risk-Intelligent Supply Chains"
     
 }
 

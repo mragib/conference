@@ -167,7 +167,7 @@ export class AuthService {
   async forgotPassword(email: string) {
     const user = await this.userService.findByEmail(email);
     if (!user) throw new UnauthorizedException('User not found');
-    // Generate OTP and set expiry    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
     const otp_expiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -191,5 +191,46 @@ export class AuthService {
     } catch (error) {
       throw new InternalServerErrorException('Something went wrong');
     }
+  }
+
+  async verifyOtp(email: string, otp: string) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) throw new UnauthorizedException('Invalid request');
+
+    if (user.otp !== otp) {
+      throw new UnauthorizedException('Invalid OTP');
+    }
+
+    if (!user.otp_expiry || new Date() > user.otp_expiry) {
+      throw new UnauthorizedException('OTP expired');
+    }
+
+    // mark verified (temporary token or flag)
+    const resetToken = crypto.randomUUID();
+
+    await this.userService.update(user.id, {
+      reset_token: resetToken,
+      otp: null,
+      otp_expiry: null,
+    });
+
+    return {
+      resetToken,
+      message: 'OTP verified',
+    };
+  }
+
+  async resetPassword(resetToken: string, password: string) {
+    const user = await this.userService.findByResetToken(resetToken);
+    if (!user) throw new UnauthorizedException('Invalid token');
+
+    const hashedPassword = await hash(password);
+
+    await this.userService.update(user.id, {
+      password: hashedPassword,
+      reset_token: null,
+    });
+
+    return { message: 'Password reset successful' };
   }
 }

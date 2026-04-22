@@ -1,23 +1,36 @@
 "use client";
 
+import { forgotPassword } from "@/action/auth";
 import { RotateCcw, Send, X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
 import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [captcha, setCaptcha] = useState({ a: 0, b: 0, userAns: "" });
-  const formRef = useRef<HTMLDivElement>(null);
-
-  const params = useSearchParams();
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  useEffect(() => {
-    if (params.get("error") === "unauthorized") {
-      toast.error("Invalid email", { duration: 5000 });
-    }
-  }, [params]);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    startTransition(async () => {
+      const res = await forgotPassword({ email });
+
+      if (!res.success) {
+        toast.error(res.message);
+        return;
+      }
+
+      toast.success("OTP sent to email");
+
+      // 🔥 go to OTP page (NO email in URL)
+      router.push("/otp");
+    });
+  };
 
   const generateCaptcha = () => {
     setCaptcha({
@@ -32,27 +45,13 @@ const ForgotPasswordForm = () => {
   }, []);
 
   const handleClose = () => {
-    router.back(); // Or router.push('/signin')
+    router.push("/");
   };
 
   const handleOutsideClick = (e: React.MouseEvent) => {
-    if (formRef.current && !formRef.current.contains(e.target as Node)) {
+    if ((e.target as Element).id === "modal") {
       handleClose();
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const isCaptchaCorrect =
-      parseInt(captcha.userAns) === captcha.a + captcha.b;
-
-    if (!isCaptchaCorrect) {
-      toast.error("Mathematical verification failed.");
-      return;
-    }
-
-    router.push(`/otp?email=${email}`);
   };
 
   return (
@@ -142,10 +141,11 @@ const ForgotPasswordForm = () => {
 
             <button
               type="submit"
+              disabled={isPending}
               className="w-full py-3 md:py-4 rounded-xl font-black shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 bg-[#003366] text-white text-xs md:text-sm uppercase tracking-widest cursor-pointer active:scale-[0.98] hover:bg-[#002147]"
             >
               <Send size={16} />
-              Send otp
+              {isPending ? "Sending..." : "Send OTP"}
             </button>
           </form>
         </div>
