@@ -78,7 +78,7 @@ export default function Guidelines() {
       icon: BadgeDollarSign,
       color: "text-emerald-500",
       bg: "bg-emerald-500/10",
-      link: "pricing",
+      link: "/pricing",
       isModal: false,
     },
   ];
