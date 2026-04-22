@@ -51,6 +51,11 @@ export default function Committee() {
       title: "RMIT University, Melbourne",
     },
     {
+      name: "Dr. Md. Rezaul Hasan Shumon",
+      role: "Assistant Professor",
+      title: "Sultan Qaboos University, Muscat",
+    },
+    {
       name: "Dr. Partha Priya Datta",
       role: "Professor",
       title: "Indian Institute of Management-Calcutta",
