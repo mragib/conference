@@ -194,6 +194,8 @@ export const AbstractFormSchema = z
 
     practical: z.string().trim().min(1, "Practical Implications is required"),
 
+    references: z.string().trim().min(1, "References is required"),
+
     ip_address: z.string().trim().optional(),
 
     co_authors: z
@@ -219,7 +221,8 @@ export const AbstractFormSchema = z
         getWordCount(data.methodology) +
         getWordCount(data.findings) +
         getWordCount(data.theoretical) +
-        getWordCount(data.practical);
+        getWordCount(data.practical) +
+        getWordCount(data.references);
 
       return total <= 750;
     },

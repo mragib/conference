@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -7,7 +8,9 @@ import {
 } from '@nestjs/common';
 import type { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import * as argon2 from 'argon2';
 import { hash, verify } from 'argon2';
+import * as crypto from 'crypto';
 import refreshConfig from 'src/config/refresh.config';
 import { MailService } from 'src/mail/mail.service';
 import { ProfileService } from 'src/profile/profile.service';
@@ -101,7 +104,7 @@ export class AuthService {
   }
 
   async validateUserById(userId: string) {
-    const user = await this.userService.findOne(userId);
+    const user = await this.userService.findById(userId);
     if (!user) throw new UnauthorizedException('User not found');
     return {
       id: user.id,
@@ -111,16 +114,16 @@ export class AuthService {
   }
 
   async validateRefreshToken(userId: string, refreshToken: string) {
-    const user = await this.userService.findOne(userId);
+    const user = await this.userService.findById(userId);
     if (!user) throw new UnauthorizedException('User not found');
-
-    const hashedRefreshToken = await hash(refreshToken);
-    await this.userService.updateRefreshToken(userId, hashedRefreshToken);
 
     const isRefreshTokenValid = await verify(user.refreshToken!, refreshToken);
 
     if (!isRefreshTokenValid)
       throw new UnauthorizedException('Invalid refresh token');
+
+    const hashedRefreshToken = await hash(refreshToken);
+    await this.userService.updateRefreshToken(userId, hashedRefreshToken);
 
     return {
       id: user.id,
@@ -157,7 +160,7 @@ export class AuthService {
   }
 
   async getProfile(user: User) {
-    const foundUser = await this.userService.findOne(user.id);
+    const foundUser = await this.userService.findById(user.id);
     if (!foundUser) throw new NotFoundException('User is not found');
 
     user.email = foundUser.email;
@@ -185,8 +188,8 @@ export class AuthService {
         { otp },
       );
       return {
-        otp,
         status: 'success',
+        message: 'OTP sent to email',
       };
     } catch (error) {
       throw new InternalServerErrorException('Something went wrong');
@@ -207,11 +210,18 @@ export class AuthService {
 
     // mark verified (temporary token or flag)
     const resetToken = crypto.randomUUID();
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    const reset_token_expiry = new Date(Date.now() + 10 * 60 * 1000); // reset token valid for 10 minutes
 
     await this.userService.update(user.id, {
       reset_token: resetToken,
       otp: null,
       otp_expiry: null,
+      reset_token_expiry,
     });
 
     return {
@@ -224,6 +234,10 @@ export class AuthService {
     const user = await this.userService.findByResetToken(resetToken);
     if (!user) throw new UnauthorizedException('Invalid token');
 
+    if (!user.reset_token_expiry || user.reset_token_expiry < new Date()) {
+      throw new UnauthorizedException('Reset token expired');
+    }
+
     const hashedPassword = await hash(password);
 
     await this.userService.update(user.id, {
@@ -231,6 +245,80 @@ export class AuthService {
       reset_token: null,
     });
 
-    return { message: 'Password reset successful' };
+    const { accessToken, refreshToken } = await this.generateToken(user.id);
+
+    return {
+      success: true,
+      accessToken,
+      refreshToken,
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+  }
+
+  async validateInvite(token: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await this.userService.findOne({
+      where: { invite_token: hashedToken },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid invite link');
+    }
+
+    if (!user.invite_expiry || user.invite_expiry < new Date()) {
+      throw new UnauthorizedException('Invite expired');
+    }
+
+    if (user.is_active) {
+      throw new UnauthorizedException('Account already activated');
+    }
+
+    return {
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
+  }
+
+  async setPassword(token: string, password: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await this.userService.findOne({
+      where: { invite_token: hashedToken },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid or expired invitation link');
+    }
+
+    if (!user.invite_expiry || user.invite_expiry < new Date()) {
+      throw new UnauthorizedException('Invitation link expired');
+    }
+
+    if (user.is_active) {
+      throw new BadRequestException('Account already activated');
+    }
+
+    const hashedPassword = await argon2.hash(password);
+
+    await this.userService.update(user.id, {
+      password: hashedPassword,
+      is_active: true,
+      invite_token: null,
+      invite_expiry: null,
+    });
+    const { accessToken, refreshToken } = await this.generateToken(user.id);
+
+    return {
+      success: true,
+      accessToken,
+      refreshToken,
+      id: user.id,
+      name: user.name,
+      role: user.role,
+    };
   }
 }

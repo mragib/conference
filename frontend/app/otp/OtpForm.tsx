@@ -41,7 +41,7 @@ export default function OtpForm() {
 
             <button
               disabled={isPending}
-              className="w-full py-3 bg-[#003366] text-white rounded-xl"
+              className="w-full py-3 bg-[#003366] text-white rounded-xl cursor-pointer"
             >
               {isPending ? "Verifying..." : "Verify OTP"}
             </button>

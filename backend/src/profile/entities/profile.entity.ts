@@ -22,7 +22,7 @@ export class Profile {
   @Column({ length: 150 })
   last_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   contact_number: string;
 
   @Column({ length: 70 })

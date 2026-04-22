@@ -41,7 +41,7 @@ const SignupForm = () => {
     }
 
     if (state.success === false && state.errors) {
-      toast.error(Object.values(state.errors).flat().join("\n"));
+      toast.error(state.errors);
     }
   }, [isSubmitSuccessful, state, router]);
 
@@ -62,7 +62,7 @@ const SignupForm = () => {
       }
     });
 
-    action(formData);
+    await action(formData);
   };
 
   const modalRef = useRef<HTMLDivElement>(null);

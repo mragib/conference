@@ -1,7 +1,7 @@
 "use client";
-import { RichEditor } from "@/components/RichEditor";
 import FloatingInput from "@/components/ui/FloatingInput";
 import FloatingSelect from "@/components/ui/FloatingSelect";
+import FloatingTextArea from "@/components/ui/FloatingTextarea";
 import { createAbstract } from "@/lib/data-service";
 import { AbstractFormSchema, Topic } from "@/lib/type";
 import { changeForSelectArray, getWordCount } from "@/lib/utils";
@@ -90,62 +90,29 @@ const AbstractSubmitForm = ({
     console.log(errors);
   }
 
-  const getTotalWords = (override?: { name: string; value: string }) => {
-    const values = getValues();
+  const purpose = watch("purpose");
+  const methodology = watch("methodology");
+  const findings = watch("findings");
+  const theoretical = watch("theoretical");
+  const practical = watch("practical");
+  const references = watch("references");
 
-    const data = {
-      purpose: values.purpose,
-      methodology: values.methodology,
-      findings: values.findings,
-      theoretical: values.theoretical,
-      practical: values.practical,
-    };
-
-    // override current field being edited
-    if (override) {
-      data[override.name] = override.value;
-    }
-
-    return (
-      getWordCount(data.purpose) +
-      getWordCount(data.methodology) +
-      getWordCount(data.findings) +
-      getWordCount(data.theoretical) +
-      getWordCount(data.practical)
-    );
+  const words = {
+    purpose: getWordCount(purpose),
+    methodology: getWordCount(methodology),
+    findings: getWordCount(findings),
+    theoretical: getWordCount(theoretical),
+    practical: getWordCount(practical),
+    references: getWordCount(references),
   };
 
-  const handleEditorChange = (name: string, field, val: string) => {
-    const totalWithoutCurrent = getTotalWords({
-      name,
-      value: "",
-    });
-
-    const currentWords = getWordCount(val);
-    const allowed =
-      750 - (totalWithoutCurrent - getWordCount(getValues()[name]));
-
-    if (currentWords <= allowed) {
-      field.onChange(val);
-    } else {
-      toast.error("Word limit exceeded (750)");
-    }
-  };
-
-  const watchedValues = watch([
-    "purpose",
-    "methodology",
-    "findings",
-    "theoretical",
-    "practical",
-  ]);
-
-  const words =
-    getWordCount(watchedValues[0]) +
-    getWordCount(watchedValues[1]) +
-    getWordCount(watchedValues[2]) +
-    getWordCount(watchedValues[3]) +
-    getWordCount(watchedValues[4]);
+  const total =
+    words.purpose +
+    words.methodology +
+    words.findings +
+    words.theoretical +
+    words.practical +
+    words.references;
 
   return (
     <form
@@ -193,6 +160,91 @@ const AbstractSubmitForm = ({
             </p>
           </div>
 
+          {/* Abstract */}
+          <div className="grid gap-4 mb-4">
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="Purpose"
+                {...register("purpose", { required: true })}
+                error={rhfErrors.purpose?.message}
+              />
+
+              <div
+                className={`absolute ${rhfErrors.purpose?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.purpose} words
+              </div>
+            </div>
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="Methodology"
+                {...register("methodology", { required: true })}
+                error={rhfErrors.methodology?.message}
+              />
+              <div
+                className={`absolute ${rhfErrors.methodology?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.methodology} words
+              </div>
+            </div>
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="Findings"
+                {...register("findings", { required: true })}
+                error={rhfErrors.findings?.message}
+              />
+              <div
+                className={`absolute ${rhfErrors.findings?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.findings} words
+              </div>
+            </div>
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="Theoretical Implications"
+                {...register("theoretical", { required: true })}
+                error={rhfErrors.theoretical?.message}
+              />
+              <div
+                className={`absolute ${rhfErrors.theoretical?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.theoretical} words
+              </div>
+            </div>
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="Practical Implications"
+                {...register("practical", { required: true })}
+                error={rhfErrors.practical?.message}
+              />
+              <div
+                className={`absolute ${rhfErrors.practical?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.practical} words
+              </div>
+            </div>
+            <div className="relative space-y-3">
+              <FloatingTextArea
+                label="References"
+                {...register("references", { required: true })}
+                error={rhfErrors.references?.message}
+              />
+              <div
+                className={`absolute ${rhfErrors.references?.message ? " bottom-10" : " bottom-4 "} right-3 text-[11px] text-gray-500 bg-white px-1 pointer-events-none`}
+              >
+                {words.references} words
+              </div>
+            </div>
+            <p
+              className={`text-sm ${
+                total > 750 ? "text-red-500 font-semibold" : "text-gray-500"
+              }`}
+            >
+              {total > 750
+                ? `Exceeded by ${total - 750} words`
+                : `Remaining: ${750 - total} words`}
+            </p>
+          </div>
           {/* Keywords */}
           <div className="space-y-1">
             <FloatingInput
@@ -201,155 +253,10 @@ const AbstractSubmitForm = ({
               error={rhfErrors.keyword?.message}
             />
             <p className="text-xs text-slate-500 leading-relaxed">
-              Provide up to six relevant keywords that reflect the core themes
+              Provide up to five relevant keywords that reflect the core themes
               of the study.(seperated by comma)
             </p>
           </div>
-
-          {/* Abstract */}
-          {/* <div className="space-y-2">
-          <label className="label">Abstract</label>
-          <textarea
-            {...register("description", { required: true, maxLength: 750 })}
-            rows={5}
-            placeholder="Write your abstract here..."
-            className={`${errors.description ? "border-red-500" : "border-slate-100"} input-style resize-none`}
-          />
-          <p className="text-xs text-slate-500 leading-relaxed">
-            A structured abstract (maximum 500-750 words) including the
-            following elements: Purpose, Design/Methodology, Findings, Research
-            Implications, Practical Implications
-          </p>
-        </div> */}
-          <div className="space-y-3">
-            <Controller
-              name="purpose"
-              control={control}
-              rules={{ required: "Purpose is required" }}
-              render={({ field }) => (
-                <div className="space-y-2">
-                  <RichEditor
-                    key={`purpose-${resetKey}`}
-                    value={field.value}
-                    onChange={(val) =>
-                      handleEditorChange("purpose", field, val)
-                    }
-                    PLACEHOLDER="Purpose"
-                  />
-                  {rhfErrors.purpose && (
-                    <p className="text-xs text-red-500">
-                      {rhfErrors.purpose.message}
-                    </p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="space-y-3">
-            <Controller
-              name="methodology"
-              control={control}
-              rules={{ required: "Methodology is required" }}
-              render={({ field }) => (
-                <div className="space-y-2">
-                  <RichEditor
-                    key={`methodology-${resetKey}`}
-                    value={field.value}
-                    onChange={(val) =>
-                      handleEditorChange("methodology", field, val)
-                    }
-                    PLACEHOLDER="Methodology"
-                  />
-                  {rhfErrors.methodology && (
-                    <p className="text-xs text-red-500">
-                      {rhfErrors.methodology.message}
-                    </p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="space-y-3">
-            <Controller
-              name="findings"
-              control={control}
-              rules={{ required: "Findings is required" }}
-              render={({ field }) => (
-                <div className="space-y-2">
-                  <RichEditor
-                    key={`findings-${resetKey}`}
-                    value={field.value}
-                    onChange={(val) =>
-                      handleEditorChange("findings", field, val)
-                    }
-                    PLACEHOLDER="Findings"
-                  />
-                  {rhfErrors.findings && (
-                    <p className="text-xs text-red-500">
-                      {rhfErrors.findings.message}
-                    </p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="space-y-3">
-            <Controller
-              name="theoretical"
-              control={control}
-              rules={{ required: "Theoretical is required" }}
-              render={({ field }) => (
-                <div className="space-y-2">
-                  <RichEditor
-                    key={`theoretical-${resetKey}`}
-                    value={field.value}
-                    onChange={(val) =>
-                      handleEditorChange("theoretical", field, val)
-                    }
-                    PLACEHOLDER="Theoretical Implications"
-                  />
-                  {rhfErrors.theoretical && (
-                    <p className="text-xs text-red-500">
-                      {rhfErrors.theoretical.message}
-                    </p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="space-y-3">
-            <Controller
-              name="practical"
-              control={control}
-              rules={{ required: "Practical is required" }}
-              render={({ field }) => (
-                <div className="space-y-2">
-                  <RichEditor
-                    key={`practical-${resetKey}`}
-                    value={field.value}
-                    onChange={(val) =>
-                      handleEditorChange("practical", field, val)
-                    }
-                    PLACEHOLDER="Practical Implications"
-                  />
-                  {rhfErrors.practical && (
-                    <p className="text-xs text-red-500">
-                      {rhfErrors.practical.message}
-                    </p>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <p
-            className={`text-sm ${
-              words > 750 ? "text-red-500 font-semibold" : "text-gray-500"
-            }`}
-          >
-            {words > 750
-              ? `Exceeded by ${words - 750} words`
-              : `Remaining: ${750 - words} words`}
-          </p>
         </div>
       </div>
 

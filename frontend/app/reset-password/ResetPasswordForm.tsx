@@ -2,6 +2,7 @@
 
 import { resetPassword } from "@/action/auth";
 import PasswordStrength from "@/components/PasswordStrength";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
@@ -9,6 +10,8 @@ import toast from "react-hot-toast";
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -30,7 +33,9 @@ export default function ResetPasswordForm() {
       }
 
       toast.success("Password updated");
-      router.push("/signin");
+
+      // 🔥 redirect to dashboard (AUTO LOGIN)
+      router.push("/dashboard");
     });
   };
 
@@ -44,32 +49,52 @@ export default function ResetPasswordForm() {
         <form action={handleSubmit} className="space-y-4">
           {/* Password */}
           <div>
-            <input
-              name="password"
-              type="password"
-              placeholder="New Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border rounded-xl"
-            />
+            <div className="relative">
+              <input
+                name="password"
+                type={showPass ? "text" : "password"}
+                placeholder="New Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border rounded-xl"
+              />
 
-            {/* 🔥 LIVE STRENGTH UI */}
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+              >
+                {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* 🔥 Strength */}
             <PasswordStrength password={password} />
           </div>
 
           {/* Confirm */}
-          <input
-            name="confirm"
-            type="password"
-            placeholder="Confirm Password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className="w-full px-4 py-3 border rounded-xl"
-          />
+          <div className="relative">
+            <input
+              name="confirm"
+              type={showConfirm ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowConfirm(!showConfirm)}
+              className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+            >
+              {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
           <button
             disabled={isPending}
-            className="w-full py-3 bg-[#003366] text-white rounded-xl"
+            className="w-full py-3 bg-[#003366] text-white rounded-xl cursor-pointer"
           >
             {isPending ? "Updating..." : "Reset Password"}
           </button>
