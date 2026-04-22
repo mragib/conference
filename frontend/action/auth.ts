@@ -46,7 +46,7 @@ export async function signup(
   if (!response.ok) {
     const resData = await response.json();
     return {
-      errors: resData.error,
+      errors: resData.message,
       success: false,
     };
   }
@@ -268,6 +268,16 @@ export const resetPassword = async (password: string) => {
   cookieStore.delete("reset_email");
   cookieStore.delete("reset_token");
 
+  await createSession({
+    user: {
+      id: data.id, // make sure backend returns this if needed
+      name: data.name,
+      role: data.role,
+    },
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+  });
+
   return {
     success: true,
     message: "Password updated successfully",
@@ -275,7 +285,7 @@ export const resetPassword = async (password: string) => {
 };
 
 export const validateInvite = async (token: string) => {
-  const res = await fetch(`${BACKEND_URL}/user/validate-invite`, {
+  const res = await fetch(`${BACKEND_URL}/auth/validate-invite`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token }),
@@ -308,5 +318,18 @@ export const setPassword = async ({
     return { success: false, message: data.message };
   }
 
-  return { success: true };
+  await createSession({
+    user: {
+      id: data.id, // make sure backend returns this if needed
+      name: data.name,
+      role: data.role,
+    },
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+  });
+
+  return {
+    success: true,
+    message: "Password updated successfully",
+  };
 };

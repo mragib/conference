@@ -1,21 +1,25 @@
 import { validateInvite } from "@/action/auth";
 import { redirect } from "next/navigation";
+import SetPasswordForm from "./SetPasswordForm";
 
 const SetPasswordPage = async ({
   searchParams,
 }: {
   searchParams: { token?: string };
 }) => {
-  const token = searchParams.token;
+  const { token } = await searchParams;
+  console.log("token", token);
   if (!token) {
     redirect("/invalid-link");
   }
 
   const isValidToken = await validateInvite(token);
 
-  console.log("isValidToken", isValidToken);
+  if (!isValidToken.success) {
+    redirect("/invalid-link");
+  }
 
-  return <div>SetPasswordPage</div>;
+  return <SetPasswordForm token={token} />;
 };
 
 export default SetPasswordPage;

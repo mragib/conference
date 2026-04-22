@@ -3,7 +3,6 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,7 +10,7 @@ import { hash } from 'argon2';
 import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
 import { ApiResponse, Role } from 'src/types/types';
-import { In, IsNull, Not, Repository } from 'typeorm';
+import { FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
 import {
   ChangeRoleDto,
   CreateGoogleUserDto,
@@ -54,7 +53,7 @@ export class UserService {
     const { userId } = changeRole;
 
     try {
-      const user = await this.findOne(userId);
+      const user = await this.findById(userId);
 
       if (!user) throw new NotFoundException('User is not found');
 
@@ -130,15 +129,15 @@ export class UserService {
   //   });
   // }
 
-  findOne(id: string) {
-    return this.userRepository.findOne({ where: { id, deletedAt: IsNull() } });
+  findOne(condition: FindOneOptions<User>): Promise<User | null> {
+    return this.userRepository.findOne(condition);
   }
 
   async update(
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<ApiResponse<User>> {
-    const user = await this.findOne(id);
+    const user = await this.findById(id);
 
     if (!user) {
       throw new NotFoundException('User is not found');
@@ -282,29 +281,12 @@ export class UserService {
     });
   }
 
-  async validateInvite(token: string) {
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
-    const user = await this.userRepository.findOne({
-      where: { invite_token: hashedToken },
+  async findById(id: string) {
+    return await this.userRepository.findOne({
+      where: {
+        id,
+        deletedAt: IsNull(),
+      },
     });
-
-    if (!user) {
-      throw new UnauthorizedException('Invalid invite link');
-    }
-
-    if (!user.invite_expiry || user.invite_expiry < new Date()) {
-      throw new UnauthorizedException('Invite expired');
-    }
-
-    if (user.is_active) {
-      throw new UnauthorizedException('Account already activated');
-    }
-
-    return {
-      email: user.email,
-      name: user.name,
-      role: user.role,
-    };
   }
 }

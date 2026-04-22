@@ -1,6 +1,8 @@
 "use client";
 
 import { setPassword } from "@/action/auth";
+import PasswordStrength from "@/components/PasswordStrength";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import toast from "react-hot-toast";
@@ -8,6 +10,8 @@ import toast from "react-hot-toast";
 export default function SetPasswordForm({ token }: { token: string }) {
   const [password, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -30,7 +34,7 @@ export default function SetPasswordForm({ token }: { token: string }) {
 
       toast.success("Account activated");
 
-      router.push("/signin");
+      router.push("/dashboard");
     });
   };
 
@@ -40,29 +44,56 @@ export default function SetPasswordForm({ token }: { token: string }) {
         <h2 className="text-xl font-bold mb-4">Set Your Password</h2>
 
         <form action={handleSubmit} className="space-y-4">
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPass(e.target.value)}
-            className="w-full p-3 border rounded-xl"
-          />
+          {/* Password */}
+          <div>
+            <div className="relative">
+              <input
+                name="password"
+                type={showPass ? "text" : "password"}
+                placeholder="New Password"
+                value={password}
+                onChange={(e) => setPass(e.target.value)}
+                className="w-full px-4 py-3 border rounded-xl"
+              />
 
-          <input
-            name="confirm"
-            type="password"
-            placeholder="Confirm Password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            className="w-full p-3 border rounded-xl"
-          />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-3 text-gray-500"
+              >
+                {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* 🔥 Strength */}
+            <PasswordStrength password={password} />
+          </div>
+
+          {/* Confirm */}
+          <div className="relative">
+            <input
+              name="confirm"
+              type={showConfirm ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowConfirm(!showConfirm)}
+              className="absolute right-3 top-3 text-gray-500"
+            >
+              {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
           <button
             disabled={isPending}
-            className="w-full py-3 bg-[#003366] text-white rounded-xl"
+            className="w-full py-3 bg-[#003366] text-white rounded-xl cursor-pointer"
           >
-            {isPending ? "Setting..." : "Set Password"}
+            {isPending ? "Updating..." : "Reset Password"}
           </button>
         </form>
       </div>

@@ -95,4 +95,16 @@ export class AuthController {
   async resetPassword(@Body() body: { resetToken: string; password: string }) {
     return this.authService.resetPassword(body.resetToken, body.password);
   }
+
+  @Public()
+  @Post('validate-invite')
+  async validateInvite(@Body() body: { token: string }) {
+    return this.authService.validateInvite(body.token);
+  }
+
+  @Public()
+  @Post('set-password')
+  async setPassword(@Body() body: { token: string; password: string }) {
+    return this.authService.setPassword(body.token, body.password);
+  }
 }

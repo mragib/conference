@@ -38,7 +38,7 @@ export class UserController {
   @Roles(Role.SUPERADMIN, Role.ADMIN)
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+    return this.userService.findById(id);
   }
 
   @Roles(Role.SUPERADMIN, Role.ADMIN)

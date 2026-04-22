@@ -51,6 +51,10 @@ export class CreateUserDto {
   @IsOptional()
   reset_token?: string | null;
 
+  @IsString()
+  @IsOptional()
+  reset_token_expiry?: Date | null;
+
   @IsDate()
   @IsOptional()
   invite_expiry?: Date | null;

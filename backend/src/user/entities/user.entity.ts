@@ -9,6 +9,7 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
+  Index,
   ManyToMany,
   OneToMany,
   OneToOne,
@@ -26,15 +27,16 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   is_active: boolean;
 
   @Exclude()
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Exclude()
   @Column({ type: 'text', nullable: true })
+  @Index()
   refreshToken: string | null;
 
   @Exclude()
@@ -47,7 +49,12 @@ export class User {
 
   @Exclude()
   @Column({ type: 'text', nullable: true })
+  @Index()
   reset_token: string | null;
+
+  @Exclude()
+  @Column({ type: 'timestamp', nullable: true })
+  reset_token_expiry: Date | null;
 
   @Column({ type: 'text', nullable: true })
   invite_token: string | null;
@@ -68,7 +75,10 @@ export class User {
   @OneToMany(() => Abstract, (item) => item.user)
   abstract: Abstract[];
 
-  @ManyToMany(() => Topic, (item) => item.user, { cascade: true })
+  @ManyToMany(() => Topic, (item) => item.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   topic: Topic[];
 
   @OneToMany(() => AbstractReview, (item) => item.user)
