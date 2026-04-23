@@ -1,5 +1,8 @@
 "use client";
 
+import { sendContact } from "@/lib/data-service";
+import { ContactSchema } from "@/lib/type";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CheckCircle2,
   Globe,
@@ -10,14 +13,28 @@ import {
   RefreshCw,
   Send,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import z from "zod";
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, userAnswer: "" });
+  const [state, action, isPending] = useActionState(sendContact, {
+    success: false,
+  });
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof ContactSchema>>({
+    resolver: zodResolver(ContactSchema),
+  });
+
+  const [isTransitioning, startTransition] = useTransition();
   const generateCaptcha = () => {
     setCaptcha({
       num1: Math.floor(Math.random() * 10) + 1,
@@ -27,8 +44,19 @@ export default function Contact() {
   };
 
   useEffect(() => {
-    generateCaptcha();
-  }, []);
+    if (!state) return;
+
+    if (state.success) {
+      toast.success("Acknowledgement sent to your email!");
+      setIsSubmitted(true);
+    }
+
+    if (state.errors) {
+      const allErrors = Object.values(state.errors).flat();
+
+      allErrors.forEach((err) => toast.error(err));
+    }
+  }, [state]);
 
   // Effect to reset captcha whenever user decides to send another message
   useEffect(() => {
@@ -37,44 +65,23 @@ export default function Contact() {
     }
   }, [isSubmitted]);
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const form = e.target;
-
+  const onSubmit = (data: z.infer<typeof ContactSchema>) => {
     if (parseInt(captcha.userAnswer) !== captcha.num1 + captcha.num2) {
-      toast.error("Incorrect captcha answer. Please try again.");
+      toast.error("Incorrect captcha answer");
       generateCaptcha();
       return;
     }
 
-    setLoading(true);
+    const formData = new FormData();
 
-    const formData = {
-      name: form.fullName.value,
-      email: form.email.value,
-      message: form.message.value,
-    };
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setLoading(false);
-        setIsSubmitted(true);
-        toast.success("Acknowledgement sent to your email!");
-      } else {
-        throw new Error("Failed to send");
-      }
-    } catch (error) {
-      setLoading(false);
-      toast.error("Error sending message. Please try again later.");
-    }
+    startTransition(() => {
+      action(formData);
+    });
   };
-
   return (
     // Adjusted py-24 to py-12 and used min-h-[calc(100vh-80px)] to fit viewport
     <section className="py-12 lg:py-16 bg-white min-h-screen flex flex-col justify-center">
@@ -165,7 +172,7 @@ export default function Contact() {
           <div className="relative">
             {!isSubmitted ? (
               <form
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 className="bg-white p-6 lg:p-8 rounded-[2rem] border border-slate-200 shadow-sm space-y-4 animate-in fade-in duration-500 h-full flex flex-col justify-center"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -174,7 +181,7 @@ export default function Contact() {
                       Full Name
                     </label>
                     <input
-                      name="fullName"
+                      {...register("fullName")}
                       type="text"
                       required
                       placeholder="Your Name"
@@ -186,7 +193,7 @@ export default function Contact() {
                       Email Address
                     </label>
                     <input
-                      name="email"
+                      {...register("email")}
                       type="email"
                       required
                       placeholder="email@example.com"
@@ -200,7 +207,7 @@ export default function Contact() {
                     Message
                   </label>
                   <textarea
-                    name="message"
+                    {...register("message")}
                     rows={2}
                     required
                     placeholder="How can we help?"
@@ -216,7 +223,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={generateCaptcha}
-                      className="text-slate-400 hover:text-[#C5A059] transition-colors"
+                      className="text-slate-400 hover:text-[#C5A059] transition-colors cursor-pointer"
                     >
                       <RefreshCw size={16} />
                     </button>

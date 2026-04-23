@@ -1,0 +1,55 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Acknowledgment - Conference DBA 2026
+
+  //- Define page-level variables (since header/footer now manage their own colors)
+  - const bgLight = "#FDFCFB"
+
+  body(style=`margin:0; padding:0; background-color:${bgLight}; font-family:'Segoe UI', Arial, sans-serif;`)
+    .wrapper(style="padding: 30px 10px;")
+      .container(style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f1f5f9;")
+
+        //- ✅ Use reusable header
+        include header
+
+        .content(style="padding: 40px;")
+          h2(style=`color:${brandBlue}; font-size:22px; font-weight:900; margin-top:0; letter-spacing:-0.5px;`)
+            | Dear #{fullName},
+
+          p(style="color:#475569; font-size:15px; line-height:1.8;")
+            | Thank you for contacting the 
+            strong International Conference on Economics, Business and Technology Management (ICEBTM) 2026
+            | .
+
+          p(style="color:#475569; font-size:15px; line-height:1.8;")
+            | We have received your message and our organizing committee at 
+            strong East West University
+            |  is currently reviewing your request. You can expect a response within 
+            strong 24 to 48 hours
+            | .
+
+          .info-box(style="margin:35px 0; padding:25px; border:2px dashed #edf2f7; border-radius:16px; text-align:center; background:#fafafa;")
+            p(style=`margin:0; font-size:12px; color:${brandBlue}; font-weight:900; text-transform:uppercase; letter-spacing:1px;`)
+              | Did you know?
+
+            p(style="margin:8px 0 18px; font-size:13px; color:#64748b;")
+              | The submission window for Scopus Indexed Proceedings is currently active.
+
+            a(href="https://your-website-url.com/guidelines" style=`background:${brandBlue}; color:#ffffff; padding:12px 24px; border-radius:10px; text-decoration:none; font-size:11px; font-weight:bold; text-transform:uppercase;`)
+              | View Guidelines
+
+          .footer-top(style="border-top:1px solid #f1f5f9; padding-top:30px; margin-top:30px;")
+            p(style=`margin:0; color:${brandBlue}; font-weight:900; font-size:14px;`)
+              | Regards,
+
+            p(style="margin:2px 0 0; color:#64748b; font-size:14px; font-weight:600;")
+              | Organizing Committee
+
+            p(style=`margin:0; color:${brandGold}; font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:1.5px;`)
+              | SCM Conference 2026
+
+        //- ✅ Use reusable footer
+        include footer

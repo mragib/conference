@@ -1,0 +1,23 @@
+//- HEADER COMPONENT WITH BUILT-IN BRAND COLORS
+
+- const brandBlue = "#003366"
+- const brandGold = "#C5A059"
+- const ewuLogo = "https://www.ewubd.edu/storage/app/media/logo/EWU_Logo.png"
+
+.header(style=`background-color:${brandBlue}; padding:30px 40px; text-align:left;`)
+  table(width="100%" border="0" cellspacing="0" cellpadding="0")
+    tr
+      td(width="70" style="vertical-align:middle;")
+        img(
+          src=ewuLogo
+          alt="EWU"
+          style="height:55px; width:auto; display:block; background:rgba(255,255,255,0.1); padding:5px; border-radius:8px;"
+        )
+
+      td(style="padding-left:20px; vertical-align:middle;")
+        h1(style="margin:0; color:#ffffff; font-size:24px; font-weight:900; letter-spacing:-0.5px; text-transform:uppercase;")
+          | SCM 
+          span(style=`color:${brandGold};`) CONFERENCE
+
+        p(style="margin:2px 0 0; color:#94a3b8; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2.5px;")
+          | INTERNATIONAL 2026

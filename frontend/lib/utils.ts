@@ -115,3 +115,20 @@ export function getPasswordStrength(password: string) {
 
   return { rules, score, label, color };
 }
+export function parseApiError(message: unknown): string | string[] {
+  if (!message) return "Something went wrong";
+
+  if (Array.isArray(message)) {
+    return message;
+  }
+
+  if (typeof message === "object") {
+    return Object.values(message as Record<string, any>).flat() as string[];
+  }
+
+  if (typeof message === "string") {
+    return message;
+  }
+
+  return "Something went wrong";
+}

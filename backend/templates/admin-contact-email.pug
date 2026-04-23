@@ -1,0 +1,46 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title New Contact Message - Conference DBA 2026
+
+  body(style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;")
+    .wrapper(style="padding:30px 10px;")
+      .container(style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;")
+
+        //- HEADER
+        include header
+
+        .content(style="padding:40px;")
+
+          p(style="font-size:10px; color:#C5A059; font-weight:900; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;")
+            | New Contact Message
+
+          //- Sender Info Box
+          .info-box(style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #edf2f7; margin-bottom:25px;")
+
+            p(style="margin:0; color:#64748b; font-size:12px; font-weight:bold; text-transform:uppercase;")
+              | Sender Name
+            p(style="margin:4px 0 12px; color:#003366; font-size:16px; font-weight:800;")
+              | #{fullName}
+
+            p(style="margin:0; color:#64748b; font-size:12px; font-weight:bold; text-transform:uppercase;")
+              | Sender Email
+            p(style="margin:4px 0 12px; color:#475569; font-size:14px; font-weight:600;")
+              | #{email}
+
+          //- Message Section
+          p(style="font-size:10px; color:#C5A059; font-weight:900; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;")
+            | Message
+
+          .message-box(style="background:#ffffff; padding:20px; border-radius:12px; border:1px solid #f1f5f9; border-left:4px solid #003366; color:#334155; line-height:1.6;")
+            | #{message}
+
+          //- Action Button
+          .action(style="margin-top:35px; text-align:center;")
+            a(href=`mailto:${email}` style="display:inline-block; background:#003366; color:#ffffff; padding:14px 30px; border-radius:12px; text-decoration:none; font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:1px;")
+              | Reply to Sender
+
+        //- FOOTER
+        include footer

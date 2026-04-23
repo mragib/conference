@@ -12,9 +12,10 @@ const Form: React.FC<FormProps> = ({
   children,
   ...props
 }) => {
-  const baseClasses = "overflow-hidden text-sm";
+  const baseClasses = "text-sm";
 
-  const regularClasses = "p-6 bg-white border border-gray-200 rounded-md";
+  const regularClasses =
+    "p-6 bg-white border border-gray-200 rounded-md max-h-[80vh] overflow-y-auto";
   const modalClasses = "w-[80rem]";
 
   const classes = `${baseClasses} ${

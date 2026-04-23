@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import Form from "@/components/ui/Form";
 import FormRow from "@/components/ui/FormRow";
 import { Input } from "@/components/ui/input";
-import { addReviewerService } from "@/lib/data-service";
+import { addReviewerService, updateReviewerService } from "@/lib/data-service";
 import { ApiResponse, APIStatus, REVEIWER_USER, Topic } from "@/lib/type";
 
 import { useEffect, useState } from "react";
@@ -72,7 +72,10 @@ const CreateUserForm = ({
       formData.append(key, String(value));
     }
     formData.append("topic", JSON.stringify(selectedTopics));
-    const result = await addReviewerService(undefined, formData);
+
+    const result = editId
+      ? await updateReviewerService(undefined, editId, formData)
+      : await addReviewerService(undefined, formData);
 
     setState(result);
   };

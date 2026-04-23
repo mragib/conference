@@ -7,7 +7,7 @@ import { AbstractFormSchema, Topic } from "@/lib/type";
 import { changeForSelectArray, getWordCount } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send, Trash } from "lucide-react";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useTransition } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -23,9 +23,7 @@ const AbstractSubmitForm = ({
     success: false,
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const [resetKey, setResetKey] = useState(0);
+  const [isTransitioning, startTransition] = useTransition();
 
   const {
     register,
@@ -60,23 +58,39 @@ const AbstractSubmitForm = ({
     name: "co_authors",
   });
 
+  // useEffect(() => {
+  //   if (isSubmitSuccessful && state?.success) {
+  //     toast.success("Abstract created successfully!");
+  //   }
+  // }, [isSubmitSuccessful, state?.success]);
   useEffect(() => {
-    if (isSubmitSuccessful && state?.success) {
+    if (state?.success) {
       toast.success("Abstract created successfully!");
     }
-  }, [isSubmitSuccessful, state?.success]);
 
+    if (!state?.success && state?.errors) {
+      if (Array.isArray(state.errors)) {
+        toast.error(state.errors[0]);
+      } else if (typeof state.errors === "object") {
+        const firstError = Object.values(state.errors)[0];
+        if (Array.isArray(firstError)) {
+          toast.error(firstError[0]);
+        } else {
+          toast.error(firstError as string);
+        }
+      }
+    }
+  }, [state]);
   const filterTopics = changeForSelectArray(topics);
 
   const onsubmit = async (data: z.output<typeof AbstractFormSchema>) => {
-    console.log(data);
     const formData = new FormData();
-
     Object.entries(data).forEach(([key, value]) => {
       if (key === "topic") return;
 
-      // 3. Append strings/primitives
-      if (value !== undefined && value !== null) {
+      if (key === "co_authors") {
+        formData.append("co_authors", JSON.stringify(value));
+      } else if (value !== undefined && value !== null) {
         formData.append(key, String(value));
       }
     });
@@ -84,6 +98,10 @@ const AbstractSubmitForm = ({
     if (data.topic?.value) {
       formData.append("topicId", data.topic.value);
     }
+
+    startTransition(() => {
+      action(formData);
+    });
   };
 
   function onError(errors: any) {
@@ -113,6 +131,8 @@ const AbstractSubmitForm = ({
     words.theoretical +
     words.practical +
     words.references;
+
+  const isLoading = isPending || isTransitioning;
 
   return (
     <form
@@ -334,11 +354,10 @@ const AbstractSubmitForm = ({
                 findings: "",
                 theoretical: "",
                 practical: "",
+                references: "",
                 topic: undefined,
                 co_authors: [getValues().co_authors[0]],
               });
-
-              setResetKey((prev) => prev + 1);
             }}
             className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all cursor-pointer"
           >
@@ -348,7 +367,7 @@ const AbstractSubmitForm = ({
       </div>
 
       {/* ===== SUBMIT ===== */}
-      <button type="submit" className="btn-primary">
+      <button type="submit" className="btn-primary" disabled={isLoading}>
         <Send size={18} /> Submit
       </button>
     </form>

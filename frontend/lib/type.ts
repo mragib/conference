@@ -247,3 +247,9 @@ export const ResetPasswordSchema = z
     message: "Passwords do not match",
     path: ["confirm"],
   });
+
+export const ContactSchema = z.object({
+  fullName: z.string().min(2, "Name is required"),
+  email: z.string().email("Invalid email"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
