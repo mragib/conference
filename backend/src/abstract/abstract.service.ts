@@ -56,6 +56,9 @@ export class AbstractService {
         },
       },
       relations: ['topic', 'co_authors'],
+      order: {
+        created_at: 'DESC',
+      },
     });
     return { data: abstracts, count, status: 'success', statusCode: 200 };
   }

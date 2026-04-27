@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { AbstractStatus } from './abstract-status.entity';
 
 @Entity('abstracts')
 export class Abstract {
@@ -21,16 +22,34 @@ export class Abstract {
   title: string;
 
   @Column({ type: 'text' })
-  description: string;
+  purpose: string;
+
+  @Column({ type: 'text' })
+  methodology: string;
+
+  @Column({ type: 'text' })
+  findings: string;
+
+  @Column({ type: 'text' })
+  theoretical: string;
+
+  @Column({ type: 'text' })
+  practical: string;
+
+  @Column({ type: 'text' })
+  references: string;
 
   @Column()
   keyword: string;
 
-  @Column()
+  @Column({ nullable: true })
   remarks: string;
 
-  @Column()
-  status: string;
+  @ManyToOne(() => AbstractStatus, (status) => status.abstract)
+  status: AbstractStatus;
+
+  @Column({ nullable: true })
+  statusId: string;
 
   @Column()
   ip_address: string;

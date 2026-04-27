@@ -7,6 +7,7 @@ import { AbstractFormSchema, Topic } from "@/lib/type";
 import { changeForSelectArray, getWordCount } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send, Trash } from "lucide-react";
+import { redirect } from "next/navigation";
 import { useActionState, useEffect, useTransition } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -66,6 +67,7 @@ const AbstractSubmitForm = ({
   useEffect(() => {
     if (state?.success) {
       toast.success("Abstract created successfully!");
+      redirect("/dashboard/abstracts");
     }
 
     if (!state?.success && state?.errors) {

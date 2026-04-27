@@ -1,6 +1,14 @@
 "use client";
 
-import { Award, Crown, Globe, Heart, Star, Zap } from "lucide-react";
+import {
+  Award,
+  BriefcaseMedical,
+  Crown,
+  Globe,
+  Heart,
+  Star,
+  Zap,
+} from "lucide-react";
 import Image from "next/image";
 
 export default function Partners() {
@@ -52,6 +60,14 @@ export default function Partners() {
       icon: Heart,
       color: "border-[#ea580c]",
       bg: "bg-[#ea580c]/5",
+    },
+    {
+      name: "Radiant",
+      logo: "/images/partners/radiant_logo.jpg",
+      tier: "Platinum Partner",
+      icon: BriefcaseMedical,
+      color: "border-[#0aead0]",
+      bg: "bg-[#0aead0]/5",
     },
   ];
 

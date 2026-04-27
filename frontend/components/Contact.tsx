@@ -20,7 +20,6 @@ import z from "zod";
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, userAnswer: "" });
   const [state, action, isPending] = useActionState(sendContact, {
     success: false,
@@ -82,6 +81,9 @@ export default function Contact() {
       action(formData);
     });
   };
+
+  const isLoading = isPending || isTransitioning;
+
   return (
     // Adjusted py-24 to py-12 and used min-h-[calc(100vh-80px)] to fit viewport
     <section className="py-12 lg:py-16 bg-white min-h-screen flex flex-col justify-center">
@@ -241,15 +243,15 @@ export default function Contact() {
                 </div>
 
                 <button
-                  disabled={loading}
+                  disabled={isLoading}
                   className="w-full bg-[#003366] text-white py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
                 >
-                  {loading ? (
+                  {isLoading ? (
                     <Loader2 className="animate-spin" size={14} />
                   ) : (
                     <Send size={14} />
                   )}
-                  {loading ? "Sending..." : "Send Message"}
+                  {isLoading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             ) : (

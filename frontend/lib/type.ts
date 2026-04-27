@@ -162,6 +162,28 @@ export const OtpFormSchema = z.object({
   email: z.string(),
 });
 
+export type CoAuthor = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  organization: string;
+};
+
+export type AbstractType = {
+  title: string;
+  purpose: string;
+  methodology: string;
+  findings: string;
+  theoretical: string;
+  practical: string;
+  references: string;
+  keyword: string;
+  ip_address?: string;
+  topicId?: string;
+  topic: Topic;
+  co_authors: CoAuthor[];
+};
+
 export const AbstractFormSchema = z
   .object({
     title: z

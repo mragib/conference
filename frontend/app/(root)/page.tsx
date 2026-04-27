@@ -9,6 +9,7 @@ import KeyDates from "@/components/ImportantDates";
 import Marquee from "@/components/Marquee";
 import Partners from "@/components/Partners";
 import Pricing from "@/components/Pricing";
+import Keynotes from "@/components/Speakers";
 import { getPublicSession } from "@/lib/session";
 
 export default async function Home() {
@@ -34,10 +35,10 @@ export default async function Home() {
       <section id="guidelines" className="scroll-mt-20">
         <Guidelines />
       </section>
-      {/* 
-      <section id="speakers" className="scroll-mt-20">
-        <Speakers />
-      </section> */}
+
+      <section id="keynotes" className="scroll-mt-20">
+        <Keynotes />
+      </section>
 
       <section id="committee" className="scroll-mt-20">
         <Committee />

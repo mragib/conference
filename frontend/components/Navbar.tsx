@@ -17,6 +17,7 @@ import SignOutButtonNavbar from "./signOutButtonNavbar";
 
 const navLinks = [
   { name: "Dates", href: "/key-dates" },
+  { name: "Keynotes Speakers", href: "/keynotes-speakers" },
   { name: "Guidelines", href: "/guidelines" },
   { name: "Committee", href: "/committee" },
   { name: "Registration Fee", href: "/pricing" },
@@ -89,8 +90,11 @@ export default function Navbar({ user }: { user?: any }) {
         <div
           className={`w-full transition-all duration-500 ${!isScrolled ? "bg-black/30 backdrop-blur-lg py-3" : "py-2"}`}
         >
-          <div className="max-w-7xl mx-auto px-4 lg:px-8 flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-3 shrink-0 group">
+          <div className="max-w-7xl lg:max-w-max mx-auto px-4 lg:px-8 flex justify-between items-center">
+            <Link
+              href="/"
+              className="flex items-center gap-3 shrink-0 group pr-6"
+            >
               <div className="relative w-11 h-11 md:w-14 md:h-14 rounded-xl overflow-hidden bg-white/10 border border-white/20 p-1.5 transition-all">
                 <Image
                   src="/images/logo.png"

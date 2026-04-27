@@ -38,6 +38,7 @@ export class UserService {
     const hashedPassword = await hash(password);
 
     createUserDto.password = hashedPassword;
+    createUserDto.is_active = true;
 
     const newUser = await this.userRepository.save(createUserDto);
 
@@ -76,6 +77,7 @@ export class UserService {
 
   async createGoogleUser(createUserDto: CreateGoogleUserDto) {
     try {
+      createUserDto.is_active = true;
       const user = await this.userRepository.save(createUserDto);
 
       return user;
@@ -231,6 +233,7 @@ export class UserService {
         ...user,
         name: name || user.name,
         topic: topic || user.topic,
+        role: Role.REVIEWER,
       });
 
       return {

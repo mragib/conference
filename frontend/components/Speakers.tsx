@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, GraduationCap, Mic2, Quote, X } from "lucide-react";
+import { ArrowUpRight, GraduationCap, Quote, User, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -31,21 +31,22 @@ export default function Keynotes() {
 
   const speakers = [
     {
-      name: "Prof. Dr. Robert Higgins",
+      name: "Dr Amrik Sohal",
+      designation: "Professor",
       title: "Global Lead of Digital Transformation",
-      institution: "Harvard Business School, USA",
-      talk: "The Synergy of AI and Sustainable Economics",
-      image: "/images/speakers/higgins.jpg",
-      bio: "A pioneer in digital economy research with 200+ indexed publications. Prof. Higgins has spent over two decades exploring the intersection of technological advancement and global economic stability. His current research focuses on how decentralized AI can empower developing economies to achieve sustainable growth through optimized resource allocation and transparent governance.",
+      institution: "Monash University, Australia",
+      talk: "Supply Chain Management",
+      image: "/images/speakers/Amril _Sohel.jpg",
+      bio: "Dr Amrik Sohal is a Professor in the Department of Management, Monash Business, School, Monash University where his teaching and research covers Operations/Innovation/Technology Management, Supply Chain Management, Circular Economy and Sustainability, and Healthcare Improvement. He holds a PhD in Operations Management from the University of Bradford Management Centre in the UK, as well as a BEng (Hons) and an MBA, also from the University of Bradford. He has received research grants from the State and Federal Governments, the Australian Research Council, a number of industry associations and businesses, as well as from Monash University.",
     },
-    {
-      name: "Dr. Elena Petrova",
-      title: "Senior Economist",
-      institution: "European Central Bank",
-      talk: "Future of Fintech in Emerging Markets",
-      image: "/images/speakers/petrova.jpeg",
-      bio: "Expert in monetary policy and blockchain integration in banking systems. Dr. Petrova has been instrumental in drafting frameworks for digital currency adoption within the Eurozone. Her insights bridge the gap between traditional fiscal policy and the rapid evolution of fintech, with a specific focus on financial inclusion and cross-border payment security.",
-    },
+    // {
+    //   name: "Dr. Elena Petrova",
+    //   title: "Senior Economist",
+    //   institution: "European Central Bank",
+    //   talk: "Future of Fintech in Emerging Markets",
+    //   image: "/images/speakers/petrova.jpeg",
+    //   bio: "Expert in monetary policy and blockchain integration in banking systems. Dr. Petrova has been instrumental in drafting frameworks for digital currency adoption within the Eurozone. Her insights bridge the gap between traditional fiscal policy and the rapid evolution of fintech, with a specific focus on financial inclusion and cross-border payment security.",
+    // },
   ];
 
   const fullCommittee = {
@@ -105,7 +106,7 @@ export default function Keynotes() {
   return (
     <section
       id="keynotes"
-      className="min-h-screen w-full flex items-center justify-center bg-[#003366] relative overflow-hidden py-16 md:py-10 lg:py-0"
+      className="min-h-screen w-full flex items-center justify-center  relative overflow-hidden py-16 md:py-10 lg:py-0"
     >
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#C5A059]/10 rounded-full blur-[100px]"></div>
@@ -114,10 +115,7 @@ export default function Keynotes() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col justify-center h-full">
         <div className="mb-8 md:mb-12 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[9px] md:text-[10px] uppercase tracking-[0.4em] mb-2 bg-white/5 px-3 py-1 rounded-full">
-            <Mic2 size={12} /> Visionary Insights
-          </div>
-          <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tighter leading-none">
+          <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#003366] uppercase tracking-tighter leading-none">
             Keynote <span className="text-[#C5A059]">Speakers</span>
           </h3>
         </div>
@@ -144,25 +142,22 @@ export default function Keynotes() {
 
               <div className="flex-1 space-y-3 md:space-y-4 text-center sm:text-left">
                 <div className="space-y-1">
-                  <h4 className="text-xl md:text-2xl lg:text-3xl font-black text-white leading-tight">
+                  <h4 className="text-xl md:text-2xl lg:text-3xl font-black text-[#003366] leading-tight">
                     {speaker.name}
                   </h4>
+                  <p className="text-[#C5A059] text-[10px] md:text-xs font-bold flex items-center justify-center sm:justify-start gap-2 uppercase tracking-wide">
+                    <User size={14} className="shrink-0" />{" "}
+                    {speaker.designation}
+                  </p>
                   <p className="text-[#C5A059] text-[10px] md:text-xs font-bold flex items-center justify-center sm:justify-start gap-2 uppercase tracking-wide">
                     <GraduationCap size={14} className="shrink-0" />{" "}
                     {speaker.institution}
                   </p>
                 </div>
-                <div className="py-3 border-t border-white/10">
-                  <p className="text-[8px] md:text-[9px] font-black text-white/40 uppercase tracking-[0.2em] mb-1">
-                    Talk Theme
-                  </p>
-                  <p className="text-sm md:text-base lg:text-lg font-bold text-white/90 leading-tight group-hover:text-[#C5A059] transition-colors line-clamp-2">
-                    "{speaker.talk}"
-                  </p>
-                </div>
+
                 <button
                   onClick={() => setSelectedSpeaker(speaker)}
-                  className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-[#C5A059] transition-all group/btn cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-all group/btn cursor-pointer"
                 >
                   Read Full Bio{" "}
                   <ArrowUpRight
@@ -223,7 +218,7 @@ export default function Keynotes() {
                     {selectedSpeaker.name}
                   </h3>
                   <p className="text-white/60 font-bold text-sm mt-2">
-                    {selectedSpeaker.title}
+                    {selectedSpeaker.designation}
                   </p>
                   <p className="text-[#C5A059] text-xs font-bold uppercase mt-1">
                     {selectedSpeaker.institution}
@@ -235,11 +230,6 @@ export default function Keynotes() {
                   </h5>
                   <p className="text-slate-300 text-sm md:text-base leading-relaxed italic">
                     {selectedSpeaker.bio}
-                  </p>
-                </div>
-                <div className="pt-4">
-                  <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.4em]">
-                    Academic Excellence 2026
                   </p>
                 </div>
               </div>

@@ -54,8 +54,12 @@ export default async function proxy(request: NextRequest) {
 
     return NextResponse.next();
   } catch (err) {
-    console.error("Session verification failed:", err);
-    return NextResponse.redirect(new URL("/", request.url));
+    const response = NextResponse.redirect(new URL("/", request.url));
+
+    // ✅ remove invalid session cookie
+    response.cookies.delete("session");
+
+    return response;
   }
 }
 export const config = {

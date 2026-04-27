@@ -492,10 +492,8 @@ export const createAbstract = async (
   const ip_address = await getUserIP();
   payload.ip_address = ip_address;
 
-  console.log(payload);
-
   const validation = AbstractFormSchema.safeParse(payload);
-  console.log("Validation result:", validation);
+
   if (!validation.success) {
     const fields: Record<string, string> = {};
 
@@ -513,13 +511,12 @@ export const createAbstract = async (
   }
 
   const response = await authPostOrPatch(
-    `${BACKEND_URL}/abstracts`,
+    `${BACKEND_URL}/abstract`,
     "POST",
     JSON.stringify(validation.data),
   );
 
   const resData = await response.json();
-  console.log("Abstract creation result:", resData);
 
   if (!response.ok) {
     return {
@@ -530,6 +527,15 @@ export const createAbstract = async (
   return {
     success: response.ok,
   };
+};
+
+export const getMyAbstracts = async () => {
+  const response = await authFetch(`${BACKEND_URL}/abstract/author-abstracts`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch abstracts");
+  }
+  const data = await response.json();
+  return data;
 };
 
 export async function sendContact(prevState: any, formData: FormData) {

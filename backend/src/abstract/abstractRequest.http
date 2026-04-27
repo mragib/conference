@@ -1,18 +1,17 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzU0NTYxODUsImV4cCI6MTc3NjA2MDk4NX0.qHVtGiyRHSEKZ5pPX-OjDagnniTZLXERjZFMRHYHcec
-@topicId_ai=857bfb69-f07b-4b1b-9f0b-4a563eb2bf90
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzcxNzQ0ODYsImV4cCI6MTc3Nzc3OTI4Nn0.8toj4K3LUQHvH6WGe0xxDqFUJT1yzYRVKEOQEPvKNrU
 @topicId_js=8ad89358-8f5b-4b94-9c06-fcf562cfd563
 @topicId_py=f23471c8-ec00-4574-afcd-c8c15102382b
 
 
-@reviewer_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZjhlOGYxMS00YmQxLTQyOWItYjRjMC1hZmExZGRmYjFkYzQiLCJpYXQiOjE3NzU0NjUxOTAsImV4cCI6MTc3NjA2OTk5MH0.XGJYxBOmkkQXv85cM0FAMqNvv7Gpud_yKVidhZXPy0g
+@reviewer_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzcxNzQ0ODYsImV4cCI6MTc3Nzc3OTI4Nn0.8toj4K3LUQHvH6WGe0xxDqFUJT1yzYRVKEOQEPvKNrU
 
 ###Sign In ###
 POST http://localhost:8000/auth/signin
 Content-Type: application/json
 
 {
- "email":"test@gmail.com",
- "password":"test123"
+ "email":"admin@gmail.com",
+ "password":"Test123!@#"
 }
 
 ###Sign In as reviewer ###
@@ -34,10 +33,15 @@ Authorization: Bearer {{token}}
     "title":"test abstract",
     "description":"this is a test abstract",
     "keyword":"test, abstract",
-    "remarks":"this is a test remark",
-    "status":"pending",
+    "statusId":"7f9937d0-4120-11f1-84b5-0068ebbca2e5",
     "ip_address":"192.168.1.1",
-    "topicId":"8ad89358-8f5b-4b94-9c06-fcf562cfd563",
+    "topicId":"33a580a3-12e7-40cf-abb2-25d09c099374",
+    "purpose":"this is the purpose of the abstract",
+    "methodology":"this is the methodology of the abstract",
+    "findings":"these are the findings of the abstract",
+    "theoretical":"this is the theoretical implications of the abstract",
+    "practical":"these are the practical implications of the abstract",
+    "references":"these are the references of the abstract",
     "co_authors":[
         {
             "first_name":"co",
