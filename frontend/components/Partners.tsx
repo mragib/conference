@@ -12,15 +12,33 @@ import {
 import Image from "next/image";
 
 export default function Partners() {
+  const leadOrganizer = {
+    name: "East West University",
+    logo: "/images/partners/ewu.png",
+    tier: "Lead Organizer",
+    icon: Crown,
+    color: "border-[#C5A059]",
+    bg: "bg-[#C5A059]/5",
+  };
+
+  const platinumPartner = {
+    name: "Radiant",
+    logo: "/images/partners/radiant_logo.jpg",
+    tier: "Platinum Partner",
+    icon: BriefcaseMedical,
+    color: "border-[#0aead0]",
+    bg: "bg-[#0aead0]/5",
+  };
+
   const partners = [
-    {
-      name: "East West University",
-      logo: "/images/partners/ewu.png",
-      tier: "Lead Organizer",
-      icon: Crown,
-      color: "border-[#C5A059]",
-      bg: "bg-[#C5A059]/5",
-    },
+    // {
+    //   name: "East West University",
+    //   logo: "/images/partners/ewu.png",
+    //   tier: "Lead Organizer",
+    //   icon: Crown,
+    //   color: "border-[#C5A059]",
+    //   bg: "bg-[#C5A059]/5",
+    // },
     {
       name: "Mind Mapper",
       logo: "/images/partners/mind-mapper-logo.jpg",
@@ -61,14 +79,14 @@ export default function Partners() {
       color: "border-[#ea580c]",
       bg: "bg-[#ea580c]/5",
     },
-    {
-      name: "Radiant",
-      logo: "/images/partners/radiant_logo.jpg",
-      tier: "Platinum Partner",
-      icon: BriefcaseMedical,
-      color: "border-[#0aead0]",
-      bg: "bg-[#0aead0]/5",
-    },
+    // {
+    //   name: "Radiant",
+    //   logo: "/images/partners/radiant_logo.jpg",
+    //   tier: "Platinum Partner",
+    //   icon: BriefcaseMedical,
+    //   color: "border-[#0aead0]",
+    //   bg: "bg-[#0aead0]/5",
+    // },
   ];
 
   return (
@@ -104,9 +122,76 @@ export default function Partners() {
         </p>
       </div>
 
+      <div className="grid items-center justify-center gap-4">
+        <div className="group flex flex-col items-center flex-shrink-0 w-32 md:w-40">
+          {/* Box Shape Container with 1.25x Zoom Effect */}
+          <div
+            className={`relative z-10 w-32 h-20 md:w-24 md:h-24 rounded-lg border-2 ${leadOrganizer.color} ${leadOrganizer.bg} flex items-center justify-center p-2 transition-all duration-300 shadow-sm hover:shadow-2xl hover:scale-125`}
+          >
+            {/* Floating Icon */}
+            <div className="absolute top-2 right-2 text-slate-300 group-hover:text-[#C5A059] transition-all">
+              <leadOrganizer.icon size={12} strokeWidth={2.5} />
+            </div>
+
+            {/* Logo Image */}
+            <div className="relative w-full h-full">
+              <Image
+                src={leadOrganizer.logo}
+                alt={leadOrganizer.name}
+                fill
+                sizes="160px"
+                className="object-contain transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+          </div>
+
+          {/* Text Meta */}
+          <div className="mt-6 text-center space-y-1">
+            <h4 className="text-[10px] md:text-xs font-black text-[#003366] uppercase tracking-tight group-hover:text-[#C5A059] transition-colors">
+              {leadOrganizer.name}
+            </h4>
+            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
+              {leadOrganizer.tier}
+            </p>
+          </div>
+        </div>
+        <div className="group flex flex-col items-center flex-shrink-0 w-32 md:w-40">
+          {/* Box Shape Container with 1.25x Zoom Effect */}
+          <div
+            className={`relative z-10 w-32 h-20 md:w-24 md:h-24 rounded-lg border-2 ${platinumPartner.color} ${platinumPartner.bg} flex items-center justify-center p-2 transition-all duration-300 shadow-sm hover:shadow-2xl hover:scale-125`}
+          >
+            {/* Floating Icon */}
+            <div className="absolute top-2 right-2 text-slate-300 group-hover:text-[#C5A059] transition-all">
+              <platinumPartner.icon size={12} strokeWidth={2.5} />
+            </div>
+
+            {/* Logo Image */}
+            <div className="relative w-full h-full">
+              <Image
+                src={platinumPartner.logo}
+                alt={platinumPartner.name}
+                fill
+                sizes="160px"
+                className="object-contain transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
+          </div>
+
+          {/* Text Meta */}
+          <div className="mt-6 text-center space-y-1">
+            <h4 className="text-[10px] md:text-xs font-black text-[#003366] uppercase tracking-tight group-hover:text-[#C5A059] transition-colors">
+              {platinumPartner.name}
+            </h4>
+            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
+              {platinumPartner.tier}
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Marquee Wrapper - Padding moved here so the scroll track starts flush */}
       <div className="marquee-container flex overflow-hidden w-full cursor-pointer pt-10 pb-10">
-        <div className="animate-marquee gap-8 md:gap-12 pl-5 md:pl-10">
+        <div className="animate-marquee gap-8 md:gap-4 pl-5 md:pl-5">
           {[...partners, ...partners, ...partners].map((partner, index) => (
             <div
               key={index}
@@ -114,7 +199,7 @@ export default function Partners() {
             >
               {/* Box Shape Container with 1.25x Zoom Effect */}
               <div
-                className={`relative z-10 w-32 h-32 md:w-40 md:h-40 rounded-lg border-2 ${partner.color} ${partner.bg} flex items-center justify-center p-6 transition-all duration-300 shadow-sm hover:shadow-2xl hover:scale-125`}
+                className={`relative z-10 w-32 h-20 md:w-24 md:h-24 rounded-lg border-2 ${partner.color} ${partner.bg} flex items-center justify-center p-2 transition-all duration-300 shadow-sm hover:shadow-2xl hover:scale-125`}
               >
                 {/* Floating Icon */}
                 <div className="absolute top-2 right-2 text-slate-300 group-hover:text-[#C5A059] transition-all">

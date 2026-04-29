@@ -116,7 +116,7 @@ export default function Keynotes() {
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col justify-center h-full">
         <div className="mb-8 md:mb-12 text-center md:text-left">
           <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#003366] uppercase tracking-tighter leading-none">
-            Keynote <span className="text-[#C5A059]">Speakers</span>
+            Keynote <span className="text-[#C5A059]">Speaker</span>
           </h3>
         </div>
 
