@@ -2,13 +2,11 @@
 
 import UserRow from "@/app/(admin)/admin/users/UserRow";
 import { Button } from "@/components/button";
-import { Badge } from "@/components/ui/badge";
-import { REVEIWER_USER, Topic } from "@/lib/type";
-import { capitalize } from "@/lib/utils";
+import { User } from "@/lib/type";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-export const getUserColumns = (topics: Topic[]): ColumnDef<REVEIWER_USER>[] => [
+export const getUserColumns = (): ColumnDef<User>[] => [
   {
     header: "#",
     accessorKey: "index",
@@ -17,7 +15,21 @@ export const getUserColumns = (topics: Topic[]): ColumnDef<REVEIWER_USER>[] => [
   {
     id: "name",
     accessorKey: "name",
-    cell: ({ row }) => capitalize(row.original.name || ""),
+    cell: ({ row }) => (
+      <div className="flex items-start text-left gap-4">
+        <div>
+          <p className="text-[#003366] text-sm font-bold capitalize">
+            {row.original.name}
+          </p>
+          <p className="text-[12px] text-slate-400 font-medium">
+            {row.original.email}
+          </p>
+          <p className="text-[12px] text-slate-400 font-medium">
+            {row.original.profile?.contact_number}
+          </p>
+        </div>
+      </div>
+    ),
     header: ({ column }) => {
       return (
         <Button
@@ -31,22 +43,7 @@ export const getUserColumns = (topics: Topic[]): ColumnDef<REVEIWER_USER>[] => [
       );
     },
   },
-  {
-    id: "email",
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="text-sm md:text-md font-bold uppercase"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
+
   {
     id: "role",
     accessorKey: "role",
@@ -63,9 +60,11 @@ export const getUserColumns = (topics: Topic[]): ColumnDef<REVEIWER_USER>[] => [
       );
     },
   },
+
   {
-    id: "topic",
-    accessorKey: "topic",
+    id: "designation",
+    accessorKey: "designation",
+    cell: ({ row }) => row.original.profile?.designation,
     header: ({ column }) => {
       return (
         <Button
@@ -73,41 +72,52 @@ export const getUserColumns = (topics: Topic[]): ColumnDef<REVEIWER_USER>[] => [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Topic
+          Designation
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const topics = row.getValue("topic") as { id: string; name: string }[];
-
-      if (!topics || topics.length === 0)
-        return <span className="text-muted-foreground">No Topics</span>;
-
-      // Option A: Simple comma-separated string
-      //   return <span>{topics.map((t) => t.name).join(", ")}</span>;
-
-      // Option B: If you want nice UI Badges (assuming you have a Badge component)
+  },
+  {
+    id: "organization",
+    accessorKey: "organization",
+    cell: ({ row }) => row.original.profile?.organization,
+    header: ({ column }) => {
       return (
-        <div className="flex flex-wrap gap-1">
-          {topics.map((t) => (
-            <Badge
-              key={t.id}
-              variant="secondary"
-              className="cursor-pointer text-xs"
-            >
-              {t.name}
-            </Badge>
-          ))}
-        </div>
+        <Button
+          className="text-sm md:text-md font-bold uppercase"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Organization
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
   {
+    id: "country",
+    accessorKey: "country",
+    cell: ({ row }) => row.original.profile?.country,
+    header: ({ column }) => {
+      return (
+        <Button
+          className="text-sm md:text-md font-bold uppercase"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Country
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+
+  {
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
-      return <UserRow topics={topics} user={data} />;
+      return <UserRow user={data} />;
     },
   },
 ];

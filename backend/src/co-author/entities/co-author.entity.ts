@@ -21,6 +21,6 @@ export class CoAuthor {
   @Column({ default: 0 })
   display_order: number;
 
-  @ManyToOne(() => Abstract, (item) => item.co_authors)
+  @ManyToOne(() => Abstract, (item) => item.co_authors, { onDelete: 'CASCADE' })
   abstract: Abstract;
 }

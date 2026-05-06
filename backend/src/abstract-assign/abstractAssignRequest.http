@@ -1,0 +1,28 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYmRkMzg3Mi1jOTQ5LTRiNTgtOGJhMS00OWNkNTk1OGU2NjIiLCJpYXQiOjE3NzgwNDUyMTcsImV4cCI6MTc3ODY1MDAxN30.JGfH0wEv7T-GCcwGlwWNfeAG5Ev9nOWur4GU05JkLdg
+
+###Sign In admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"Test123!@#"
+}
+
+###Sign In Reviewer ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"Test123!@#"
+}
+
+
+### Get all abstract assigns
+GET http://localhost:8000/abstract-assign
+Authorization: Bearer {{token}}
+
+### Disagree
+GET http://localhost:8000/abstract-assign/disagree?token=42616b13e9b689dae1218f98bdfbb5d6b2539e8dbb921ef18f2140e4bdb87749
+Authorization: Bearer {{token}}

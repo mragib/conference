@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzU0NTcxMTMsImV4cCI6MTc3NjA2MTkxM30.-7HqYwBAAqSLjKn-7wWPRFU9nqApOZRoKU4mN00cB4Q
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzgwNDE4MDYsImV4cCI6MTc3ODY0NjYwNn0.IvTbi9GbQl_0oVTtxF-UGt_fDEKuruc5ESFTWIvLnzQ
 @admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MDhlN2ZmZS04NTY5LTRkZmQtYTQwYS1mNDllOTc0NWMyNWYiLCJpYXQiOjE3NzU0NTcxMzMsImV4cCI6MTc3NjA2MTkzM30.wNvPPsp6tTuAlgNSKp-7IxdGZPv1fDiSkYtLBYdoZ3Y
 
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
  "email":"test@gmail.com",
- "password":"test123"
+ "password":"Test123!@#"
 }
 
 ###Sign In admin ###
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
  "email":"admin@gmail.com",
- "password":"test123"
+ "password":"Test123!@#"
 }
 
 ### Make a reviewer ###
@@ -48,3 +48,8 @@ Authorization: Bearer {{admin_token}}
         {"id":"f23471c8-ec00-4574-afcd-c8c15102382b"}
     ]
 }
+
+
+###Sign In ###
+Get http://localhost:8000/user
+Authorization: Bearer {{token}}

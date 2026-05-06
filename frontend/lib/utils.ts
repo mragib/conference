@@ -115,20 +115,39 @@ export function getPasswordStrength(password: string) {
 
   return { rules, score, label, color };
 }
-export function parseApiError(message: unknown): string | string[] {
-  if (!message) return "Something went wrong";
+export function parseApiError(error: unknown): string {
+  if (!error) return "Something went wrong";
 
-  if (Array.isArray(message)) {
-    return message;
-  }
+  if (typeof error === "string") return error;
 
-  if (typeof message === "object") {
-    return Object.values(message as Record<string, any>).flat() as string[];
-  }
+  if (Array.isArray(error)) return error.join(", ");
 
-  if (typeof message === "string") {
-    return message;
+  if (typeof error === "object") {
+    const err = error as any;
+
+    // NestJS standard
+    if (err.message) {
+      return Array.isArray(err.message) ? err.message.join(", ") : err.message;
+    }
+
+    if (err.response?.message) {
+      return Array.isArray(err.response.message)
+        ? err.response.message.join(", ")
+        : err.response.message;
+    }
   }
 
   return "Something went wrong";
+}
+
+export function formatDateTime(date) {
+  if (!date) return "";
+
+  return new Intl.DateTimeFormat("en-BD", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(date));
 }

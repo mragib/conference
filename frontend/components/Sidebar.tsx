@@ -42,9 +42,9 @@ const Sidebar = ({ user }: any) => {
   const reviewerItems = [
     { name: "Review Overview", icon: LayoutDashboard, path: "/reviewer" },
     {
-      name: "Pending Reviews",
+      name: "Abstracts",
       icon: ClipboardCheck,
-      path: "/reviewer/pending",
+      path: "/reviewer/abstracts",
     },
     {
       name: "Completed Reviews",
@@ -58,6 +58,8 @@ const Sidebar = ({ user }: any) => {
     { name: "Manage Abstracts", icon: BarChart3, path: "/admin/abstracts" },
     { name: "Event Schedule", icon: Calendar, path: "/admin/schedule" }, // 🚀 UPDATED: Pointing to Architect
     { name: "Finance & Revenue", icon: CreditCard, path: "/admin/finance" },
+    { name: "Reviewer Management", icon: Users, path: "/admin/reviewers" },
+
     { name: "User Management", icon: Users, path: "/admin/users" },
     { name: "Sub Themes", icon: SwatchBook, path: "/admin/sub-themes" },
     { name: "Activity Logs", icon: History, path: "/admin/logs" },

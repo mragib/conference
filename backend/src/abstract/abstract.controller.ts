@@ -38,6 +38,7 @@ export class AbstractController {
     return this.abstractService.findReviewerAbstracts(user);
   }
 
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
   @Get()
   findAll() {
     return this.abstractService.findAll();

@@ -12,7 +12,7 @@ import {
   APIStatus,
   ContactSchema,
   ProfileServerSchema,
-  ReviewerFormSchema,
+  ReviewerUserSchema,
   UserFormSchema,
 } from "./type";
 import { parseApiError } from "./utils";
@@ -367,14 +367,6 @@ export const addReviewerService = async (
 ): Promise<ApiResponse> => {
   const payload: any = Object.fromEntries(data.entries());
 
-  if (typeof payload.topic === "string") {
-    try {
-      payload.topic = JSON.parse(payload.topic);
-    } catch {
-      payload.topic = [];
-    }
-  }
-
   const validation = ReviewerFormSchema.safeParse(payload);
 
   if (!validation.success) {
@@ -543,8 +535,6 @@ export async function sendContact(prevState: any, formData: FormData) {
 
   const validation = ContactSchema.safeParse(payload);
 
-  console.log("Contact form validation result:", validation);
-
   if (!validation.success) {
     return {
       success: false,
@@ -560,8 +550,6 @@ export async function sendContact(prevState: any, formData: FormData) {
       },
       body: JSON.stringify(validation.data),
     });
-
-    console.log("Contact form response:", res);
 
     if (!res.ok) {
       const data = await res.json();
@@ -584,3 +572,154 @@ export async function sendContact(prevState: any, formData: FormData) {
     };
   }
 }
+
+export const getReviewerUsers = async () => {
+  const response = await authFetch(`${BACKEND_URL}/reviewer`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch reviewer users");
+  }
+  const data = await response.json();
+  return data;
+};
+
+export const createReviewer = async (
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState> => {
+  try {
+    const payload: any = Object.fromEntries(formData.entries());
+
+    const validation = ReviewerUserSchema.safeParse(payload);
+
+    if (!validation.success) {
+      return {
+        errors: validation.error.flatten().fieldErrors,
+        success: false,
+      };
+    }
+
+    const response = await authPostOrPatch(
+      `${BACKEND_URL}/reviewer`,
+      "POST",
+      JSON.stringify({
+        user: {
+          name: validation.data.name,
+          email: validation.data.email,
+        },
+        display_order: validation.data.display_order,
+      }),
+    );
+
+    const resData = await response.json();
+
+    if (!response.ok) {
+      return {
+        errors: resData.message || resData.error || "Request failed",
+        success: false,
+      };
+    }
+
+    return {
+      success: true,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      errors: error?.message || "Something went wrong",
+    };
+  }
+};
+
+export const reviewerGetAgree = async (token: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/abstract-assign/agree?token=${token}`,
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+  };
+};
+
+export const reviewerGetDisAgree = async (token: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/abstract-assign/disagree?token=${token}`,
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+  };
+};
+
+export const getReviewerAbstracts = async () => {
+  const response = await authFetch(`${BACKEND_URL}/reviewer/abstracts`);
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return resData;
+};
+
+export const updateReviewerStatus = async (
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> => {
+  const reviewerId = data.get("reviewerId") as string;
+
+  const is_active = data.get("is_active") === "true"; // ✅ convert here
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/reviewer/change-status/${reviewerId}`,
+    "PATCH",
+    JSON.stringify({ is_active }),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: response.ok,
+    message: parseApiError(resData),
+  };
+};
+
+export const getAllAbstracts = async () => {
+  const response = await authFetch(`${BACKEND_URL}/abstract`);
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return resData;
+};

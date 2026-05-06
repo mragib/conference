@@ -3,8 +3,8 @@ import { Abstract } from './abstract.entity';
 
 @Entity()
 export class AbstractStatus {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;

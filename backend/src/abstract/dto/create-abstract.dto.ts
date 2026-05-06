@@ -2,6 +2,7 @@ import {
   IsArray,
   IsEmpty,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -50,9 +51,9 @@ export class CreateAbstractDto {
   @IsNotEmpty()
   status: AbstractStatus;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  statusId: string;
+  statusId: number;
 
   @IsString()
   @IsNotEmpty()

@@ -7,17 +7,15 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
-import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
 import { ApiResponse, Role } from 'src/types/types';
 import { FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
 import {
   ChangeRoleDto,
   CreateGoogleUserDto,
-  CreateReviewerDto,
   CreateUserDto,
 } from './dto/create-user.dto';
-import { UpdateReviewerDto, UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -101,6 +99,19 @@ export class UserService {
 
   async findAll(): Promise<ApiResponse<User[]>> {
     const [user, count] = await this.userRepository.findAndCount({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        profile: {
+          country: true,
+          designation: true,
+          contact_number: true,
+          organization: true,
+        },
+      },
+      relations: ['profile'],
       where: {
         role: Not(In([Role.ADMIN, Role.SUPERADMIN])),
       },
@@ -117,6 +128,7 @@ export class UserService {
     return await this.userRepository.findOne({
       where: {
         email,
+        is_active: true,
         deletedAt: IsNull(), // Explicitly check for null
       },
     });
@@ -167,87 +179,78 @@ export class UserService {
     };
   }
 
-  async makeReviewer(createReviewerDto: CreateReviewerDto) {
-    const { email, name, topic } = createReviewerDto;
-
-    const existingUser = await this.findByEmail(email);
-
-    if (existingUser) {
-      throw new ConflictException('User with this email already exists');
-    }
-
-    const rawToken = crypto.randomBytes(32).toString('hex');
-
-    const invite_token = crypto
-      .createHash('sha256')
-      .update(rawToken)
-      .digest('hex');
-    const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-
-    const user = await this.userRepository.save({
-      email,
-      name,
-      role: Role.REVIEWER,
-      topic,
-      invite_token,
-      invite_expiry,
-      is_active: false,
-    });
-
-    const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
-    try {
-      await this.mailService.sendEmail(
-        user.email,
-        'DBA Conference Reviewer Registration',
-        'create-reviewer-email',
-        {
-          name,
-          link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
-        },
-      );
-      return {
-        status: 'success',
-        statuscode: 200,
-        data: user,
-        message: 'Reviewer has been created',
-      };
-    } catch (error) {
-      if (error instanceof ConflictException) {
-        throw error;
-      }
-      await this.userRepository.delete(user.id);
-      throw new InternalServerErrorException('Something went Wrong!');
-    }
+  async makeReviewer(createReviewerDto) {
+    // const { email, name, topic } = createReviewerDto;
+    // const existingUser = await this.findByEmail(email);
+    // if (existingUser) {
+    //   throw new ConflictException('User with this email already exists');
+    // }
+    // const rawToken = crypto.randomBytes(32).toString('hex');
+    // const invite_token = crypto
+    //   .createHash('sha256')
+    //   .update(rawToken)
+    //   .digest('hex');
+    // const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+    // const user = await this.userRepository.save({
+    //   email,
+    //   name,
+    //   role: Role.REVIEWER,
+    //   topic,
+    //   invite_token,
+    //   invite_expiry,
+    //   is_active: false,
+    // });
+    // const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
+    // try {
+    //   await this.mailService.sendEmail(
+    //     user.email,
+    //     'DBA Conference Reviewer Registration',
+    //     'create-reviewer-email',
+    //     {
+    //       name,
+    //       link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
+    //     },
+    //   );
+    //   return {
+    //     status: 'success',
+    //     statuscode: 200,
+    //     data: user,
+    //     message: 'Reviewer has been created',
+    //   };
+    // } catch (error) {
+    //   if (error instanceof ConflictException) {
+    //     throw error;
+    //   }
+    //   await this.userRepository.delete(user.id);
+    //   throw new InternalServerErrorException('Something went Wrong!');
+    // }
   }
 
-  async updateReviewer(updateReviewerDto: UpdateReviewerDto) {
-    const { email, name, topic } = updateReviewerDto;
-    try {
-      const user = await this.findByEmail(email);
-
-      if (!user) {
-        throw new NotFoundException('User with this email does not exist');
-      }
-
-      const updatedUser = await this.userRepository.save({
-        ...user,
-        name: name || user.name,
-        topic: topic || user.topic,
-        role: Role.REVIEWER,
-      });
-
-      return {
-        status: 'success',
-        statuscode: 200,
-        data: updatedUser,
-        message: 'Reviewer has been Updated',
-      };
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Something went Wrong!');
-    }
+  async updateReviewer(updateReviewerDto) {
+    // const { email, name, topic } = updateReviewerDto;
+    // try {
+    //   const user = await this.findByEmail(email);
+    //   if (!user) {
+    //     throw new NotFoundException('User with this email does not exist');
+    //   }
+    //   const updatedUser = await this.userRepository.save({
+    //     ...user,
+    //     name: name || user.name,
+    //     topic: topic || user.topic,
+    //     role: Role.REVIEWER,
+    //   });
+    //   return {
+    //     status: 'success',
+    //     statuscode: 200,
+    //     data: updatedUser,
+    //     message: 'Reviewer has been Updated',
+    //   };
+    // } catch (error) {
+    //   if (error instanceof NotFoundException) {
+    //     throw error;
+    //   }
+    //   throw new InternalServerErrorException('Something went Wrong!');
+    // }
   }
 
   async findAllUserWithTopic() {
@@ -261,10 +264,6 @@ export class UserService {
         name: true,
         email: true,
         role: true,
-        topic: {
-          id: true,
-          name: true,
-        },
       },
     });
     return {

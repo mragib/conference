@@ -1,15 +1,14 @@
 import { Transform } from 'class-transformer';
 import {
-  IsArray,
   IsBoolean,
   IsDate,
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
 } from 'class-validator';
-import { Topic } from 'src/topic/entities/topic.entity';
 import { Role } from 'src/types/types';
 
 export class CreateUserDto {
@@ -101,17 +100,14 @@ export class ChangeRoleDto {
   role: Role;
 }
 
-export class CreateReviewerDto {
+export class CreateReviewerUserDto {
   @IsString()
   @IsNotEmpty()
+  @MaxLength(60)
   name: string;
 
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
   @Transform(({ value }: { value: string }) => value?.toLowerCase())
   email: string;
-
-  @IsNotEmpty()
-  @IsArray()
-  topic: Topic[];
 }

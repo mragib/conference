@@ -1,5 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AbstractAssignService } from 'src/abstract-assign/abstract-assign.service';
+import { ReviewerService } from 'src/reviewer/reviewer.service';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateAbstractDto } from './dto/create-abstract.dto';
@@ -11,13 +13,30 @@ export class AbstractService {
   constructor(
     @InjectRepository(Abstract)
     private readonly abstractRepository: Repository<Abstract>,
+    private readonly reviewService: ReviewerService,
+    private readonly abstractAssignService: AbstractAssignService,
   ) {}
   async create(createAbstractDto: CreateAbstractDto) {
     try {
       const abstract = await this.abstractRepository.save(createAbstractDto);
+
+      const user = abstract.user;
+
+      const reviewer = await this.reviewService.findReviewerWithAsign(user);
+
+      if (!reviewer)
+        throw new InternalServerErrorException(
+          'No active reviewers available for assignment',
+        );
+
+      const abstractAssigns = await this.abstractAssignService.create({
+        abstract,
+        reviewer,
+        assign_date: new Date(),
+      });
       return {
         message: 'Abstract created successfully',
-        data: abstract,
+        // data: abstract,
         status: 'success',
         statusCode: 200,
       };
@@ -27,9 +46,78 @@ export class AbstractService {
   }
 
   async findAll() {
-    const [abstracts, count] = await this.abstractRepository.findAndCount();
+    // const [abstracts, count] = await this.abstractRepository.findAndCount({
+    //   select: {
+    //     id: true,
+    //     title: true,
+    //     topic: {
+    //       name: true,
+    //     },
+    //     status: {
+    //       name: true,
+    //     },
+    //     co_authors: true,
+    //     assigns: {
+    //       reviewer: {
+    //         user: {
+    //           name: true,
+    //           email: true,
+    //         },
+    //       },
+    //     },
+    //   },
+    //   relations: {
+    //     status: true,
+    //     topic: true,
+    //     co_authors: true,
+    //     abstract_review: true,
+    //     assigns: {
+    //       reviewer: {
+    //         user: true,
+    //       },
+    //     },
+    //   },
+    // });
+    const [abstracts, count] = await this.abstractRepository
+      .createQueryBuilder('a')
+
+      // ✅ joins
+      .leftJoin('a.topic', 't')
+      .leftJoin('a.status', 's')
+      .leftJoin('a.co_authors', 'ca')
+      .leftJoin('a.assigns', 'as')
+      .leftJoin('as.reviewer', 'r')
+      .leftJoin('r.user', 'u')
+
+      // ✅ select only what you need
+      .select([
+        'a.id',
+        'a.title',
+
+        't.name',
+        's.name',
+
+        'ca', // full co_authors (or pick fields if needed)
+
+        'as.id', // important: include at least PK
+        'r.id',
+        'u.name',
+        'u.email',
+      ])
+
+      .getManyAndCount();
+
+    const formatted = abstracts.map((a) => ({
+      ...a,
+
+      reviewers: a.assigns?.map((as) => ({
+        name: as.reviewer?.user?.name,
+        email: as.reviewer?.user?.email,
+      })),
+    }));
+
     return {
-      data: abstracts,
+      data: formatted,
       count,
       status: 'success',
       statusCode: 200,

@@ -4,8 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -27,10 +25,6 @@ export class Topic {
 
   @ManyToOne(() => User)
   created_by: User;
-
-  @ManyToMany(() => User, (item) => item.topic)
-  @JoinTable({ name: 'topic_reviewers' })
-  user: User[];
 
   // Bi directional relation
   @OneToMany(() => Abstract, (item) => item.topic)

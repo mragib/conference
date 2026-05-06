@@ -46,6 +46,11 @@ export default function Committee() {
       title: "Cardiff University, Cardiff",
     },
     {
+      name: "Dr. Tritos Laosirihongthong",
+      role: "Professor",
+      title: "Thammasat University, Bangkok",
+    },
+    {
       name: "Dr. Kamrul Ahsan",
       role: "Associate Professor",
       title: "RMIT University, Melbourne",

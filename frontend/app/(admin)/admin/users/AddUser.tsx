@@ -3,17 +3,16 @@
 import { Button } from "@/components/ui/button";
 
 import Modal from "@/components/ui/Modal";
-import { Topic } from "@/lib/type";
 import CreateUserForm from "./CreateUserForm";
 
-export const AddUser = ({ topics }: { topics: Topic[] }) => {
+export const AddUser = () => {
   return (
     <Modal>
       <Modal.Open opens="data-form">
         <Button>Add a Reviewer</Button>
       </Modal.Open>
       <Modal.Window name="data-form">
-        <CreateUserForm topics={topics} />
+        <CreateUserForm />
       </Modal.Window>
     </Modal>
   );

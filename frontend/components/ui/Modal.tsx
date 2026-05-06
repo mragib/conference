@@ -34,6 +34,10 @@ interface WindowProps {
   name: string;
 }
 
+type ModalChildProps = {
+  onCloseModal?: () => void;
+};
+
 // Create context with proper typing
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -47,6 +51,25 @@ function useModal(): ModalContextType {
 }
 
 // Outside click hook
+// const useOutsideClick = (callback: () => void) => {
+//   const ref = useRef<HTMLDivElement>(null);
+
+//   useEffect(() => {
+//     const handleClick = (event: MouseEvent) => {
+//       if (ref.current && !ref.current.contains(event.target as Node)) {
+//         callback();
+//       }
+//     };
+
+//     document.addEventListener("click", handleClick, true);
+
+//     return () => {
+//       document.removeEventListener("click", handleClick, true);
+//     };
+//   }, [callback]);
+
+//   return ref;
+// };
 const useOutsideClick = (callback: () => void) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -57,11 +80,8 @@ const useOutsideClick = (callback: () => void) => {
       }
     };
 
-    document.addEventListener("click", handleClick, true);
-
-    return () => {
-      document.removeEventListener("click", handleClick, true);
-    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, [callback]);
 
   return ref;
@@ -84,32 +104,78 @@ function Modal({ children }: ModalProps) {
 // Open component
 function Open({ children, opens: openWindowName }: OpenProps) {
   const { open } = useModal();
+  // return cloneElement(children, {
+  //   onClick: () => open(openWindowName),
+  // });
   return cloneElement(children, {
-    onClick: () => open(openWindowName),
+    onClick: (e: React.MouseEvent) => {
+      children.props.onClick?.(e); // ✅ preserve existing
+      open(openWindowName);
+    },
   });
 }
 
 // Window component
+// function Window({ children, name }: WindowProps) {
+//   const { openName, close } = useModal();
+//   const ref = useOutsideClick(close);
+
+//   if (name !== openName) return null;
+
+//   return createPortal(
+//     <div className="fixed top-0 left-0 w-full h-full bg-[rgba(255, 255, 255, 0.1)] backdrop-blur-md z-50 transition-all duration-500 dark:bg-[rgba(0, 0, 0, 0.3)]">
+//       <div
+//         className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-8 transition-all duration-500 dark:bg-[#18212f]"
+//         ref={ref}
+//       >
+//         <button
+//           className="bg-none border-none p-1 rounded-sm absolute top-3 right-4 hover:bg-[#f3f4f6] dark:text-[#9ca3af] dark:hover:bg-[#374151] hover:cursor-pointer"
+//           onClick={close}
+//           aria-label="Close modal"
+//         >
+//           <X size={24} />
+//         </button>
+//         <div>{cloneElement(children, { onCloseModal: close })}</div>
+//       </div>
+//     </div>,
+//     document.body,
+//   );
+// }
+
 function Window({ children, name }: WindowProps) {
   const { openName, close } = useModal();
   const ref = useOutsideClick(close);
 
+  // ✅ Close on ESC key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [close]);
+
   if (name !== openName) return null;
 
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-full bg-[rgba(255, 255, 255, 0.1)] backdrop-blur-md z-50 transition-all duration-500 dark:bg-[rgba(0, 0, 0, 0.3)]">
+    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50">
       <div
-        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-8 transition-all duration-500 dark:bg-[#18212f]"
         ref={ref}
+        className="fixed top-1/2 left-1/2 w-[90%] max-w-lg -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#18212f] rounded-lg shadow-lg p-6"
       >
+        {/* Close button */}
         <button
-          className="bg-none border-none p-1 rounded-sm absolute top-3 right-4 hover:bg-[#f3f4f6] dark:text-[#9ca3af] dark:hover:bg-[#374151] hover:cursor-pointer"
           onClick={close}
-          aria-label="Close modal"
+          className="absolute top-3 right-3 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
         >
-          <X size={24} />
+          <X size={20} />
         </button>
-        <div>{cloneElement(children, { onCloseModal: close })}</div>
+
+        {/* Inject close safely */}
+        {cloneElement(children as React.ReactElement<ModalChildProps>, {
+          onCloseModal: close,
+        })}
       </div>
     </div>,
     document.body,

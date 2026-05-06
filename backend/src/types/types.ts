@@ -23,3 +23,9 @@ export enum UserType {
   INDUSTRY = 'INDUSTRY',
   STUDENT = 'STUDENT',
 }
+
+export type ReviewerAssignResult = {
+  reviewerId: string;
+  userName: string;
+  assignCount: number;
+};

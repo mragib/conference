@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Inject,
   Injectable,
   InternalServerErrorException,
@@ -272,10 +271,6 @@ export class AuthService {
       throw new UnauthorizedException('Invite expired');
     }
 
-    if (user.is_active) {
-      throw new UnauthorizedException('Account already activated');
-    }
-
     return {
       email: user.email,
       name: user.name,
@@ -296,10 +291,6 @@ export class AuthService {
 
     if (!user.invite_expiry || user.invite_expiry < new Date()) {
       throw new UnauthorizedException('Invitation link expired');
-    }
-
-    if (user.is_active) {
-      throw new BadRequestException('Account already activated');
     }
 
     const hashedPassword = await argon2.hash(password);

@@ -24,6 +24,7 @@ export type ApiResponse =
 
 export type AdvanceFormState = {
   success: boolean;
+  message?: string;
   fields?: Record<string, string>;
   errors?: Record<string, string[]>;
 };
@@ -94,18 +95,10 @@ export const TopicSchema = z.object({
   name: z.string(),
 });
 
-export type REVEIWER_USER = {
-  id: string;
-  name: string;
-  email: string;
-  topic?: Topic[];
-};
-
-export const ReviewerFormSchema = z.object({
-  name: z.string().min(2, "Name should be at least 2 characters long").trim(),
-  email: z.string().email("Invalid email address").trim(),
-  topic: z.array(TopicSchema).min(1, "Select at least one topic"),
-});
+// export const UserFormSchema = z.object({
+//   name: z.string().min(2, "Name should be at least 2 characters long").trim(),
+//   email: z.string().email("Invalid email address").trim(),
+// });
 
 export enum USER_TYPE {
   ACADEMIC = "ACADEMIC",
@@ -119,6 +112,7 @@ export type UserProfile = {
   country: string;
   organization: string;
   user_type: USER_TYPE;
+  contact_number: string;
 };
 
 export const ProfileFormSchema = z.object({
@@ -169,6 +163,11 @@ export type CoAuthor = {
   organization: string;
 };
 
+export type AbstractStatus = {
+  name: string;
+  description: string;
+};
+
 export type AbstractType = {
   title: string;
   purpose: string;
@@ -182,6 +181,30 @@ export type AbstractType = {
   topicId?: string;
   topic: Topic;
   co_authors: CoAuthor[];
+  status: AbstractStatus;
+};
+
+export type AbstractTableRow = {
+  id: string;
+  title: string;
+
+  topic: string; // ✅ flattened
+  status: string; // ✅ flattened
+
+  coAuthors: {
+    name: string;
+    email: string;
+  }[];
+
+  reviewers: {
+    name: string;
+    email: string;
+  }[];
+
+  // optional (only if needed)
+  _raw?: {
+    assigns: any[];
+  };
 };
 
 export const AbstractFormSchema = z
@@ -275,3 +298,36 @@ export const ContactSchema = z.object({
   email: z.string().email("Invalid email"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
+
+export type User = {
+  name: string;
+  email: string;
+  role: Role;
+  profile: UserProfile;
+};
+
+export const UserSchema = z.object({
+  name: z.string(),
+  email: z.string(),
+});
+
+export type REVEIWER_USER_TYPE = {
+  id: string;
+  user: User;
+  display_order: number;
+  is_active: boolean;
+};
+
+export const ReviewerUserSchema = z.object({
+  name: z.string().min(2, "Name should be at least 2 characters long").trim(),
+  email: z.string().email(),
+  display_order: z.coerce.number().min(0),
+  is_active: z.boolean().optional(),
+});
+
+export type ReviewerAbstractType = {
+  is_agreed: boolean | null;
+  acknowledge_date: Date | null;
+  assign_date: Date;
+  abstract: AbstractType;
+};

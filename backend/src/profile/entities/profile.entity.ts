@@ -37,19 +37,19 @@ export class Profile {
   @Column('simple-enum', { enum: UserType })
   user_type: UserType;
 
-  @OneToOne(() => User, (item) => item.profile)
+  @OneToOne(() => User, (item) => item.profile, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User;
 
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => User, { nullable: true })
+  @ManyToOne(() => User, { nullable: true, onDelete: 'CASCADE' })
   created_by: User;
 
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, { nullable: true })
+  @ManyToOne(() => User, { nullable: true, onDelete: 'CASCADE' })
   updated_by: User;
 }

@@ -7,19 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/Modal";
-import { REVEIWER_USER, Topic } from "@/lib/type";
+import { User } from "@/lib/type";
 
 import ButtonIcon from "@/components/ui/ButtonIcon";
 import { Ellipsis, Pen } from "lucide-react";
 import CreateUserForm from "./CreateUserForm";
 
-export default function UserRow({
-  user,
-  topics,
-}: {
-  user: REVEIWER_USER;
-  topics: Topic[];
-}) {
+export default function UserRow({ user }: { user: User }) {
   return (
     <Modal>
       <DropdownMenu>
@@ -39,7 +33,7 @@ export default function UserRow({
         </DropdownMenuContent>
       </DropdownMenu>
       <Modal.Window name="edit-attribute">
-        <CreateUserForm topics={topics} userToEdit={user} />
+        <CreateUserForm userToEdit={user} />
       </Modal.Window>
     </Modal>
   );

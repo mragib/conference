@@ -17,6 +17,8 @@ import { SettingModule } from './setting/setting.module';
 import { TopicModule } from './topic/topic.module';
 import { UserModule } from './user/user.module';
 import { MailModule } from './mail/mail.module';
+import { ReviewerModule } from './reviewer/reviewer.module';
+import { AbstractAssignModule } from './abstract-assign/abstract-assign.module';
 
 @Module({
   imports: [
@@ -48,6 +50,10 @@ import { MailModule } from './mail/mail.module';
     AbstractReviewModule,
 
     MailModule,
+
+    ReviewerModule,
+
+    AbstractAssignModule,
   ],
   controllers: [AppController],
   providers: [

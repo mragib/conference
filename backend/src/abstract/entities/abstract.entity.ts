@@ -1,3 +1,4 @@
+import { AbstractAssign } from 'src/abstract-assign/entities/abstract-assign.entity';
 import { AbstractReview } from 'src/abstract-review/entities/abstract-review.entity';
 import { CoAuthor } from 'src/co-author/entities/co-author.entity';
 import { Topic } from 'src/topic/entities/topic.entity';
@@ -8,6 +9,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -48,8 +50,8 @@ export class Abstract {
   @ManyToOne(() => AbstractStatus, (status) => status.abstract)
   status: AbstractStatus;
 
-  @Column({ nullable: true })
-  statusId: string;
+  @Column({ default: 1 })
+  statusId: number;
 
   @Column()
   ip_address: string;
@@ -73,9 +75,17 @@ export class Abstract {
   updated_at: Date;
 
   //   Bi directional relation
-  @OneToMany(() => CoAuthor, (item) => item.abstract, { cascade: true })
+  @OneToMany(() => CoAuthor, (item) => item.abstract, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   co_authors: CoAuthor[];
 
-  @OneToMany(() => AbstractReview, (item) => item.abstract)
-  abstract_review: AbstractReview[];
+  @OneToOne(() => AbstractReview, (item) => item.abstract, {
+    onDelete: 'CASCADE',
+  })
+  abstract_review: AbstractReview;
+
+  @OneToMany(() => AbstractAssign, (item) => item.abstract)
+  assigns: AbstractAssign[];
 }

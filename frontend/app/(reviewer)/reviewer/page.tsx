@@ -1,5 +1,14 @@
+import ReviewerHeader from "@/components/ReviewerHeader";
+
 const ReviewerPage = () => {
-  return <div>ReviewerPage</div>;
+  return (
+    <>
+      <ReviewerHeader
+        menuName="Review Desk"
+        menuText="Evaluation Management & Reports"
+      />
+    </>
+  );
 };
 
 export default ReviewerPage;

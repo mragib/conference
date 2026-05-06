@@ -1,16 +1,14 @@
 import { Exclude } from 'class-transformer';
-import { AbstractReview } from 'src/abstract-review/entities/abstract-review.entity';
 import { Abstract } from 'src/abstract/entities/abstract.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
+import { Reviewer } from 'src/reviewer/entities/reviewer.entity';
 import { Session } from 'src/session/entities/session.entity';
-import { Topic } from 'src/topic/entities/topic.entity';
 import { Role } from 'src/types/types';
 import {
   Column,
   DeleteDateColumn,
   Entity,
   Index,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -27,7 +25,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   is_active: boolean;
 
   @Exclude()
@@ -72,17 +70,11 @@ export class User {
   @OneToOne(() => Profile, (item) => item.user)
   profile: Profile;
 
-  @OneToMany(() => Abstract, (item) => item.user)
+  @OneToMany(() => Abstract, (item) => item.user, { onDelete: 'CASCADE' })
   abstract: Abstract[];
 
-  @ManyToMany(() => Topic, (item) => item.user, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  topic: Topic[];
-
-  @OneToMany(() => AbstractReview, (item) => item.user)
-  abstract_review: AbstractReview[];
+  @OneToOne(() => Reviewer, (item) => item.user)
+  reviewer: Reviewer;
 
   @DeleteDateColumn()
   deletedAt: Date;

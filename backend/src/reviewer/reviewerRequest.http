@@ -1,0 +1,60 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0YzMyNzM2My03N2U3LTRjY2EtODMyZi03MTU2ZmY4ZWZkNjMiLCJpYXQiOjE3Nzc4NjkyMzEsImV4cCI6MTc3ODQ3NDAzMX0.Oyh5_THZS9IzI7djOL7AGKiMOAxjGoyflBTvGJ6219k
+
+###Sign In admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"Test123!@#"
+}
+
+###Sign In Reviewer ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"diner.ragib@gmail.com",
+ "password":"Test123!@#"
+}
+
+
+### Get all reviewer 
+GET http://localhost:8000/reviewer
+Authorization: Bearer {{token}}
+
+### Get a reviewer by id
+GET http://localhost:8000/reviewer/1
+Authorization: Bearer {{token}}
+
+### Create a reviewer
+POST http://localhost:8000/reviewer
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "email":"reviewer@gmail.com",
+    "name":"John Doe",
+    "display_order":1
+}
+
+### Create a reviewer
+POST http://localhost:8000/reviewer
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "user":{
+        "email":"diner.ragib@gmail.com",
+        "name":"Ragib Shahriar"
+  
+    },
+    "display_order":3
+}
+
+### Find reviewer abstracts ###
+GET http://localhost:8000/reviewer/abstracts
+Authorization: Bearer {{token}}
+
+
+

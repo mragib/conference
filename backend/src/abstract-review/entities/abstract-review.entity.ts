@@ -1,17 +1,17 @@
 import { Abstract } from 'src/abstract/entities/abstract.entity';
-import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-@Unique(['user', 'abstract'])
+@Unique(['abstract'])
 export class AbstractReview {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -25,10 +25,10 @@ export class AbstractReview {
   @Column('text')
   comment_to_chair: string;
 
-  @ManyToOne(() => User, (item) => item.abstract_review)
-  user: User;
-
-  @ManyToOne(() => Abstract, (item) => item.abstract_review)
+  @OneToOne(() => Abstract, (item) => item.abstract_review, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
   abstract: Abstract;
 
   @Column()
