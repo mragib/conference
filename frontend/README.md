@@ -1,4 +1,7 @@
-pm2 start dist/main.js --name nest-app --env production
+Copy all folder except .next and node_module folder.
 
-curl -u "webview:*webview@eu#" http://localhost:8002
-curl -u "webview:*webview@eu#" http://localhost:8002/admission/popup
+`npm i`
+
+`npm run build`
+
+`pm2 start ecosystem.config.js`

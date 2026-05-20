@@ -8,6 +8,7 @@ import { changeForSelectArray, getWordCount, parseError } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Send, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 import { useActionState, useEffect, useTransition } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -65,13 +66,13 @@ const AbstractSubmitForm = ({
   useEffect(() => {
     if (state?.success) {
       toast.success("Abstract created successfully!");
-      router.push("/dashboard/abstracts");
+      router.push("/reviewer/my-abstracts");
     }
 
     if (!state?.success && state?.errors) {
       toast.error(parseError(state.errors));
     }
-  }, [state, router]);
+  }, [state]);
   const filterTopics = changeForSelectArray(topics);
 
   const onsubmit = async (data: z.output<typeof AbstractFormSchema>) => {

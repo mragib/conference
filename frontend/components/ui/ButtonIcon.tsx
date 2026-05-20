@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 
 interface ButtonIconProps {
   icon: IconType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
   variant?:
     | "default"
@@ -21,18 +21,20 @@ const ButtonIcon = ({
   children,
   onClick,
   variant = "ghost",
-  size = "default",
+  size,
   className = "",
 }: ButtonIconProps) => {
+  const buttonSize = children ? "default" : size || "icon";
+
   return (
     <Button
       variant={variant}
-      size={size}
+      size={buttonSize}
       onClick={onClick}
-      className={`flex items-center justify-center gap-2 ${className}`}
+      className={`inline-flex items-center gap-2 ${className}`}
     >
-      <Icon className="w-4 h-4" />
-      {children}
+      <Icon className="h-4 w-4 shrink-0" />
+      {children && <span>{children}</span>}
     </Button>
   );
 };

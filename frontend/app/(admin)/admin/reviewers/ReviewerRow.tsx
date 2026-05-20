@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import ButtonIcon from "@/components/ui/ButtonIcon";
 import ConfirmChangeStatus from "@/components/ui/ConfirmReviewerStatus";
 import {
   DropdownMenu,
@@ -58,9 +57,10 @@ const ReviewerRow = ({ reviewer }: { reviewer: REVEIWER_USER_TYPE }) => {
         <DropdownMenuContent>
           <DropdownMenuItem>
             <Modal.Open opens="edit-data">
-              <ButtonIcon icon={Pen} variant="ghost">
-                Edit
-              </ButtonIcon>
+              <button className="flex w-full items-center gap-2">
+                <Pen className="h-4 w-4" />
+                <span>Change Status</span>
+              </button>
             </Modal.Open>
           </DropdownMenuItem>
         </DropdownMenuContent>

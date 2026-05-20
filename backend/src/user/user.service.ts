@@ -7,6 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'argon2';
+import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
 import { ApiResponse, Role } from 'src/types/types';
 import { FindOneOptions, In, IsNull, Not, Repository } from 'typeorm';
@@ -14,6 +15,7 @@ import {
   ChangeRoleDto,
   CreateGoogleUserDto,
   CreateUserDto,
+  CreateUserForAdminDto,
 } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -66,7 +68,7 @@ export class UserService {
         status: 'success',
         statuscode: 200,
         data: updatedUser,
-        message: 'User has been created',
+        message: `${updatedUser.name} is changed to ${updatedUser.role} role`,
       };
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -104,6 +106,7 @@ export class UserService {
         name: true,
         email: true,
         role: true,
+        is_active: true,
         profile: {
           country: true,
           designation: true,
@@ -113,7 +116,7 @@ export class UserService {
       },
       relations: ['profile'],
       where: {
-        role: Not(In([Role.ADMIN, Role.SUPERADMIN])),
+        role: Not(In([Role.SUPERADMIN])),
       },
     });
     return {
@@ -130,6 +133,14 @@ export class UserService {
         email,
         is_active: true,
         deletedAt: IsNull(), // Explicitly check for null
+      },
+    });
+  }
+
+  async findUserForGoogle(email: string) {
+    return await this.userRepository.findOne({
+      where: {
+        email,
       },
     });
   }
@@ -179,78 +190,51 @@ export class UserService {
     };
   }
 
-  async makeReviewer(createReviewerDto) {
-    // const { email, name, topic } = createReviewerDto;
-    // const existingUser = await this.findByEmail(email);
-    // if (existingUser) {
-    //   throw new ConflictException('User with this email already exists');
-    // }
-    // const rawToken = crypto.randomBytes(32).toString('hex');
-    // const invite_token = crypto
-    //   .createHash('sha256')
-    //   .update(rawToken)
-    //   .digest('hex');
-    // const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-    // const user = await this.userRepository.save({
-    //   email,
-    //   name,
-    //   role: Role.REVIEWER,
-    //   topic,
-    //   invite_token,
-    //   invite_expiry,
-    //   is_active: false,
-    // });
-    // const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
-    // try {
-    //   await this.mailService.sendEmail(
-    //     user.email,
-    //     'DBA Conference Reviewer Registration',
-    //     'create-reviewer-email',
-    //     {
-    //       name,
-    //       link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
-    //     },
-    //   );
-    //   return {
-    //     status: 'success',
-    //     statuscode: 200,
-    //     data: user,
-    //     message: 'Reviewer has been created',
-    //   };
-    // } catch (error) {
-    //   if (error instanceof ConflictException) {
-    //     throw error;
-    //   }
-    //   await this.userRepository.delete(user.id);
-    //   throw new InternalServerErrorException('Something went Wrong!');
-    // }
-  }
-
-  async updateReviewer(updateReviewerDto) {
-    // const { email, name, topic } = updateReviewerDto;
-    // try {
-    //   const user = await this.findByEmail(email);
-    //   if (!user) {
-    //     throw new NotFoundException('User with this email does not exist');
-    //   }
-    //   const updatedUser = await this.userRepository.save({
-    //     ...user,
-    //     name: name || user.name,
-    //     topic: topic || user.topic,
-    //     role: Role.REVIEWER,
-    //   });
-    //   return {
-    //     status: 'success',
-    //     statuscode: 200,
-    //     data: updatedUser,
-    //     message: 'Reviewer has been Updated',
-    //   };
-    // } catch (error) {
-    //   if (error instanceof NotFoundException) {
-    //     throw error;
-    //   }
-    //   throw new InternalServerErrorException('Something went Wrong!');
-    // }
+  async createUserForAdmin(createUserDto: CreateUserForAdminDto) {
+    const { email, name, role, is_active } = createUserDto;
+    const existingUser = await this.findByEmail(email);
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const invite_token = crypto
+      .createHash('sha256')
+      .update(rawToken)
+      .digest('hex');
+    const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+    const user = await this.userRepository.save({
+      email,
+      name,
+      role,
+      invite_token,
+      invite_expiry,
+      is_active,
+    });
+    const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
+    try {
+      await this.mailService.sendEmail(
+        user.email,
+        'SCM Conference User Registration',
+        'create-user-email',
+        {
+          name,
+          role,
+          link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
+        },
+      );
+      return {
+        status: 'success',
+        statuscode: 200,
+        data: user,
+        message: 'User has been created',
+      };
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
+      await this.userRepository.delete(user.id);
+      throw new InternalServerErrorException('Something went Wrong!');
+    }
   }
 
   async findAllUserWithTopic() {
@@ -290,5 +274,24 @@ export class UserService {
         deletedAt: IsNull(),
       },
     });
+  }
+
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+
+    if (!user) throw new NotFoundException('User is not found');
+
+    const { email, ...rest } = updateUserDto;
+
+    const updatedUser = await this.userRepository.update(id, rest);
+
+    return {
+      data: updatedUser,
+      status: 'success',
+      statusCode: 200,
+      message: 'User updated successfully',
+    };
   }
 }

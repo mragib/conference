@@ -26,3 +26,12 @@ Authorization: Bearer {{token}}
 ### Disagree
 GET http://localhost:8000/abstract-assign/disagree?token=42616b13e9b689dae1218f98bdfbb5d6b2539e8dbb921ef18f2140e4bdb87749
 Authorization: Bearer {{token}}
+
+### Assign the abstract to another Reviewer
+POST http://localhost:8000/abstract-assign/change-reviewer
+Authorization: Bearer {{token}}
+
+{
+    "abstractId":"",
+    "reviewerId":"",
+}

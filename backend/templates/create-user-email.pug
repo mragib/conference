@@ -1,0 +1,53 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title  SCM Conference 2026 Invitation
+
+  body(style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;")
+    .wrapper(style="padding:30px 10px;")
+      .container(style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;")
+
+        //- HEADER
+        include header
+
+        .content(style="padding:40px;")
+
+          h2(style="color:#003366; font-size:20px; font-weight:900; margin-top:0;")
+            | Hello #{name},
+
+          p(style="color:#475569; font-size:15px; line-height:1.8;")
+            | You have been invited to join as a 
+            strong #{role}
+            |  for the SCM Conference.
+
+          p(style="color:#475569; font-size:15px; line-height:1.8;")
+            | Please click the button below to set your password and activate your account:
+
+          //- CTA BUTTON
+          .button-container(style="text-align:center; margin:25px 0;")
+            a(
+              href=link
+              style="display:inline-block; padding:12px 24px; background:#003366; color:#ffffff; text-decoration:none; border-radius:10px; font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:1px;"
+            )
+              | Set Your Password
+
+          p(style="color:#64748b; font-size:13px;")
+            | If the button does not work, copy and paste this link into your browser:
+
+          p(style="word-break:break-all; color:#003366; font-size:13px; font-weight:600;")
+            | #{link}
+
+          p(style="color:#64748b; font-size:13px; margin-top:15px;")
+            | This link will expire in 24 hours.
+
+          .footer-sign(style="margin-top:30px; border-top:1px solid #f1f5f9; padding-top:20px;")
+            p(style="margin:0; color:#003366; font-weight:900;")
+              | Regards,
+
+            p(style="margin:2px 0 0; color:#64748b; font-weight:600;")
+              | SCM Conference Team
+
+        //- FOOTER
+        include footer

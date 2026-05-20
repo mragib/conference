@@ -112,7 +112,6 @@ export class ReviewerService {
     const reviewer = await this.reviewerRepository.findOne({
       where: {
         id,
-        is_active: true,
       },
     });
     if (!reviewer) {
@@ -141,12 +140,12 @@ export class ReviewerService {
       .leftJoin('rw.user', 'u')
       .addSelect(['u.name', 'u.email'])
       .leftJoin('rw.abstractAssigns', 'ar', 'ar.is_agreed IS NOT FALSE')
-      .addSelect('COUNT(ar.id)', 'assignCount')
+      .addSelect('COUNT(ar.id)', 'assign_count')
       .where('rw.is_active = true')
       .andWhere('u.id != :userId', { userId: user.id })
       .groupBy('rw.id')
       .addGroupBy('u.id')
-      .orderBy('assignCount', 'ASC')
+      .orderBy('assign_count', 'ASC')
       .addOrderBy('rw.display_order', 'ASC')
       .limit(1);
 
@@ -156,7 +155,7 @@ export class ReviewerService {
 
     return {
       ...entities[0],
-      assignCount: Number(raw[0].assignCount),
+      assignCount: Number(raw[0].assign_count),
     };
   }
 
@@ -256,9 +255,13 @@ export class ReviewerService {
 
     if (!reviewer) throw new NotFoundException('Reviewer is not found');
 
-    if (reviewer.abstractAssigns)
+    const activeAssignments = reviewer.abstractAssigns.filter(
+      (assign) => assign.is_agreed !== false,
+    );
+
+    if (activeAssignments.length)
       throw new NotAcceptableException(
-        `This reviewer has assign ${reviewer.abstractAssigns.length} abstract.`,
+        `This reviewer has assigned ${activeAssignments.length} abstract(s).`,
       );
     if (is_active) {
       await this.userService.changeRole({

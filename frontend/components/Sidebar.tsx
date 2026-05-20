@@ -2,21 +2,15 @@
 
 import { Role } from "@/lib/type";
 import {
-  Award,
   BarChart3,
-  Calendar, // 🚀 NEW ICON
-  CheckCircle,
   ClipboardCheck,
-  CreditCard,
   FileText,
-  History,
   Landmark,
   LayoutDashboard,
   Menu,
   PlusCircle,
   Settings,
   ShieldCheck,
-  SwatchBook,
   UserCircle,
   Users,
   X,
@@ -35,34 +29,46 @@ const Sidebar = ({ user }: any) => {
     { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     { name: "Submit Abstract", icon: PlusCircle, path: "/dashboard/submit" },
     { name: "My Abstracts", icon: FileText, path: "/dashboard/abstracts" },
-    { name: "Event Timeline", icon: Calendar, path: "/dashboard/schedule" }, // 🚀 INTEGRATED
-    { name: "Certificates", icon: Award, path: "/dashboard/certificates" },
+    { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
+    // { name: "Event Timeline", icon: Calendar, path: "/dashboard/schedule" },
+    // { name: "Certificates", icon: Award, path: "/dashboard/certificates" },
   ];
 
   const reviewerItems = [
     { name: "Review Overview", icon: LayoutDashboard, path: "/reviewer" },
     {
-      name: "Abstracts",
+      name: "Review Abstracts",
       icon: ClipboardCheck,
       path: "/reviewer/abstracts",
     },
     {
-      name: "Completed Reviews",
-      icon: CheckCircle,
-      path: "/reviewer/completed",
+      name: "My Abstracts",
+      icon: FileText,
+      path: "/reviewer/my-abstracts",
     },
+    {
+      name: "Submit Abstract",
+      icon: PlusCircle,
+      path: "/reviewer/submit",
+    },
+    { name: "Profile", icon: UserCircle, path: "/reviewer/profile" },
+    // {
+    //   name: "Completed Reviews",
+    //   icon: CheckCircle,
+    //   path: "/reviewer/completed",
+    // },
   ];
 
   const adminItems = [
     { name: "Admin Console", icon: ShieldCheck, path: "/admin" },
     { name: "Manage Abstracts", icon: BarChart3, path: "/admin/abstracts" },
-    { name: "Event Schedule", icon: Calendar, path: "/admin/schedule" }, // 🚀 UPDATED: Pointing to Architect
-    { name: "Finance & Revenue", icon: CreditCard, path: "/admin/finance" },
+    // { name: "Event Schedule", icon: Calendar, path: "/admin/schedule" },
+    // { name: "Finance & Revenue", icon: CreditCard, path: "/admin/finance" },
     { name: "Reviewer Management", icon: Users, path: "/admin/reviewers" },
 
     { name: "User Management", icon: Users, path: "/admin/users" },
-    { name: "Sub Themes", icon: SwatchBook, path: "/admin/sub-themes" },
-    { name: "Activity Logs", icon: History, path: "/admin/logs" },
+    // { name: "Sub Themes", icon: SwatchBook, path: "/admin/sub-themes" },
+    // { name: "Activity Logs", icon: History, path: "/admin/logs" },
   ];
 
   const authorityItems = [
@@ -79,18 +85,14 @@ const Sidebar = ({ user }: any) => {
     if (userRole === Role.ADMIN) {
       return [
         ...adminItems,
-        { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
+        // { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
         { name: "Settings", icon: Settings, path: "/admin/settings" },
       ];
     }
-    const commonForOthers = [
-      { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
-    ];
-    if (userRole === Role.REVIEWER)
-      return [...reviewerItems, ...commonForOthers];
-    if (userRole === Role.AUTHORITY)
-      return [...authorityItems, ...commonForOthers];
-    return [...researcherItems, ...commonForOthers];
+
+    if (userRole === Role.REVIEWER) return [...reviewerItems];
+    if (userRole === Role.AUTHORITY) return [...authorityItems];
+    return [...researcherItems];
   };
   const menuItems = getMenuItems();
   return (

@@ -33,20 +33,21 @@ export default function Keynotes() {
     {
       name: "Dr Amrik Sohal",
       designation: "Professor",
-      title: "Global Lead of Digital Transformation",
+      title: "",
       institution: "Monash University, Australia",
       talk: "Supply Chain Management",
       image: "/images/speakers/Amril _Sohel.jpg",
       bio: "Dr Amrik Sohal is a Professor in the Department of Management, Monash Business, School, Monash University where his teaching and research covers Operations/Innovation/Technology Management, Supply Chain Management, Circular Economy and Sustainability, and Healthcare Improvement. He holds a PhD in Operations Management from the University of Bradford Management Centre in the UK, as well as a BEng (Hons) and an MBA, also from the University of Bradford. He has received research grants from the State and Federal Governments, the Australian Research Council, a number of industry associations and businesses, as well as from Monash University.",
     },
-    // {
-    //   name: "Dr. Elena Petrova",
-    //   title: "Senior Economist",
-    //   institution: "European Central Bank",
-    //   talk: "Future of Fintech in Emerging Markets",
-    //   image: "/images/speakers/petrova.jpeg",
-    //   bio: "Expert in monetary policy and blockchain integration in banking systems. Dr. Petrova has been instrumental in drafting frameworks for digital currency adoption within the Eurozone. Her insights bridge the gap between traditional fiscal policy and the rapid evolution of fintech, with a specific focus on financial inclusion and cross-border payment security.",
-    // },
+    {
+      name: "Dr. Ravi Shankar",
+      designation: "Professor",
+      title: "",
+      institution: "Indian Institute of Technology Delhi, Delhi",
+      talk: "Future of Fintech in Emerging Markets",
+      image: "/images/speakers/Dr_Ravi_Shankar.jpg",
+      bio: "Dr. Ravi Shankar is Professor (HAG) of Operations and Supply Chain Management in the Department of Management Studies (DMS) Indian Institute of Technology  (IIT) Delhi India. He is Fellow of prestigious Indian National Academy of Engineers (FNAE), “Fellow of World Academy of Productivity Sciences (FWAPS)” and Indian Institute of Industrial Engineers (FIIIE). His research citations exceed 47,800 with an H-index of 91 (June 2025). This research productivity is the highest in any Business School in India. His areas of interest include Operations & Supply Chain Management, Business Analytic & Optimization, Project Management, and Technology Management & Innovation.",
+    },
   ];
 
   const fullCommittee = {
@@ -116,7 +117,7 @@ export default function Keynotes() {
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full flex flex-col justify-center h-full">
         <div className="mb-8 md:mb-12 text-center md:text-left">
           <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#003366] uppercase tracking-tighter leading-none">
-            Keynote <span className="text-[#C5A059]">Speaker</span>
+            Keynote <span className="text-[#C5A059]">Speakers</span>
           </h3>
         </div>
 

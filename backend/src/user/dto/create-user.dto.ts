@@ -111,3 +111,22 @@ export class CreateReviewerUserDto {
   @Transform(({ value }: { value: string }) => value?.toLowerCase())
   email: string;
 }
+export class CreateUserForAdminDto {
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(60)
+  name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  @Transform(({ value }: { value: string }) => value?.toLowerCase())
+  email: string;
+
+  @IsEnum(Role)
+  @IsNotEmpty()
+  role: Role;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  is_active: boolean;
+}

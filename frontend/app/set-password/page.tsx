@@ -8,7 +8,6 @@ const SetPasswordPage = async ({
   searchParams: { token?: string };
 }) => {
   const { token } = await searchParams;
-  console.log("token", token);
   if (!token) {
     redirect("/invalid-link");
   }

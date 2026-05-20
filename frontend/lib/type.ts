@@ -169,6 +169,7 @@ export type AbstractStatus = {
 };
 
 export type AbstractType = {
+  id?: string;
   title: string;
   purpose: string;
   methodology: string;
@@ -182,6 +183,7 @@ export type AbstractType = {
   topic: Topic;
   co_authors: CoAuthor[];
   status: AbstractStatus;
+  created_at?: Date;
 };
 
 export type AbstractTableRow = {
@@ -190,6 +192,7 @@ export type AbstractTableRow = {
 
   topic: string; // ✅ flattened
   status: string; // ✅ flattened
+  has_review: boolean;
 
   coAuthors: {
     name: string;
@@ -199,6 +202,7 @@ export type AbstractTableRow = {
   reviewers: {
     name: string;
     email: string;
+    is_agreed: boolean;
   }[];
 
   // optional (only if needed)
@@ -250,6 +254,7 @@ export const AbstractFormSchema = z
           last_name: z.string().min(1).trim(),
           email: z.string().email().trim(),
           organization: z.string().min(1).trim(),
+          display_order: z.coerce.number(),
         }),
       )
       .min(1, "At least one co-author is required")
@@ -304,6 +309,7 @@ export type User = {
   email: string;
   role: Role;
   profile: UserProfile;
+  is_active: boolean;
 };
 
 export const UserSchema = z.object({
@@ -331,3 +337,36 @@ export type ReviewerAbstractType = {
   assign_date: Date;
   abstract: AbstractType;
 };
+
+export const AdminUserCreateFormSchema = z.object({
+  name: z.string().min(2, "Name should be at least 2 characters long").trim(),
+  email: z.string().email(),
+  role: z.enum(Role).optional(),
+  roleObj: z.object({
+    label: z.string(),
+    value: z.string().min(1, "Role is required"),
+  }),
+  is_active: z.coerce.boolean(),
+});
+
+export const AdminUserServerSchema = AdminUserCreateFormSchema.omit({
+  roleObj: true,
+}).extend({
+  role: z.string(),
+});
+
+export const AbstractReviewerChangeSchema = z.object({
+  reviewerId: z.string().trim().optional(),
+  reviewerObj: z.object({
+    label: z.string(),
+    value: z.string().min(1, "Role is required"),
+  }),
+  abstractId: z.string().trim(),
+});
+
+export const AbstractReviewerChangeSchemaServer =
+  AbstractReviewerChangeSchema.omit({
+    reviewerObj: true,
+  }).extend({
+    reviewerId: z.string().trim(),
+  });

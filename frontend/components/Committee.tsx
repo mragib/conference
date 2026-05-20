@@ -72,6 +72,11 @@ export default function Committee() {
         "Shanghai University of International Business and Economics, Shanghai",
     },
     {
+      name: "Dr. Ir. I Nyoman Pujawan",
+      role: "Professor",
+      title: "Institut Teknologi Sepuluh Nopember, Surabaya",
+    },
+    {
       name: "Dr. A.K.M Masud",
       role: "Professor",
       title: "Bangladesh University of Engineering and Technology, Dhaka",

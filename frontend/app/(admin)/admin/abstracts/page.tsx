@@ -1,9 +1,10 @@
 import AdminHeader from "@/components/AdminHeader";
-import { getAllAbstracts } from "@/lib/data-service";
+import { getAllAbstracts, getAllReviewers } from "@/lib/data-service";
 import AbstractsTable from "./AbstractsTable";
 
 const AbstractPage = async () => {
   const { data } = await getAllAbstracts();
+  const { data: reviewers } = await getAllReviewers();
 
   const formattedData = data.map((a) => ({
     id: a.id,
@@ -11,6 +12,7 @@ const AbstractPage = async () => {
 
     topic: a.topic?.name ?? "",
     status: a.status?.name ?? "",
+    has_review: a.has_review,
 
     coAuthors:
       a.co_authors?.map((c) => ({
@@ -18,10 +20,10 @@ const AbstractPage = async () => {
         email: c.email,
       })) ?? [],
 
-    reviewers: a.reviewers ?? [], // already clean ✅
+    reviewers: a.reviewers ?? [],
 
     _raw: {
-      assigns: a.assigns, // keep if needed
+      assigns: a.assigns,
     },
   }));
 
@@ -30,7 +32,9 @@ const AbstractPage = async () => {
       <AdminHeader menuName="Abstract Management" />
       {/* <div className="p-4">{<AddReviewer />}</div>
       <ReviewerTable reviewers={reviewers} /> */}
-      <AbstractsTable abstracts={formattedData} />
+      <div className="p-8">
+        <AbstractsTable abstracts={formattedData} reviewers={reviewers} />
+      </div>
     </>
   );
 };

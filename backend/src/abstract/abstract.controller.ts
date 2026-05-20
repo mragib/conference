@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -19,17 +20,31 @@ import { UpdateAbstractDto } from './dto/update-abstract.dto';
 export class AbstractController {
   constructor(private readonly abstractService: AbstractService) {}
 
-  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY, Role.RESEARCHER)
+  @Roles(
+    Role.SUPERADMIN,
+    Role.ADMIN,
+    Role.AUTHORITY,
+    Role.RESEARCHER,
+    Role.REVIEWER,
+  )
   @Post()
   create(@Body() createAbstractDto: CreateAbstractDto, @GetUser() user: User) {
     createAbstractDto.user = user;
     return this.abstractService.create(createAbstractDto);
   }
 
-  @Roles(Role.RESEARCHER)
+  @Roles(Role.RESEARCHER, Role.REVIEWER)
   @Get('author-abstracts')
   findAuthorAbstracts(@GetUser() user: User) {
     return this.abstractService.findAuthorAbstracts(user);
+  }
+
+  @Roles(Role.RESEARCHER, Role.REVIEWER)
+  @Get('abstract-details/:id')
+  async findAuthorAbstract(@Param('id') id: string, @GetUser() user: User) {
+    const found = await this.abstractService.findAbstractDetails(id, user);
+    if (!found) throw new NotFoundException('Abstract is not found');
+    return found;
   }
 
   @Roles(Role.REVIEWER)
@@ -44,6 +59,7 @@ export class AbstractController {
     return this.abstractService.findAll();
   }
 
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.abstractService.findOne(+id);

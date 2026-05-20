@@ -1,5 +1,5 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YTI1ZWE2Ni0zNzI1LTRiZWUtOTY5MC1hNjAzNzI0M2U3OGQiLCJpYXQiOjE3NzgwNDE4MDYsImV4cCI6MTc3ODY0NjYwNn0.IvTbi9GbQl_0oVTtxF-UGt_fDEKuruc5ESFTWIvLnzQ
-@admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4MDhlN2ZmZS04NTY5LTRkZmQtYTQwYS1mNDllOTc0NWMyNWYiLCJpYXQiOjE3NzU0NTcxMzMsImV4cCI6MTc3NjA2MTkzM30.wNvPPsp6tTuAlgNSKp-7IxdGZPv1fDiSkYtLBYdoZ3Y
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMzA1OTE3YS00YzE3LTQ3ZTctYjIzNi1hYjRhMzc1NDY4ZTgiLCJpYXQiOjE3Nzg2NjYwNjgsImV4cCI6MTc3OTI3MDg2OH0.le4zeej2Ix4Ubm5INKLRixvC7tabO8Cyo-LTERMyNtU
+@admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3Nzg2NjYyMDAsImV4cCI6MTc3OTI3MTAwMH0.ygcEmm9koBZaL5WXa3VuLkGdb5Q_RJM5BZ07yH4O0LU
 
 
 ###Sign In ###
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
  "email":"admin@gmail.com",
- "password":"Test123!@#"
+ "password":"test123"
 }
 
 ### Make a reviewer ###
@@ -52,4 +52,43 @@ Authorization: Bearer {{admin_token}}
 
 ###Sign In ###
 Get http://localhost:8000/user
-Authorization: Bearer {{token}}
+Authorization: Bearer {{admin_token}}
+
+
+### All User
+GET http://localhost:8000/user
+Authorization: Bearer {{admin_token}}
+
+
+### Test
+POST https://testapi-dbaconf.ewubd.edu/auth/signin
+Content-Type: application/json
+
+{
+ "email":"test@gmail.com",
+ "password":"test123"
+}
+
+### Change Role
+POST http://localhost:8000/user/change-role
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "userId":"04d22e0c-df20-43df-a302-4b670681dcd3",
+    "role":"ADMIN"
+}
+
+
+### Update User
+PATCH http://localhost:8000/user/update-user/11c11ec0-37cc-485b-a2c0-0ac7c9fe09b6
+Content-Type: application/json
+Authorization: Bearer {{admin_token}}
+
+{
+    "role":"ADMIN",
+    "name":"test update 3",
+    "email":"test-update@gmail.com"
+    # "email":"ragibshahriar@ewubd.edu"
+
+}

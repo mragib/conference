@@ -17,7 +17,7 @@ import SignOutButtonNavbar from "./signOutButtonNavbar";
 
 const navLinks = [
   { name: "Dates", href: "/key-dates" },
-  { name: "Keynote Speaker", href: "/keynote-speaker" },
+  { name: "Keynote Speakers", href: "/keynote-speaker" },
   { name: "Guidelines", href: "/guidelines" },
   { name: "Committee", href: "/committee" },
   { name: "Registration Fee", href: "/pricing" },

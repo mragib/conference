@@ -7,6 +7,8 @@ import { headers } from "next/headers";
 import { getSession } from "./session";
 import {
   AbstractFormSchema,
+  AbstractReviewerChangeSchemaServer,
+  AdminUserServerSchema,
   AdvanceFormState,
   ApiResponse,
   APIStatus,
@@ -349,6 +351,99 @@ export const userRoleChangeService = async (
   return resData;
 };
 
+export const addUserServiceForAdmin = async (
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState> => {
+  try {
+    const payload: any = {
+      ...Object.fromEntries(formData.entries()),
+      is_active: formData.get("is_active") === "true",
+    };
+
+    const validation = AdminUserServerSchema.safeParse(payload);
+
+    if (!validation.success) {
+      return {
+        errors: validation.error.flatten().fieldErrors,
+        success: false,
+      };
+    }
+
+    const response = await authPostOrPatch(
+      `${BACKEND_URL}/user/create-user`,
+      "POST",
+      JSON.stringify(validation.data),
+    );
+
+    const resData = await response.json();
+
+    if (!response.ok) {
+      return {
+        errors: parseApiError(resData),
+        success: false,
+      };
+    }
+
+    return {
+      success: true,
+      message: resData.message,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      errors: error?.message || "Something went wrong",
+    };
+  }
+};
+
+export const updateUserServiceForAdmin = async (
+  id: string,
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState> => {
+  try {
+    const payload: any = {
+      ...Object.fromEntries(formData.entries()),
+      is_active: formData.get("is_active") === "true",
+    };
+
+    const validation = AdminUserServerSchema.safeParse(payload);
+
+    if (!validation.success) {
+      return {
+        errors: validation.error.flatten().fieldErrors,
+        success: false,
+      };
+    }
+
+    const response = await authPostOrPatch(
+      `${BACKEND_URL}/user/update-user/${id}`,
+      "PATCH",
+      JSON.stringify(validation.data),
+    );
+
+    const resData = await response.json();
+
+    if (!response.ok) {
+      return {
+        errors: resData.message || resData.error || "Request failed",
+        success: false,
+      };
+    }
+
+    return {
+      success: true,
+      message: resData.message,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      errors: error?.message || "Something went wrong",
+    };
+  }
+};
+
 export const getTopics = async () => {
   const response = await publicFetch(`${BACKEND_URL}/topic`);
   const topics = await response.json();
@@ -493,11 +588,8 @@ export const createAbstract = async (
       fields[key] = payload[key].toString();
     }
 
-    revalidatePath("/dashboard/abstracts");
-
     return {
       errors: validation.error.flatten().fieldErrors,
-
       success: false,
     };
   }
@@ -722,4 +814,72 @@ export const getAllAbstracts = async () => {
     };
   }
   return resData;
+};
+
+export const getAllReviewers = async () => {
+  const response = await authFetch(`${BACKEND_URL}/reviewer`);
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return resData;
+};
+
+export const changeAbstractReviewer = async (
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> => {
+  const payload: any = Object.fromEntries(data.entries());
+
+  const validation = AbstractReviewerChangeSchemaServer.safeParse(payload);
+
+  if (!validation.success) {
+    const fields: Record<string, string> = {};
+
+    for (const key of Object.keys(payload)) {
+      fields[key] = payload[key].toString();
+    }
+
+    return {
+      errors: validation.error.flatten().fieldErrors,
+
+      success: false,
+    };
+  }
+  try {
+    const response = await authPostOrPatch(
+      `${BACKEND_URL}/abstract-assign/change-reviewer`,
+      "POST",
+      JSON.stringify({
+        abstract: {
+          id: validation.data.abstractId,
+        },
+        reviewer: {
+          id: validation.data.reviewerId,
+        },
+      }),
+    );
+
+    const resData = await response.json();
+
+    if (!response.ok) {
+      return {
+        errors: parseApiError(resData),
+        success: false,
+      };
+    }
+
+    return {
+      success: true,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      errors: error?.message || "Something went wrong",
+    };
+  }
 };

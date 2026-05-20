@@ -34,6 +34,7 @@ export class AbstractService {
         reviewer,
         assign_date: new Date(),
       });
+
       return {
         message: 'Abstract created successfully',
         // data: abstract,
@@ -41,55 +42,21 @@ export class AbstractService {
         statusCode: 200,
       };
     } catch (error) {
+      console.error(error);
       throw new InternalServerErrorException(error);
     }
   }
 
   async findAll() {
-    // const [abstracts, count] = await this.abstractRepository.findAndCount({
-    //   select: {
-    //     id: true,
-    //     title: true,
-    //     topic: {
-    //       name: true,
-    //     },
-    //     status: {
-    //       name: true,
-    //     },
-    //     co_authors: true,
-    //     assigns: {
-    //       reviewer: {
-    //         user: {
-    //           name: true,
-    //           email: true,
-    //         },
-    //       },
-    //     },
-    //   },
-    //   relations: {
-    //     status: true,
-    //     topic: true,
-    //     co_authors: true,
-    //     abstract_review: true,
-    //     assigns: {
-    //       reviewer: {
-    //         user: true,
-    //       },
-    //     },
-    //   },
-    // });
     const [abstracts, count] = await this.abstractRepository
       .createQueryBuilder('a')
-
-      // ✅ joins
       .leftJoin('a.topic', 't')
       .leftJoin('a.status', 's')
       .leftJoin('a.co_authors', 'ca')
       .leftJoin('a.assigns', 'as')
       .leftJoin('as.reviewer', 'r')
       .leftJoin('r.user', 'u')
-
-      // ✅ select only what you need
+      .leftJoin('a.abstract_review', 'ar')
       .select([
         'a.id',
         'a.title',
@@ -97,23 +64,54 @@ export class AbstractService {
         't.name',
         's.name',
 
-        'ca', // full co_authors (or pick fields if needed)
+        'ca',
 
-        'as.id', // important: include at least PK
+        'as.id',
+        'as.is_agreed',
+
         'r.id',
+
         'u.name',
         'u.email',
-      ])
 
+        'ar.id',
+      ])
       .getManyAndCount();
 
     const formatted = abstracts.map((a) => ({
-      ...a,
+      id: a.id,
+      title: a.title,
 
-      reviewers: a.assigns?.map((as) => ({
-        name: as.reviewer?.user?.name,
-        email: as.reviewer?.user?.email,
-      })),
+      topic: { name: a.topic?.name },
+
+      status: { name: a.status?.name },
+
+      has_review: !!a.abstract_review,
+      co_authors: a.co_authors
+        .sort((a, b) => a.display_order - b.display_order)
+        .map((item) => {
+          return {
+            first_name: item.first_name,
+            last_name: item.last_name,
+            email: item.email,
+          };
+        }),
+
+      reviewers: a.assigns
+        ?.sort((a, b) => {
+          const priority = (value: boolean | null | undefined) => {
+            if (value === true) return 0;
+            if (value == null) return 1;
+            return 2;
+          };
+
+          return priority(a.is_agreed) - priority(b.is_agreed);
+        })
+        .map((as) => ({
+          name: as.reviewer?.user?.name,
+          email: as.reviewer?.user?.email,
+          is_agreed: as.is_agreed,
+        })),
     }));
 
     return {
@@ -143,12 +141,34 @@ export class AbstractService {
           id: user.id,
         },
       },
-      relations: ['topic', 'co_authors'],
+      relations: {
+        co_authors: true,
+        status: true,
+        topic: true,
+      },
+      select: {
+        id: true,
+        title: true,
+        created_at: true,
+      },
       order: {
         created_at: 'DESC',
       },
     });
     return { data: abstracts, count, status: 'success', statusCode: 200 };
+  }
+
+  async findAbstractDetails(id: string, user: User) {
+    const abstract = await this.abstractRepository.findOne({
+      where: {
+        id,
+        user: {
+          id: user.id,
+        },
+      },
+    });
+
+    return abstract;
   }
 
   async findReviewerAbstracts(user: User) {

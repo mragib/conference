@@ -10,7 +10,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Conference DBA 2026",
+  title: "SCM Conference 2026",
   description: "International Conference on Economics and Business",
   icons: {
     icon: "/favicon.ico",

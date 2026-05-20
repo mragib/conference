@@ -9,7 +9,11 @@ import {
 } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/role.decorators';
 import { Role } from 'src/types/types';
-import { CreateUserDto } from './dto/create-user.dto';
+import {
+  ChangeRoleDto,
+  CreateUserDto,
+  CreateUserForAdminDto,
+} from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
@@ -53,15 +57,24 @@ export class UserController {
     return this.userService.remove(id);
   }
 
-  // @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
-  // @Post('make-reviewer')
-  // makeReviewer(@Body() createReviewerDto: CreateReviewerDto) {
-  //   return this.userService.makeReviewer(createReviewerDto);
-  // }
+  @Roles(Role.SUPERADMIN, Role.ADMIN)
+  @Post('change-role')
+  updateRole(@Body() changeRole: ChangeRoleDto) {
+    return this.userService.changeRole(changeRole);
+  }
 
-  // @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
-  // @Post('update-reviewer')
-  // updateReviewer(@Body() updateReviewerDto: UpdateReviewerDto) {
-  //   return this.userService.updateReviewer(updateReviewerDto);
-  // }
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
+  @Post('create-user')
+  createUser(@Body() createReviewerDto: CreateUserForAdminDto) {
+    return this.userService.createUserForAdmin(createReviewerDto);
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
+  @Patch('update-user/:id')
+  updateReviewer(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.updateUser(id, updateUserDto);
+  }
 }

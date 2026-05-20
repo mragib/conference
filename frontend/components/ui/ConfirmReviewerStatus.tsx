@@ -4,7 +4,7 @@ type ConfirmChangeStatusProps = {
   resource: string;
   action: string;
   onConfirm: () => void;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
   disabled?: boolean;
 };
 

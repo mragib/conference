@@ -145,8 +145,13 @@ export class AuthService {
   }
 
   async validateGooleUser(googleUser: CreateGoogleUserDto) {
-    const foundUser = await this.userService.findByEmail(googleUser.email);
-
+    const foundUser = await this.userService.findUserForGoogle(
+      googleUser.email,
+    );
+    if (foundUser && !foundUser.is_active)
+      throw new UnauthorizedException(
+        'You are inactive user. Please contact with authority',
+      );
     if (foundUser) return foundUser;
 
     const newUser = await this.userService.createGoogleUser(googleUser);

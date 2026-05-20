@@ -267,6 +267,13 @@ export const USER_TYPE_ARRAY = [
   },
 ];
 
+export const ROLE_ARRAY = [
+  { name: "Admin", id: "ADMIN" },
+  { name: "Authority", id: "AUTHORITY" },
+  // { name: "Reviewer", id: "REVIEWER" },
+  { name: "Researcher", id: "RESEARCHER" },
+];
+
 export const customSelectStyles = {
   control: (base, state) => ({
     ...base,

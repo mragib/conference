@@ -9,7 +9,7 @@ export const AddUser = () => {
   return (
     <Modal>
       <Modal.Open opens="data-form">
-        <Button>Add a Reviewer</Button>
+        <Button>Add a user</Button>
       </Modal.Open>
       <Modal.Window name="data-form">
         <CreateUserForm />

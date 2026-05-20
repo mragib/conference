@@ -10,7 +10,10 @@ import { MailService } from 'src/mail/mail.service';
 import { ReviewerService } from 'src/reviewer/reviewer.service';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateAbstractAssignDto } from './dto/create-abstract-assign.dto';
+import {
+  ChangeReviewerDto,
+  CreateAbstractAssignDto,
+} from './dto/create-abstract-assign.dto';
 import { AbstractAssign } from './entities/abstract-assign.entity';
 
 @Injectable()
@@ -171,5 +174,27 @@ export class AbstractAssignService {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async changeReviewer(changeReviewerDto: ChangeReviewerDto) {
+    const { abstract, reviewer } = changeReviewerDto;
+    await this.abstractAssignRepository.update(
+      {
+        abstract: {
+          id: abstract.id,
+        },
+      },
+      {
+        is_agreed: false,
+      },
+    );
+
+    const newAssign = await this.create({
+      abstract,
+      reviewer,
+      assign_date: new Date(),
+    });
+
+    return newAssign;
   }
 }

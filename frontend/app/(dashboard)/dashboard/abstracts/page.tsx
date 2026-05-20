@@ -8,7 +8,7 @@ const AbstractsPage = async () => {
     <div className="overflow-y-hidden">
       <DashboardHeader menuName="Abstracts" />
       <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar">
-        <AbstractTable abstracts={abstracts} />
+        <AbstractTable abstracts={abstracts} url="/dashboard/abstracts" />
       </div>
     </div>
   );

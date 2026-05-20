@@ -2,6 +2,7 @@
 
 import UserRow from "@/app/(admin)/admin/users/UserRow";
 import { Button } from "@/components/button";
+import { Badge } from "@/components/ui/badge";
 import { User } from "@/lib/type";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
@@ -107,6 +108,43 @@ export const getUserColumns = (): ColumnDef<User>[] => [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Country
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    id: "status",
+    accessorKey: "is_active",
+    cell: ({ row }) => {
+      const isActive = row.original.is_active;
+
+      return (
+        <Badge
+          variant="outline"
+          className={`rounded-full px-3 py-1 font-medium ${
+            isActive
+              ? "border-green-200 bg-green-50 text-green-700 hover:bg-green-50"
+              : "border-red-200 bg-red-50 text-red-700 hover:bg-red-50"
+          }`}
+        >
+          <span
+            className={`mr-2 h-2 w-2 rounded-full ${
+              isActive ? "bg-green-500" : "bg-red-500"
+            }`}
+          />
+          {isActive ? "Active" : "Inactive"}
+        </Badge>
+      );
+    },
+    header: ({ column }) => {
+      return (
+        <Button
+          className="text-sm md:text-md font-bold uppercase"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

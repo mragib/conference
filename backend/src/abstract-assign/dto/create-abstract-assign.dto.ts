@@ -42,3 +42,13 @@ export class CreateAbstractAssignDto {
   @IsDate()
   token_expiry?: Date;
 }
+
+export class ChangeReviewerDto {
+  @IsNotEmptyObject()
+  @IsObject()
+  reviewer: Reviewer;
+
+  @IsNotEmptyObject()
+  @IsObject()
+  abstract: Abstract;
+}

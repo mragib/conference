@@ -5,6 +5,7 @@ import { User } from "@/lib/type";
 
 const UserTable = ({ users }: { users: User[] }) => {
   const columns = getUserColumns();
+
   return <DataTable columns={columns} data={users} />;
 };
 

@@ -2,7 +2,7 @@
 
 import FloatingInput from "@/components/ui/FloatingInput";
 import { createReviewer } from "@/lib/data-service";
-import { ReviewerUserSchema } from "@/lib/type";
+import { REVEIWER_USER_TYPE, ReviewerUserSchema } from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import z from "zod";
 
 interface CreateReviewerFormProps {
   onCloseModal?: () => void;
-  reviewerToEdit?: Partial<REVEIWER_USER>;
+  reviewerToEdit?: Partial<REVEIWER_USER_TYPE>;
 }
 
 const CreateReviewerForm = ({

@@ -11,7 +11,9 @@ const PendingReview = async () => {
         menuName="Review Desk"
         menuText="Evaluation Management & Reports"
       />
-      <AbstractReviewerTable data={data} />
+      <div className="p-6 md:p-12 overflow-y-auto custom-scrollbar">
+        <AbstractReviewerTable data={data} />
+      </div>
     </>
   );
 };

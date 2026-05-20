@@ -151,3 +151,38 @@ export function formatDateTime(date) {
     minute: "2-digit",
   }).format(new Date(date));
 }
+
+export const parseError = (errors: any): string => {
+  if (!errors) return "Something went wrong";
+
+  const extract = (value: any): string | null => {
+    if (!value) return null;
+
+    // string
+    if (typeof value === "string") return value;
+
+    // array
+    if (Array.isArray(value)) {
+      return extract(value[0]);
+    }
+
+    // object
+    if (typeof value === "object") {
+      // direct message
+      if ("message" in value && typeof value.message === "string") {
+        return value.message;
+      }
+
+      // recursive nested search
+      for (const nested of Object.values(value)) {
+        const found = extract(nested);
+
+        if (found) return found;
+      }
+    }
+
+    return null;
+  };
+
+  return extract(errors) || "Something went wrong";
+};

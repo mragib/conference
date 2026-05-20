@@ -71,3 +71,9 @@ Authorization: Bearer {{token}}
 ### Get user's abstracts ###
 GET http://localhost:8000/abstract/reviewer-abstracts
 Authorization: Bearer {{reviewer_token}}
+
+
+
+### Get abstract details ###
+GET http://localhost:8000/abstract/reviewer-abstracts
+Authorization: Bearer {{reviewer_token}}
