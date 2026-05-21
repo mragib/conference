@@ -13,9 +13,11 @@ import { ChangeAbstractReviewerForm } from "./ChangeAbstractReviewerForm";
 const AbstractRow = ({
   abstract,
   reviewers,
+  review_status,
 }: {
   abstract: AbstractType;
   reviewers: REVEIWER_USER_TYPE[];
+  review_status: boolean;
 }) => {
   return (
     <Modal>
@@ -28,7 +30,10 @@ const AbstractRow = ({
         <DropdownMenuContent>
           <DropdownMenuItem>
             <Modal.Open opens="edit-data">
-              <button className="flex w-full items-center gap-2">
+              <button
+                className="flex w-full items-center gap-2 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={review_status}
+              >
                 <Pen className="h-4 w-4" />
                 <span>Change Reviewer</span>
               </button>

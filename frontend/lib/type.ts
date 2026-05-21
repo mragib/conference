@@ -324,6 +324,19 @@ export type REVEIWER_USER_TYPE = {
   is_active: boolean;
 };
 
+export type REVIEWER_TYPE_FOR_TABLE = {
+  id: string;
+  name: string;
+  email: string;
+  display_order: number;
+  is_active: boolean;
+  total_assigned: number;
+  total_agreed: number;
+  total_declined: number;
+  total_pending: number;
+  total_reviewed: number;
+};
+
 export const ReviewerUserSchema = z.object({
   name: z.string().min(2, "Name should be at least 2 characters long").trim(),
   email: z.string().email(),
@@ -332,10 +345,12 @@ export const ReviewerUserSchema = z.object({
 });
 
 export type ReviewerAbstractType = {
+  id?: string;
   is_agreed: boolean | null;
   acknowledge_date: Date | null;
   assign_date: Date;
   abstract: AbstractType;
+  has_review?: boolean;
 };
 
 export const AdminUserCreateFormSchema = z.object({

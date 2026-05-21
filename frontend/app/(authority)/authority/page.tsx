@@ -1,5 +1,7 @@
 const AuthorityPage = () => {
-  return <div>AuthorityPage</div>;
+  <>
+    <p>Test</p>
+  </>;
 };
 
 export default AuthorityPage;

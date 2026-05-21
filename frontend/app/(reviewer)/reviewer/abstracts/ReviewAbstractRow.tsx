@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import ConfirmChangeStatus from "@/components/ui/ConfirmReviewerStatus";
 import {
@@ -7,40 +8,49 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/Modal";
-import { updateReviewerStatus } from "@/lib/data-service";
-import { REVIEWER_TYPE_FOR_TABLE } from "@/lib/type";
+import { updateReviewerAcknowledgement } from "@/lib/data-service";
+import { ReviewerAbstractType } from "@/lib/type";
 import { Ellipsis, Pen } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 import { useActionState, useEffect, useTransition } from "react";
 import toast from "react-hot-toast";
 
-const ReviewerRow = ({ reviewer }: { reviewer: REVIEWER_TYPE_FOR_TABLE }) => {
-  const [state, action, isPending] = useActionState(updateReviewerStatus, {
-    success: false,
-  });
+const ReviewAbstractRow = ({
+  abstractAssign,
+}: {
+  abstractAssign: ReviewerAbstractType;
+}) => {
+  const [state, action, isPending] = useActionState(
+    updateReviewerAcknowledgement,
+    {
+      success: false,
+    },
+  );
 
   const [isTransitioning, startTransition] = useTransition();
 
   const router = useRouter();
 
-  const { is_active } = reviewer;
+  const { is_agreed, id } = abstractAssign;
 
   useEffect(() => {
     if (state?.success) {
-      toast.success("Reviewer status updated successfully!");
+      toast.success(state.message || "Reviewer status updated successfully!");
       router.refresh();
     }
 
     if (!state?.success && state?.errors) {
-      toast.error(state.errors);
+      toast.error(state.errors || "Something went wrong");
     }
   }, [state, router]);
 
   const isLoading = isPending || isTransitioning;
   const onsubmit = async (data) => {
     const formData = new FormData();
-    formData.append("is_active", String(!is_active));
-    formData.append("reviewerId", reviewer.id);
+    formData.append("acknowledgement", String(data.is_agreed));
+    formData.append("abstractAssignId", data.id);
+
     startTransition(() => {
       action(formData);
     });
@@ -59,7 +69,7 @@ const ReviewerRow = ({ reviewer }: { reviewer: REVIEWER_TYPE_FOR_TABLE }) => {
             <Modal.Open opens="edit-data">
               <button className="flex w-full items-center gap-2">
                 <Pen className="h-4 w-4" />
-                <span>Change Status</span>
+                <span>{is_agreed ? "Decline" : "Agree"}</span>
               </button>
             </Modal.Open>
           </DropdownMenuItem>
@@ -67,11 +77,11 @@ const ReviewerRow = ({ reviewer }: { reviewer: REVIEWER_TYPE_FOR_TABLE }) => {
       </DropdownMenu>
       <Modal.Window name="edit-data">
         <ConfirmChangeStatus
-          action={!is_active ? "Active" : "Inactive"}
-          resource="Reviewer"
+          action={!is_agreed ? "Agree" : "Decline"}
+          resource="Abstract"
           disabled={isLoading}
           onConfirm={() => {
-            onsubmit({ is_active: !is_active, reviewer });
+            onsubmit({ is_agreed: !is_agreed, id: abstractAssign.id });
           }}
         />
       </Modal.Window>
@@ -79,4 +89,4 @@ const ReviewerRow = ({ reviewer }: { reviewer: REVIEWER_TYPE_FOR_TABLE }) => {
   );
 };
 
-export default ReviewerRow;
+export default ReviewAbstractRow;

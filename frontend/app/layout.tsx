@@ -21,8 +21,6 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-
-  cfp, // 🚀 Added the CFP slot here
 }: Readonly<{
   children: React.ReactNode;
 }>) {

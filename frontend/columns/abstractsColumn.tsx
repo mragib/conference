@@ -20,7 +20,7 @@ export const getAbstractsColumn = (
     id: "title",
     accessorKey: "title",
     cell: ({ row }) => (
-      <div className="max-w-xl">
+      <div className="max-w-xl text-left">
         <Link
           href="#"
           className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6 underline text-blue-800"
@@ -32,7 +32,7 @@ export const getAbstractsColumn = (
     header: ({ column }) => {
       return (
         <Button
-          className="text-sm md:text-md font-bold uppercase"
+          className="text-sm md:text-md font-bold uppercase text-left"
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -47,7 +47,7 @@ export const getAbstractsColumn = (
     id: "topic",
     accessorKey: "topic",
     cell: ({ row }) => (
-      <div className="max-w-xl ">
+      <div className="max-w-xl text-left">
         <p className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6">
           {capitalize(row.original.topic || "")}
         </p>
@@ -252,7 +252,13 @@ export const getAbstractsColumn = (
     id: "actions",
     cell: ({ row }) => {
       const data = row.original;
-      return <AbstractRow abstract={data} reviewers={reviewers} />;
+      return (
+        <AbstractRow
+          abstract={data}
+          reviewers={reviewers}
+          review_status={row.original.has_review}
+        />
+      );
     },
   },
 ];

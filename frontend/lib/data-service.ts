@@ -674,6 +674,15 @@ export const getReviewerUsers = async () => {
   return data;
 };
 
+export const getReviewerUsersWithStats = async () => {
+  const response = await authFetch(`${BACKEND_URL}/reviewer/stats`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch reviewer users with stats");
+  }
+  const data = await response.json();
+  return data;
+};
+
 export const createReviewer = async (
   state: AdvanceFormState,
   formData: FormData,
@@ -882,4 +891,31 @@ export const changeAbstractReviewer = async (
       errors: error?.message || "Something went wrong",
     };
   }
+};
+
+export const updateReviewerAcknowledgement = async (
+  state: AdvanceFormState,
+  data: FormData,
+): Promise<AdvanceFormState> => {
+  const acknowledgement = data.get("acknowledgement") === "true";
+  const abstractAssignId = data.get("abstractAssignId") as string;
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/abstract-assign/acknowledgement/${abstractAssignId}`,
+    "PATCH",
+    JSON.stringify({ acknowledgement }),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: response.ok,
+    message: parseApiError(resData),
+  };
 };

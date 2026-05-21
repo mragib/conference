@@ -75,8 +75,8 @@ Content-Type: application/json
 Authorization: Bearer {{admin_token}}
 
 {
-    "userId":"04d22e0c-df20-43df-a302-4b670681dcd3",
-    "role":"ADMIN"
+    "userId":"8751445d-20e2-4e31-ae28-0b2d6ccb7db4",
+    "role":"REVIEWER"
 }
 
 

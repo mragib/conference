@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { Roles } from 'src/auth/decorators/role.decorators';
 import { Role } from 'src/types/types';
@@ -32,5 +40,20 @@ export class AbstractAssignController {
   @Post('change-reviewer')
   async changeReviewer(@Body() changeReviewerDto: ChangeReviewerDto) {
     return this.abstractAssignService.changeReviewer(changeReviewerDto);
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY, Role.REVIEWER)
+  @Patch('acknowledgement/:id')
+  async acknowledgement(
+    @Param('id') id: string,
+    @Body('acknowledgement') acknowledgement: boolean,
+
+    @GetUser() user: User,
+  ) {
+    return this.abstractAssignService.handleAcknowledgement(
+      id,
+      acknowledgement,
+      user,
+    );
   }
 }

@@ -1,10 +1,10 @@
 import AdminHeader from "@/components/AdminHeader";
-import { getReviewerUsers } from "@/lib/data-service";
+import { getReviewerUsersWithStats } from "@/lib/data-service";
 import AddReviewer from "./AddReviewer";
 import ReviewerTable from "./ReviewerTable";
 
 const ReviewerPage = async () => {
-  const { data: reviewers } = await getReviewerUsers();
+  const { data: reviewers } = await getReviewerUsersWithStats();
 
   return (
     <>

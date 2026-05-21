@@ -9,9 +9,15 @@
   --color-foreground: var(--foreground);
 
   /* UPDATED: Segoe UI is now the first priority */
-  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
+  /* --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
-  --font-heading: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-heading:  "Segoe UI", Arial, Helvetica, sans-serif; */
+
+  --font-sans: var(--font-roboto);
+
+  --font-heading: var(--font-roboto);
+
+  --font-mono: monospace;
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -126,20 +132,20 @@
   }
   body {
     /* Set explicitly to your preferred system stack */
-    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    /* font-family: "Segoe UI", Arial, Helvetica, sans-serif; */
     @apply bg-background text-foreground antialiased;
   }
-  html {
+  /* html {
     @apply font-sans;
-  }
+  } */
   button {
     cursor: pointer;
   }
 }
 
-.font-mono {
+/* .font-mono {
   font-family: var(--font-geist-mono), monospace;
-}
+} */
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

@@ -43,7 +43,7 @@ export default function ConfirmChangeStatus({
         <button
           onClick={() => {
             onConfirm();
-            onCloseModal();
+            onCloseModal?.();
           }}
           disabled={disabled}
           className={`px-4 py-2 rounded-md text-sm text-white transition ${

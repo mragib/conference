@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -9,7 +10,7 @@ import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
 import { ReviewerService } from 'src/reviewer/reviewer.service';
 import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import {
   ChangeReviewerDto,
   CreateAbstractAssignDto,
@@ -50,15 +51,30 @@ export class AbstractAssignService {
         createAbstractAssignDto,
       );
 
+      const newabstractAssign = await this.abstractAssignRepository.findOne({
+        where: {
+          id: abstractAssign.id,
+        },
+        relations: {
+          abstract: true,
+          reviewer: {
+            user: true,
+          },
+        },
+      });
+
+      if (!newabstractAssign)
+        throw new NotFoundException('Abstract assign is not found');
+
       const FRONTEND_URL = this.configService.get<string>('FRONTEND_URL');
       try {
         await this.mailService.sendEmail(
-          createAbstractAssignDto.reviewer.user.email,
+          newabstractAssign.reviewer.user.email,
           'SCM Conference Abstract Assignment',
           'abstract-assign-email',
           {
-            name: createAbstractAssignDto.reviewer?.user.name,
-            abstract_title: createAbstractAssignDto.abstract.title,
+            name: newabstractAssign.reviewer?.user.name,
+            abstract_title: newabstractAssign.abstract.title,
             agree_link: `${FRONTEND_URL}/reviewer/agree?token=${rawToken_agree}`,
             disagree_link: `${FRONTEND_URL}/reviewer/disagree?token=${rawToken_disagree}`,
           },
@@ -92,6 +108,42 @@ export class AbstractAssignService {
     return this.abstractAssignRepository.find({
       relations: ['abstract', 'reviewer'],
     });
+  }
+
+  async handleAcknowledgement(id: string, acknowledge: boolean, user: User) {
+    const abstractAssign = await this.abstractAssignRepository.findOne({
+      where: {
+        id,
+        reviewer: {
+          user: {
+            id: user.id,
+          },
+        },
+      },
+      relations: {
+        reviewer: {
+          user: true,
+        },
+      },
+    });
+
+    if (!abstractAssign) {
+      throw new NotFoundException('Abstract assignment not found');
+    }
+
+    abstractAssign.acknowledge_date = new Date();
+    abstractAssign.is_agreed = acknowledge;
+    abstractAssign.agree_token = null;
+    abstractAssign.disagree_token = null;
+
+    const updated = await this.abstractAssignRepository.save(abstractAssign);
+
+    return {
+      status: 'success',
+      data: updated,
+      statusCode: 200,
+      message: `You ${acknowledge ? 'agree' : 'decline'} this abstract to review.`,
+    };
   }
 
   async handleAgree(token: string, user: User) {
@@ -178,23 +230,31 @@ export class AbstractAssignService {
 
   async changeReviewer(changeReviewerDto: ChangeReviewerDto) {
     const { abstract, reviewer } = changeReviewerDto;
-    await this.abstractAssignRepository.update(
-      {
-        abstract: {
-          id: abstract.id,
+    try {
+      await this.abstractAssignRepository.update(
+        {
+          abstract: {
+            id: abstract.id,
+          },
+          reviewer: {
+            id: Not(reviewer.id),
+          },
         },
-      },
-      {
-        is_agreed: false,
-      },
-    );
+        {
+          is_agreed: false,
+        },
+      );
 
-    const newAssign = await this.create({
-      abstract,
-      reviewer,
-      assign_date: new Date(),
-    });
+      const newAssign = await this.create({
+        abstract,
+        reviewer,
+        assign_date: new Date(),
+      });
 
-    return newAssign;
+      return newAssign;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('Something went wrong!!!');
+    }
   }
 }

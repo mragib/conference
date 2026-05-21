@@ -50,6 +50,12 @@ export class ReviewerController {
   }
 
   @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
+  @Get('stats')
+  findAllWithStats() {
+    return this.reviewerService.findAllReviewerWithStats();
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reviewerService.findOne(id);

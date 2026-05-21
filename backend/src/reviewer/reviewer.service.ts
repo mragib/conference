@@ -97,7 +97,7 @@ export class ReviewerService {
           email: true,
         },
       },
-      relations: ['user'],
+      relations: ['user', 'abstractAssigns'],
       order: { display_order: 'ASC' },
     });
     return {
@@ -105,6 +105,97 @@ export class ReviewerService {
       statuscode: 200,
       data: reviewers,
       count,
+    };
+  }
+
+  async findAllReviewerWithStats() {
+    const reviewers = await this.reviewerRepository
+      .createQueryBuilder('rw')
+
+      // reviewer user
+      .leftJoin('rw.user', 'u')
+
+      // assignments
+      .leftJoin('rw.abstractAssigns', 'aa')
+
+      // abstract
+      .leftJoin('aa.abstract', 'ab')
+
+      // review table
+      .leftJoin('ab.abstract_review', 'ar')
+
+      .select([
+        'rw.id AS id',
+        'rw.display_order AS display_order',
+        'rw.is_active AS is_active',
+
+        'u.id AS user_id',
+        'u.name AS name',
+        'u.email AS email',
+      ])
+
+      // total assigned
+      .addSelect('COUNT(DISTINCT aa.id)', 'total_assigned')
+
+      // agreed
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = true THEN aa.id
+        END
+      )
+      `,
+        'total_agreed',
+      )
+
+      // declined
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = false THEN aa.id
+        END
+      )
+      `,
+        'total_declined',
+      )
+
+      // pending (null)
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed IS NULL THEN aa.id
+        END
+      )
+      `,
+        'total_pending',
+      )
+
+      // completed review
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN ar.id IS NOT NULL THEN ab.id
+        END
+      )
+      `,
+        'total_reviewed',
+      )
+
+      .groupBy('rw.id')
+      .addGroupBy('u.id')
+
+      .orderBy('rw.display_order', 'ASC')
+
+      .getRawMany();
+    return {
+      status: 'success',
+      statuscode: 200,
+      data: reviewers,
+      count: reviewers.length,
     };
   }
 

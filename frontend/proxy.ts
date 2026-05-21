@@ -66,7 +66,9 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/admin/:path*",
-    "/reviewer/:path*",
     "/authority/:path*",
+
+    // Exclude /reviewer/agree and /reviewer/disagree
+    "/reviewer((?!/agree|/disagree).*)",
   ],
 };

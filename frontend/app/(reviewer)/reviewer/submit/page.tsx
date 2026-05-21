@@ -16,7 +16,7 @@ const SubmitPage = async () => {
         </p>
         <Link
           className="inline-flex items-center gap-2 mt-6 px-4 py-2  text-white bg-emerald-500 rounded hover:bg-emerald-600 transition"
-          href="/dashboard/profile"
+          href="/reviewer/profile"
         >
           Create Profile
         </Link>

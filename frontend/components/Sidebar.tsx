@@ -9,7 +9,6 @@ import {
   LayoutDashboard,
   Menu,
   PlusCircle,
-  Settings,
   ShieldCheck,
   UserCircle,
   Users,
@@ -86,7 +85,7 @@ const Sidebar = ({ user }: any) => {
       return [
         ...adminItems,
         // { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
-        { name: "Settings", icon: Settings, path: "/admin/settings" },
+        // { name: "Settings", icon: Settings, path: "/admin/settings" },
       ];
     }
 
