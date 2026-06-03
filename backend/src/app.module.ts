@@ -19,6 +19,10 @@ import { UserModule } from './user/user.module';
 import { MailModule } from './mail/mail.module';
 import { ReviewerModule } from './reviewer/reviewer.module';
 import { AbstractAssignModule } from './abstract-assign/abstract-assign.module';
+import { DateSettingModule } from './date-setting/date-setting.module';
+import { RegistrationFeeModule } from './registration-fee/registration-fee.module';
+import { TransactionSslModule } from './transaction-ssl/transaction-ssl.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -54,6 +58,14 @@ import { AbstractAssignModule } from './abstract-assign/abstract-assign.module';
     ReviewerModule,
 
     AbstractAssignModule,
+
+    DateSettingModule,
+
+    RegistrationFeeModule,
+
+    TransactionSslModule,
+
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [

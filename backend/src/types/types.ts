@@ -248,3 +248,13 @@ export const REVIEWER_SEED_DATA = [
     display_order: 41,
   },
 ];
+export enum RegistrationType {
+  EARLY_BIRD = 'EARLY BIRD',
+  REGULAR = 'REGULAR',
+  LATE = 'LATE',
+}
+
+export enum CountryType {
+  LOCAL = 'LOCAL',
+  INTERNATIONAL = 'INTERNATIONAL',
+}
