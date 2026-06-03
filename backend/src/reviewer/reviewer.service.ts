@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { MailService } from 'src/mail/mail.service';
-import { Role } from 'src/types/types';
+import { REVIEWER_SEED_DATA, Role } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
@@ -72,6 +72,53 @@ export class ReviewerService {
           link: `${FRONTEND_URL}/set-password?token=${rawToken}`,
         },
       );
+
+      return {
+        status: 'success',
+        statusCode: 200,
+        data: reviewer,
+        message: 'Reviewer created successfully',
+      };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Failed to create reviewer');
+    }
+  }
+
+  async createSeed(createReviewerDto: CreateReviewerDto) {
+    const { user } = createReviewerDto;
+
+    const existingUser = await this.userService.findByEmail(user.email);
+
+    if (existingUser)
+      throw new ConflictException('User with this email already exists');
+
+    const displayOrder = await this.findOneByDisplayOrder(
+      createReviewerDto.display_order,
+    );
+
+    if (displayOrder)
+      throw new ConflictException(
+        'Reviewer with this display order already exists',
+      );
+
+    try {
+      const rawToken = crypto.randomBytes(32).toString('hex');
+      const invite_token = crypto
+        .createHash('sha256')
+        .update(rawToken)
+        .digest('hex');
+      const invite_expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
+
+      const reviewer = await this.reviewerRepository.save({
+        ...createReviewerDto,
+        user: {
+          ...user,
+          role: Role.REVIEWER,
+          invite_token,
+          invite_expiry,
+        },
+      });
 
       return {
         status: 'success',
@@ -290,7 +337,7 @@ export class ReviewerService {
       .leftJoin('rw.user', 'u')
       .addSelect(['u.name', 'u.email'])
       .leftJoin('rw.abstractAssigns', 'ar', 'ar.is_agreed = TRUE')
-      .addSelect('COUNT(ar.id)', 'assignCount')
+      .addSelect('COUNT(ar.id)', 'assign_count')
       .where('rw.is_active = true')
       // ❌ exclude abstract author
       .andWhere((qb) => {
@@ -318,7 +365,7 @@ export class ReviewerService {
       .setParameter('abstractId', abstractId)
       .groupBy('rw.id')
       .addGroupBy('u.id')
-      .orderBy('assignCount', 'ASC')
+      .orderBy('assign_count', 'ASC')
       .addOrderBy('rw.display_order', 'ASC')
       .limit(1);
 
@@ -328,7 +375,7 @@ export class ReviewerService {
 
     return {
       ...entities[0],
-      assignCount: Number(raw[0].assignCount),
+      assignCount: Number(raw[0].assign_count),
     };
   }
 
@@ -385,5 +432,20 @@ export class ReviewerService {
 
   remove(id: number) {
     return `This action removes a #${id} reviewer`;
+  }
+  async seedReviewers(): Promise<string> {
+    await Promise.all(
+      REVIEWER_SEED_DATA.map((data) =>
+        this.createSeed({
+          user: {
+            name: data.name,
+            email: data.email,
+          },
+          display_order: data.display_order,
+          is_active: true,
+        }),
+      ),
+    );
+    return 'Reviewers seeded successfully';
   }
 }

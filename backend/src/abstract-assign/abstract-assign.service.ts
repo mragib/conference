@@ -74,7 +74,7 @@ export class AbstractAssignService {
           'abstract-assign-email',
           {
             name: newabstractAssign.reviewer?.user.name,
-            abstract_title: newabstractAssign.abstract.title,
+            reviewDeadline: this.configService.get<string>('REVIEW_DEADLINE'),
             agree_link: `${FRONTEND_URL}/reviewer/agree?token=${rawToken_agree}`,
             disagree_link: `${FRONTEND_URL}/reviewer/disagree?token=${rawToken_disagree}`,
           },
@@ -216,7 +216,7 @@ export class AbstractAssignService {
         );
       }
 
-      const newAssign = this.create({
+      const newAssign = await this.create({
         reviewer: newReviewer,
         abstract: assignment.abstract,
         assign_date: new Date(),

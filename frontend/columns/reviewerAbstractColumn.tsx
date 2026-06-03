@@ -20,7 +20,7 @@ export const getReviewerAbstractColumn =
       cell: ({ row }) => (
         <div className="max-w-xl text-left">
           <Link
-            href={`/reviewer/abstracts/${row.original.id}`}
+            href={`/reviewer/abstracts/${row.original.abstract.id}`}
             // href="#"
             className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6 underline text-blue-800"
           >

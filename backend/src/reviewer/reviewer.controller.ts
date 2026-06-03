@@ -26,6 +26,12 @@ export class ReviewerController {
     return this.reviewerService.create(createReviewerDto);
   }
 
+  @Roles(Role.ADMIN)
+  @Get('seed')
+  seedReviewers() {
+    return this.reviewerService.seedReviewers();
+  }
+
   @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
   @Patch('change-status/:id')
   async changeReviewerStatus(

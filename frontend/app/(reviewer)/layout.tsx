@@ -8,10 +8,8 @@ export default async function layout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log("Session in reviewer layout");
-
   const session = await getSession();
-  console.log("Session in reviewer layout:", session);
+
   if (!session || !session.user || session.user.role !== Role.REVIEWER)
     redirect("/signin");
   return (

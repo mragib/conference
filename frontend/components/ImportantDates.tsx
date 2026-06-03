@@ -6,7 +6,7 @@ export default function KeyDates() {
   const dates = [
     {
       title: "Extended Abstract Submission",
-      date: "July 01 to August 31 2026",
+      date: "Till August 31 2026",
       icon: FileCheck,
       color: "text-[#003366]",
       bg: "bg-[#003366]/5",
@@ -107,11 +107,7 @@ export default function KeyDates() {
             </div>
             <div>
               <p className="font-black text-sm uppercase tracking-tighter">
-                Submission Window Active from July 01, 2026
-              </p>
-              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">
-                Timezone:{" "}
-                <span className="text-[#C5A059]">11:59 PM (GMT +6)</span>
+                Submission Window Active Now.
               </p>
             </div>
           </div>

@@ -161,9 +161,11 @@ export type CoAuthor = {
   last_name: string;
   email: string;
   organization: string;
+  display_order?: number;
 };
 
 export type AbstractStatus = {
+  id?: number;
   name: string;
   description: string;
 };

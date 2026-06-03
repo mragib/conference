@@ -6,6 +6,7 @@ import { Session } from 'src/session/entities/session.entity';
 import { Role } from 'src/types/types';
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
@@ -75,6 +76,9 @@ export class User {
 
   @OneToOne(() => Reviewer, (item) => item.user)
   reviewer: Reviewer;
+
+  @CreateDateColumn()
+  created_at: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;

@@ -10,7 +10,8 @@ import {
 import Modal from "@/components/ui/Modal";
 import { updateReviewerAcknowledgement } from "@/lib/data-service";
 import { ReviewerAbstractType } from "@/lib/type";
-import { Ellipsis, Pen } from "lucide-react";
+import { Ellipsis, Eye, Pen } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useActionState, useEffect, useTransition } from "react";
@@ -65,19 +66,53 @@ const ReviewAbstractRow = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          {is_agreed === null ||
+            (is_agreed === undefined && (
+              <>
+                <DropdownMenuItem>
+                  <Modal.Open opens="agree-data">
+                    <button className="flex w-full items-center gap-2">
+                      <Pen className="h-4 w-4" />
+                      <span>{is_agreed ? "Decline" : "Agree"}</span>
+                    </button>
+                  </Modal.Open>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>
+                  <Modal.Open opens="decline-data">
+                    <button className="flex w-full items-center gap-2">
+                      <Pen className="h-4 w-4" />
+                      <span>{!is_agreed ? "Decline" : "Agree"}</span>
+                    </button>
+                  </Modal.Open>
+                </DropdownMenuItem>
+              </>
+            ))}
           <DropdownMenuItem>
-            <Modal.Open opens="edit-data">
-              <button className="flex w-full items-center gap-2">
-                <Pen className="h-4 w-4" />
-                <span>{is_agreed ? "Decline" : "Agree"}</span>
-              </button>
-            </Modal.Open>
+            <Link
+              href={`/reviewer/abstracts/${abstractAssign.id}`}
+              className="flex w-full items-center gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              <span>Review</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Modal.Window name="edit-data">
+      <Modal.Window name="agree-data">
         <ConfirmChangeStatus
           action={!is_agreed ? "Agree" : "Decline"}
+          resource="Abstract"
+          disabled={isLoading}
+          onConfirm={() => {
+            onsubmit({ is_agreed: !is_agreed, id: abstractAssign.id });
+          }}
+        />
+      </Modal.Window>
+
+      <Modal.Window name="decline-data">
+        <ConfirmChangeStatus
+          action={is_agreed ? "Decline" : "Agree"}
           resource="Abstract"
           disabled={isLoading}
           onConfirm={() => {

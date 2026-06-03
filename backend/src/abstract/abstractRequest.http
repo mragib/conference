@@ -1,5 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMzA1OTE3YS00YzE3LTQ3ZTctYjIzNi1hYjRhMzc1NDY4ZTgiLCJpYXQiOjE3NzkxODgxMDMsImV4cCI6MTc3OTc5MjkwM30.cVhk_sCK0li3DvfoVg5Rq_Rg6SpfJ00yt-fj13tJNH4
-@topicId_js=8ad89358-8f5b-4b94-9c06-fcf562cfd563
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3ODAyOTIxNjQsImV4cCI6MTc4MDg5Njk2NH0.pSqAtIPDMc6sXdGU_I7mvFHysBnVazLVpPz-k-kreu0
 @topicId_py=f23471c8-ec00-4574-afcd-c8c15102382b
 
 
@@ -85,5 +84,5 @@ Authorization: Bearer {{reviewer_token}}
 
 
 ### Get abstract details ###
-GET http://localhost:8000/abstract/abstract-details/35afacb2-c50f-4470-86f2-e29b99b7bb85
+GET http://localhost:8000/abstract/abstract-details-author/35afacb2-c50f-4470-86f2-e29b99b7bb85
 Authorization: Bearer {{token}}

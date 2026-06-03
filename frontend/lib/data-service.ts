@@ -825,6 +825,54 @@ export const getAllAbstracts = async () => {
   return resData;
 };
 
+export const getAbstractDetailsForAuthor = async (id: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/abstract/abstract-details-author/${id}`,
+  );
+
+  const resData = await response.json();
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return { success: true, data: resData };
+};
+
+export const getAbstractDetailsForReviewer = async (id: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/abstract/abstract-details-reviewer/${id}`,
+  );
+
+  const resData = await response.json();
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return { success: true, data: resData };
+};
+
+export const getAbstractDetailsForAdmin = async (id: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/abstract/abstract-details-admin/${id}`,
+  );
+
+  const resData = await response.json();
+  if (!response.ok) {
+    return {
+      errors: resData.message || resData.error || "Request failed",
+      success: false,
+    };
+  }
+
+  return { success: true, data: resData };
+};
+
 export const getAllReviewers = async () => {
   const response = await authFetch(`${BACKEND_URL}/reviewer`);
   const resData = await response.json();

@@ -1,0 +1,61 @@
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Abstract Submission Confirmation - SCM Conference 2026
+
+  body(
+    style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;"
+  )
+    .wrapper(style="padding:30px 10px;")
+      .container(
+        style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;"
+      )
+
+        //- HEADER
+        include header
+
+        .content(style="padding:40px;")
+          h2(
+            style=`margin:0 0 25px; color:${brandBlue}; font-size:24px;`
+          )
+            | Abstract Submission Confirmation
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Dear
+            strong  #{authorName},
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Greetings from the Organizing Committee of the
+            strong  International Conference on Building Resilient Supply Chains
+            | , hosted by the Department of Business Administration, East West University.
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | We have received your abstract submission for the upcoming conference scheduled for
+            strong  18–19 December 2026
+            | .
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Your submission is currently undergoing a rigorous double-blind peer review process in accordance with the conference’s academic standards and guidelines. The outcome of the review process will be communicated to you by
+            strong  30 September 2026
+            | .
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | We appreciate your interest in contributing to this conference and your engagement with the theme of building resilient and sustainable supply chains.
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Should you require any further information, please contact us at
+
+            a(
+              href="mailto:helpdesk-scm@ewubd.edu"
+              style=`color:${brandBlue}; text-decoration:none; font-weight:bold;`
+            )
+              | helpdesk-scm@ewubd.edu
+
+          p(style="margin:30px 0 0; font-size:15px; line-height:1.8;")
+            | Thank you for your submission. We look forward to your participation.
+
+        //- FOOTER
+        include footer

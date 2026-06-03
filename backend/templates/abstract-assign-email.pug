@@ -5,35 +5,58 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Abstract Review Invitation - SCM Conference 2026
 
-  body(style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;")
+  body(
+    style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;"
+  )
     .wrapper(style="padding:30px 10px;")
-      .container(style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;")
+      .container(
+        style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;"
+      )
 
         //- HEADER
         include header
 
         .content(style="padding:40px;")
+          h2(
+            style=`margin:0 0 25px; color:${brandBlue}; font-size:24px;`
+          )
+            | Abstract Review Invitation
 
-          h2(style="color:#003366; font-size:20px; font-weight:900; margin-top:0;")
-            | Dear #{name},
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Dear Dr.
 
-          p(style="color:#475569; font-size:15px; line-height:1.8;")
-            | You have been invited to review the following abstract for the SCM Conference 2026:
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Greetings from the Organizing Committee of the
+            strong  International Conference on Building Resilient Supply Chains 2026
+            | , hosted by the Department of Business Administration, East West University, Bangladesh.
 
-          //- ABSTRACT BOX
-          .abstract-box(style="margin:25px 0; padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;")
-            p(style="margin:0; font-size:12px; color:#64748b; text-transform:uppercase; font-weight:bold;")
-              | Abstract Title
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | We are inviting you to review an abstract that was submitted to the conference, considering your expertise in the relevant subject area.
 
-            p(style="margin:8px 0 0; font-size:16px; color:#003366; font-weight:800;")
-              | #{abstract_title}
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | The conference follows a rigorous double-blind peer review process to ensure a high standard of academic evaluation. We request that you assess the assigned abstract in accordance with the conference guidelines and provide your review within the stipulated timeframe.
 
-          p(style="color:#475569; font-size:15px; line-height:1.8;")
+          table(
+            width="100%"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style=`margin:30px 0; background:#f8fafc; border-left:4px solid ${brandGold}; border-radius:8px;`
+          )
+            tr
+              td(style="padding:22px 24px;")
+                p(style="margin:0; font-size:14px;")
+                  strong Review Deadline:
+                  |  #{reviewDeadline}
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Please evaluate the submission based on its originality, appropriateness of the methodology applied, significance of the study, and overall contribution to the field of supply chain management.
+
+          p(style="color:#475569; font-size:15px; line-height:1.8; margin-top:30px;")
             | Please confirm whether you are willing to review this abstract by selecting one of the options below:
 
           //- ACTION BUTTONS
           .actions(style="text-align:center; margin:30px 0;")
-
             a(
               href=agree_link
               style="display:inline-block; margin:5px; padding:12px 22px; background:#16a34a; color:#ffffff; text-decoration:none; border-radius:10px; font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:1px;"
@@ -59,19 +82,29 @@ html(lang="en")
             |  #{disagree_link}
 
           //- EXPIRY NOTICE
-          .notice(style="margin-top:25px; padding:15px; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px;")
-            p(style="margin:0; font-size:12px; color:#c2410c; font-weight:600;")
+          .notice(
+            style="margin-top:25px; padding:15px; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px;"
+          )
+            p(
+              style="margin:0; font-size:12px; color:#c2410c; font-weight:600;"
+            )
               | ⏳ This invitation will expire soon. Please respond promptly.
 
-          //- SIGNATURE
-          .footer-sign(style="margin-top:30px; border-top:1px solid #f1f5f9; padding-top:20px;")
-            p(style="margin:0; color:#003366; font-weight:900;")
-              | Regards,
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | We appreciate your time and contribution in maintaining the quality and integrity of this international conference.
 
-            p(style="margin:2px 0 0; color:#64748b; font-weight:600;")
-              | Organizing Committee  
-              br
-              | Conference SCM 2026
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Should you have any questions or require further assistance, please contact us at
+
+            a(
+              href="mailto:helpdesk-scm@ewubd.edu"
+              style=`color:${brandBlue}; text-decoration:none; font-weight:bold;`
+            )
+              | helpdesk-scm@ewubd.edu
+
+          p(style="margin:30px 0 0; font-size:15px; line-height:1.8;")
+            | Thank you for your continued support and collaboration.
 
         //- FOOTER
         include footer
+

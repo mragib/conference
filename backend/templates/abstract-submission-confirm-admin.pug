@@ -1,0 +1,66 @@
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Abstract Review Invitation - SCM Conference 2026
+
+  body(
+    style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;"
+  )
+    .wrapper(style="padding:30px 10px;")
+      .container(
+        style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;"
+      )
+
+        //- HEADER
+        include header
+
+        .content(style="padding:40px;")
+          h2(
+            style=`margin:0 0 25px; color:${brandBlue}; font-size:24px;`
+          )
+            | Abstract Submission Confirmation
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Dear Admin,
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | This is to confirm that an abstract submission has been successfully received for the
+            strong  International Conference on Building Resilient Supply Chains 2026
+            | .
+
+          table(
+            width="100%"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style=`margin:30px 0; background:#f8fafc; border-left:4px solid ${brandGold}; border-radius:8px;`
+          )
+            tr
+              td(style="padding:22px 24px;")
+                p(style="margin:0 0 12px; font-size:14px;")
+                  strong Abstract Title:
+                  |  #{abstractTitle}
+
+                p(style="margin:0 0 12px; font-size:14px;")
+                  strong Author Name:
+                  |  #{authorName}
+
+                p(style="margin:0; font-size:14px;")
+                  strong Assigned Reviewer:
+                  |  #{reviewerName}
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | The reviewer has been notified and the abstract is now under the conference review process.
+
+          p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+            | Please monitor the review progress and ensure that the review is completed within the scheduled timeline.
+
+          p(style="margin:30px 0 0; font-size:15px; line-height:1.8;")
+            | Thank you.
+
+        //- FOOTER
+        include footer
+

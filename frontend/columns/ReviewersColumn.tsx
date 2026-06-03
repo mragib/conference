@@ -4,7 +4,6 @@ import ReviewerRow from "@/app/(admin)/admin/reviewers/ReviewerRow";
 import { Button } from "@/components/button";
 import { Badge } from "@/components/ui/badge";
 import { REVIEWER_TYPE_FOR_TABLE } from "@/lib/type";
-import { capitalize } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, CheckCircle2, Clock3, XCircle } from "lucide-react";
 
@@ -17,7 +16,11 @@ export const getReviewerColumns = (): ColumnDef<REVIEWER_TYPE_FOR_TABLE>[] => [
   {
     id: "name",
     accessorKey: "name",
-    cell: ({ row }) => capitalize(row.original.name || ""),
+    cell: ({ row }) => {
+      return (
+        <p className="capitalize text-left font-medium">{row.original.name}</p>
+      );
+    },
     header: ({ column }) => {
       return (
         <Button

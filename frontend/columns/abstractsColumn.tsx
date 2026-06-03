@@ -22,7 +22,7 @@ export const getAbstractsColumn = (
     cell: ({ row }) => (
       <div className="max-w-xl text-left">
         <Link
-          href="#"
+          href={`/admin/abstracts/${row.original.id}`}
           className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6 underline text-blue-800"
         >
           {capitalize(row.original.title || "")}

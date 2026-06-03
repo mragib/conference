@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const roboto = Roboto({
-  weight: ["400", "700"],
+  weight: ["400", "800"],
   subsets: ["latin"],
   variable: "--font-roboto",
 });

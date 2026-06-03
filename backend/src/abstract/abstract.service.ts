@@ -1,8 +1,11 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AbstractAssignService } from 'src/abstract-assign/abstract-assign.service';
+import { MailService } from 'src/mail/mail.service';
 import { ReviewerService } from 'src/reviewer/reviewer.service';
 import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateAbstractDto } from './dto/create-abstract.dto';
 import { UpdateAbstractDto } from './dto/update-abstract.dto';
@@ -15,6 +18,9 @@ export class AbstractService {
     private readonly abstractRepository: Repository<Abstract>,
     private readonly reviewService: ReviewerService,
     private readonly abstractAssignService: AbstractAssignService,
+    private readonly mailService: MailService,
+    private readonly configService: ConfigService,
+    private readonly userService: UserService,
   ) {}
   async create(createAbstractDto: CreateAbstractDto) {
     try {
@@ -22,25 +28,64 @@ export class AbstractService {
 
       const user = abstract.user;
 
+      const userFromDb = await this.userService.findById(user.id);
+
+      if (!userFromDb) {
+        throw new InternalServerErrorException('User not found');
+      }
+
       const reviewer = await this.reviewService.findReviewerWithAsign(user);
 
-      if (!reviewer)
-        throw new InternalServerErrorException(
-          'No active reviewers available for assignment',
+      if (!reviewer) {
+        console.error('No active reviewers available for assignment');
+      }
+
+      try {
+        const ADMIN_EMAIL = this.configService.get<string>('ADMIN_EMAIL')!;
+
+        await this.mailService.sendEmail(
+          userFromDb.email,
+          'SCM Conference Abstract Submission Confirmation',
+          'abstract-submission-confirm-user-email',
+          {
+            authorName: userFromDb.name,
+          },
         );
 
-      const abstractAssigns = await this.abstractAssignService.create({
-        abstract,
-        reviewer,
-        assign_date: new Date(),
-      });
+        await this.mailService.sendEmail(
+          ADMIN_EMAIL,
+          'SCM Conference Abstract Submission Confirmation',
+          'abstract-submission-confirm-admin',
+          {
+            authorName: user.name,
+            abstractTitle: abstract.title,
+            reviewerName: reviewer?.user.name || 'No reviewer assigned',
+          },
+        );
+        if (!reviewer) {
+          return {
+            message: 'Abstract created successfully',
+            // data: abstract,
+            status: 'success',
+            statusCode: 200,
+          };
+        }
 
-      return {
-        message: 'Abstract created successfully',
-        // data: abstract,
-        status: 'success',
-        statusCode: 200,
-      };
+        const abstractAssigns = await this.abstractAssignService.create({
+          abstract,
+          reviewer,
+          assign_date: new Date(),
+        });
+
+        return {
+          message: 'Abstract created successfully',
+          // data: abstract,
+          status: 'success',
+          statusCode: 200,
+        };
+      } catch (error) {
+        console.error('Failed to send assignment email:', error);
+      }
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException(error);
@@ -158,7 +203,7 @@ export class AbstractService {
     return { data: abstracts, count, status: 'success', statusCode: 200 };
   }
 
-  async findAbstractDetails(id: string, user: User) {
+  async findAbstractDetailsForAuthor(id: string, user: User) {
     const abstract = await this.abstractRepository.findOne({
       where: {
         id,
@@ -166,9 +211,74 @@ export class AbstractService {
           id: user.id,
         },
       },
+      select: {
+        id: true,
+        title: true,
+        purpose: true,
+        methodology: true,
+        findings: true,
+        theoretical: true,
+        practical: true,
+        references: true,
+        keyword: true,
+        created_at: true,
+        status: {
+          id: true,
+          name: true,
+        },
+        topic: {
+          id: true,
+          name: true,
+        },
+        co_authors: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          email: true,
+          organization: true,
+          display_order: true,
+        },
+      },
+      relations: {
+        co_authors: true,
+        topic: true,
+        status: true,
+      },
     });
 
     return abstract;
+  }
+
+  async findAbstractDetailsForAdmin(id: string) {
+    const result = await this.abstractRepository
+      .createQueryBuilder('abstract')
+      .leftJoinAndSelect('abstract.co_authors', 'co_authors')
+      .leftJoinAndSelect('abstract.topic', 'topic')
+      .leftJoinAndSelect('abstract.status', 'status')
+      .innerJoin('abstract.assigns', 'assigns')
+      .innerJoin('assigns.reviewer', 'reviewer')
+      .innerJoin('reviewer.user', 'reviewerUser')
+      .where('abstract.id = :abstractId', { abstractId: id })
+      .getOne();
+
+    return result;
+  }
+
+  async findAbstractDetailsForReviewer(id: string, user: User) {
+    const result = await this.abstractRepository
+      .createQueryBuilder('abstract')
+      .leftJoinAndSelect('abstract.co_authors', 'co_authors')
+      .leftJoinAndSelect('abstract.topic', 'topic')
+      .leftJoinAndSelect('abstract.status', 'status')
+      .innerJoin('abstract.assigns', 'assigns')
+      .innerJoin('assigns.reviewer', 'reviewer')
+      .innerJoin('reviewer.user', 'reviewerUser')
+      .where('abstract.id = :abstractId', { abstractId: id })
+      .andWhere('reviewerUser.id = :userId', { userId: user.id })
+      .andWhere('assigns.is_agreed = :isAgreed', { isAgreed: true })
+      .getOne();
+
+    return result;
   }
 
   async findReviewerAbstracts(user: User) {

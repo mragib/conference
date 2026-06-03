@@ -1,12 +1,11 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0YzMyNzM2My03N2U3LTRjY2EtODMyZi03MTU2ZmY4ZWZkNjMiLCJpYXQiOjE3Nzc4NjkyMzEsImV4cCI6MTc3ODQ3NDAzMX0.Oyh5_THZS9IzI7djOL7AGKiMOAxjGoyflBTvGJ6219k
-
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjE5MjRiNi0zZmFkLTQ3ZTgtOWM3OC1jMTBkYjk3NDM3MjciLCJpYXQiOjE3ODAzOTc5ODAsImV4cCI6MTc4MTAwMjc4MH0.Un5wWU7C1ALvGBZDMwclT6sYIJbSZgvxk5szpqZVcyk
 ###Sign In admin ###
 POST http://localhost:8000/auth/signin
 Content-Type: application/json
 
 {
  "email":"admin@gmail.com",
- "password":"Test123!@#"
+ "password":"test123"
 }
 
 ###Sign In Reviewer ###
@@ -15,7 +14,7 @@ Content-Type: application/json
 
 {
  "email":"diner.ragib@gmail.com",
- "password":"Test123!@#"
+ "password":"test123"
 }
 
 
@@ -54,6 +53,11 @@ Authorization: Bearer {{token}}
 
 ### Find reviewer abstracts ###
 GET http://localhost:8000/reviewer/abstracts
+Authorization: Bearer {{token}}
+
+
+### Seed Reviewer ###
+GET http://localhost:8000/reviewer/seed
 Authorization: Bearer {{token}}
 
 

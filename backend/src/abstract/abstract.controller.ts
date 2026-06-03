@@ -40,9 +40,34 @@ export class AbstractController {
   }
 
   @Roles(Role.RESEARCHER, Role.REVIEWER)
-  @Get('abstract-details/:id')
+  @Get('abstract-details-author/:id')
   async findAuthorAbstract(@Param('id') id: string, @GetUser() user: User) {
-    const found = await this.abstractService.findAbstractDetails(id, user);
+    const found = await this.abstractService.findAbstractDetailsForAuthor(
+      id,
+      user,
+    );
+    if (!found) throw new NotFoundException('Abstract is not found');
+    return found;
+  }
+
+  @Roles(Role.REVIEWER)
+  @Get('abstract-details-reviewer/:id')
+  async findAbstractDetailsForReviewer(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ) {
+    const found = await this.abstractService.findAbstractDetailsForReviewer(
+      id,
+      user,
+    );
+    if (!found) throw new NotFoundException('Abstract is not found');
+    return found;
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
+  @Get('abstract-details-admin/:id')
+  async findAbstractDetailsForAdmin(@Param('id') id: string) {
+    const found = await this.abstractService.findAbstractDetailsForAdmin(id);
     if (!found) throw new NotFoundException('Abstract is not found');
     return found;
   }
