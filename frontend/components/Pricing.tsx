@@ -1,14 +1,7 @@
 "use client";
 
 import ssl_commarce_iamge from "@/public/images/Payment/sslcommerz-online-payment.png";
-import {
-  Check,
-  Globe,
-  GraduationCap,
-  ShieldCheck,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { Check, Globe, GraduationCap, ShieldCheck, Users } from "lucide-react";
 import Image from "next/image"; // Ensure this import is present
 import Link from "next/link";
 
@@ -168,9 +161,9 @@ export default function Pricing() {
         </div>
 
         {/* Footer: Without Paper & Gateway */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 pt-8 border-t border-slate-100">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="bg-[#003366] rounded-2xl px-8 py-5 flex items-center gap-8 border-2 border-[#C5A059]/30 relative overflow-hidden group shadow-lg transition-all hover:shadow-[0_20px_40px_rgba(0,26,51,0.2)]">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-8 border-t border-slate-100">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="bg-[#003366] rounded-2xl px-4 py-4 flex items-center gap-4 border-2 border-[#C5A059]/30 relative overflow-hidden group shadow-lg transition-all hover:shadow-[0_20px_40px_rgba(0,26,51,0.2)]">
               <div className="relative z-10">
                 <p className="text-[#C5A059] text-[8px] font-black uppercase tracking-widest mb-1">
                   Delegates/Other Participants
@@ -179,22 +172,43 @@ export default function Pricing() {
                   (Without Paper)
                 </h4>
               </div>
-              <div className="relative z-10 flex items-center gap-6">
-                <span className="text-white font-black text-xl tracking-tighter">
+              <div className="relative z-10 flex items-center gap-4">
+                <span className="text-white font-black text-lg tracking-tighter">
                   BDT 5000/=
                 </span>
                 <Link
                   href="/signup"
                   scroll={false}
-                  className="bg-white text-[#003366] px-6 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
+                  className="bg-white text-[#003366] px-3 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
                 >
                   Join Now
                 </Link>
               </div>
-              <UserPlus
-                className="absolute -right-4 -bottom-4 text-white/5 opacity-10 transition-transform group-hover:scale-110"
-                size={80}
-              />
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="bg-[#003366] rounded-2xl px-4 py-4 flex items-center gap-8 border-2 border-[#C5A059]/30 relative overflow-hidden group shadow-lg transition-all hover:shadow-[0_20px_40px_rgba(0,26,51,0.2)]">
+              <div className="relative z-10">
+                <p className="text-[#C5A059] text-[8px] font-black uppercase tracking-widest mb-1">
+                  <span className="text-white text-[10px]">International </span>
+                  Delegates/Other Participants
+                </p>
+                <h4 className="text-white font-black text-sm uppercase transition-transform group-hover:-translate-y-0.5">
+                  (Without Paper)
+                </h4>
+              </div>
+              <div className="relative z-10 flex items-center gap-4">
+                <span className="text-white font-black text-lg tracking-tighter">
+                  USD 100$
+                </span>
+                <Link
+                  href="/signup"
+                  scroll={false}
+                  className="bg-white text-[#003366] px-3 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
+                >
+                  Join Now
+                </Link>
+              </div>
             </div>
           </div>
 
