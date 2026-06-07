@@ -14,6 +14,7 @@ import {
   APIStatus,
   ContactSchema,
   ProfileServerSchema,
+  RegistrationFeeResponse,
   ReviewerUserSchema,
   UserFormSchema,
 } from "./type";
@@ -965,5 +966,61 @@ export const updateReviewerAcknowledgement = async (
   return {
     success: response.ok,
     message: parseApiError(resData),
+  };
+};
+
+export const getPaymentAmount = async (
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState<RegistrationFeeResponse>> => {
+  const registration_category = formData.get("registration_category") as string;
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/registration-fee/my-fees`,
+    "POST",
+    JSON.stringify({ registration_category }),
+  );
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const inititePayment = async (
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState> => {
+  const payload: any = Object.fromEntries(formData.entries());
+
+  console.log(payload);
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/transaction-ssl`,
+    "POST",
+    JSON.stringify(payload),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      gatewayUrl: resData.gatewayUrl,
+    },
   };
 };

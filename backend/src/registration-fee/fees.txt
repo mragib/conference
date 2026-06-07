@@ -1,0 +1,14 @@
+| registration_category | user_type | country_type  | early_bird_amount | regular_amount | late_amount |
+| --------------------- | --------- | ------------- | ----------------- | -------------- | ----------- |
+| WITH_PAPER            | ACADEMIC  | LOCAL         | 5000              | 7500           | 9000        |
+| WITH_PAPER            | INDUSTRY  | LOCAL         | 5000              | 7500           | 9000        |
+| WITH_PAPER            | STUDENT   | LOCAL         | 2000              | 3000           | 3500        |
+| WITH_PAPER            | ACADEMIC  | INTERNATIONAL | 100               | 150            | 200         |
+| WITH_PAPER            | INDUSTRY  | INTERNATIONAL | 100               | 150            | 200         |
+| WITH_PAPER            | STUDENT   | INTERNATIONAL | 100               | 150            | 200         |
+| WITHOUT_PAPER         | ACADEMIC  | LOCAL         | 5000              | 5000           | 5000        |
+| WITHOUT_PAPER         | INDUSTRY  | LOCAL         | 5000              | 5000           | 5000        |
+| WITHOUT_PAPER         | STUDENT   | LOCAL         | 5000              | 5000           | 5000        |
+| WITHOUT_PAPER         | ACADEMIC  | INTERNATIONAL | 100               | 100            | 100         |
+| WITHOUT_PAPER         | INDUSTRY  | INTERNATIONAL | 100               | 100            | 100         |
+| WITHOUT_PAPER         | STUDENT   | INTERNATIONAL | 100               | 100            | 100         |

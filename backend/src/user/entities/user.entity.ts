@@ -3,6 +3,7 @@ import { Abstract } from 'src/abstract/entities/abstract.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
 import { Reviewer } from 'src/reviewer/entities/reviewer.entity';
 import { Session } from 'src/session/entities/session.entity';
+import { TransactionSsl } from 'src/transaction-ssl/entities/transaction-ssl.entity';
 import { Role } from 'src/types/types';
 import {
   Column,
@@ -76,6 +77,9 @@ export class User {
 
   @OneToOne(() => Reviewer, (item) => item.user)
   reviewer: Reviewer;
+
+  @OneToMany(() => TransactionSsl, (item) => item.user)
+  transaction: TransactionSsl;
 
   @CreateDateColumn()
   created_at: Date;

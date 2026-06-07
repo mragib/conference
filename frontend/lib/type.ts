@@ -22,11 +22,12 @@ export type ApiResponse =
     }
   | undefined;
 
-export type AdvanceFormState = {
+export type AdvanceFormState<T = unknown> = {
   success: boolean;
   message?: string;
   fields?: Record<string, string>;
   errors?: Record<string, string[]>;
+  data?: T;
 };
 
 export const SignupFormSchema = z.object({
@@ -387,3 +388,17 @@ export const AbstractReviewerChangeSchemaServer =
   }).extend({
     reviewerId: z.string().trim(),
   });
+
+export enum RegistrationCategory {
+  WITH_PAPER = "WITH_PAPER",
+  WITHOUT_PAPER = "WITHOUT_PAPER",
+}
+export type RegistrationFeeResponse = {
+  id: number;
+  registration_category: string;
+  user_type: string;
+  country_type: string;
+  registration_type: string;
+  amount: number;
+  currency: string;
+};

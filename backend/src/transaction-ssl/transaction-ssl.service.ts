@@ -1,11 +1,33 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PaymentStatus } from 'src/types/types';
+import { User } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
 import { CreateTransactionSslDto } from './dto/create-transaction-ssl.dto';
 import { UpdateTransactionSslDto } from './dto/update-transaction-ssl.dto';
+import { TransactionSsl } from './entities/transaction-ssl.entity';
+import { SslService } from './sslcommerz.service';
 
 @Injectable()
 export class TransactionSslService {
-  create(createTransactionSslDto: CreateTransactionSslDto) {
-    return 'This action adds a new transactionSsl';
+  constructor(
+    @InjectRepository(TransactionSsl)
+    private readonly transactionRepository: Repository<TransactionSsl>,
+    private readonly sslService: SslService,
+  ) {}
+  async create(createTransactionSslDto: CreateTransactionSslDto, user: User) {
+    createTransactionSslDto.status = PaymentStatus.INITIAL;
+    createTransactionSslDto.user = user;
+    const transaction = await this.transactionRepository.save(
+      createTransactionSslDto,
+    );
+
+    const session = await this.sslService.createSession(transaction);
+
+    return {
+      success: true,
+      gatewayUrl: session.GatewayPageURL,
+    };
   }
 
   findAll() {

@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PaymentService } from './payment.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { PaymentService } from './payment.service';
 
 @Controller('payment')
 export class PaymentController {
@@ -10,6 +18,21 @@ export class PaymentController {
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto) {
     return this.paymentService.create(createPaymentDto);
+  }
+
+  @Post('success')
+  success(@Body() body: any) {
+    return this.paymentService.success(body);
+  }
+
+  @Post('fail')
+  fail(@Body() body: any) {
+    return this.paymentService.success(body);
+  }
+
+  @Post('cancel')
+  cancel(@Body() body: any) {
+    return this.paymentService.cancel(body);
   }
 
   @Get()

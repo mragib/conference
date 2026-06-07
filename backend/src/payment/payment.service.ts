@@ -8,6 +8,21 @@ export class PaymentService {
     return 'This action adds a new payment';
   }
 
+  success(data: any) {
+    console.log(data);
+    return 'This action for success';
+  }
+
+  fail(data: any) {
+    console.log(data);
+    return 'This action for fail';
+  }
+
+  cancel(data: any) {
+    console.log(data);
+    return 'This action for cancel';
+  }
+
   findAll() {
     return `This action returns all payment`;
   }

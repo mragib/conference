@@ -1,0 +1,39 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3ODA1NDgyODMsImV4cCI6MTc4MTE1MzA4M30.iNbMafwCOu1Bgl7mVXDAlEgHMfd56XynRlUiHUt_fhE
+@ragib_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNGY4YjRmOS1jNjBiLTRjMTMtOGUwYy1kMDE4ZTMzNWEwYmEiLCJpYXQiOjE3ODA1NjE0NjYsImV4cCI6MTc4MTE2NjI2Nn0.TpkCa_ZU9xyGHZZVgNW4kebKZYpFmwhii-8iJ8_Han4
+
+###Sign In admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Seed data setting ###
+GET http://localhost:8000/registration-fee/seed
+Authorization: Bearer {{token}}
+
+### My Registration Fee ###
+POST http://localhost:8000/registration-fee/my-fees
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "registration_category":"WITH_PAPER"
+}
+
+### My Registration Fee ###
+POST http://localhost:8000/registration-fee/my-fees
+Authorization: Bearer {{ragib_token}}
+# Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "registration_category":"WITHOUT_PAPER"
+}
+
+###
+@Session=34f8b4f9-c60b-4c13-8e0c-d018e335a0ba
+### Get Token With Session ###
+GET http://localhost:8000/session/34f8b4f9-c60b-4c13-8e0c-d018e335a0ba

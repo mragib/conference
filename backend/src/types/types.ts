@@ -1,3 +1,6 @@
+import { CreateDateSettingDto } from 'src/date-setting/dto/create-date-setting.dto';
+import { CreateRegistrationFeeDto } from 'src/registration-fee/dto/create-registration-fee.dto';
+
 export type ApiResponse<T> = {
   status: string;
   statuscode: number;
@@ -257,4 +260,148 @@ export enum RegistrationType {
 export enum CountryType {
   LOCAL = 'LOCAL',
   INTERNATIONAL = 'INTERNATIONAL',
+}
+
+export enum CurrencyType {
+  BDT = 'BDT',
+  USD = 'USD',
+}
+export const DateSettingSeedData: CreateDateSettingDto[] = [
+  {
+    name: RegistrationType.EARLY_BIRD,
+    start_date: new Date('2024-01-01'),
+    end_date: new Date('2024-01-31'),
+  },
+  {
+    name: RegistrationType.REGULAR,
+    start_date: new Date('2024-02-01'),
+    end_date: new Date('2024-02-29'),
+  },
+  {
+    name: RegistrationType.LATE,
+    start_date: new Date('2024-03-01'),
+    end_date: new Date('2024-03-31'),
+  },
+];
+
+export enum RegistrationCategory {
+  WITH_PAPER = 'WITH_PAPER',
+  WITHOUT_PAPER = 'WITHOUT_PAPER',
+}
+
+export const RegistrationFeeSeedData: CreateRegistrationFeeDto[] = [
+  {
+    id: 1,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.ACADEMIC,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 5000,
+    regular_amount: 7500,
+    late_amount: 9000,
+  },
+  {
+    id: 2,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.INDUSTRY,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 5000,
+    regular_amount: 7500,
+    late_amount: 9000,
+  },
+  {
+    id: 3,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.STUDENT,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 2000,
+    regular_amount: 3000,
+    late_amount: 3500,
+  },
+  {
+    id: 4,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.ACADEMIC,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 150,
+    late_amount: 200,
+  },
+  {
+    id: 5,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.INDUSTRY,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 150,
+    late_amount: 200,
+  },
+  {
+    id: 6,
+    registration_category: RegistrationCategory.WITH_PAPER,
+    user_type: UserType.STUDENT,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 150,
+    late_amount: 200,
+  },
+  {
+    id: 7,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.ACADEMIC,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 5000,
+    regular_amount: 5000,
+    late_amount: 5000,
+  },
+  {
+    id: 8,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.INDUSTRY,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 5000,
+    regular_amount: 5000,
+    late_amount: 5000,
+  },
+  {
+    id: 9,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.STUDENT,
+    country_type: CountryType.LOCAL,
+    early_bird_amount: 5000,
+    regular_amount: 5000,
+    late_amount: 5000,
+  },
+  {
+    id: 10,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.ACADEMIC,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 100,
+    late_amount: 100,
+  },
+  {
+    id: 11,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.INDUSTRY,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 100,
+    late_amount: 100,
+  },
+  {
+    id: 12,
+    registration_category: RegistrationCategory.WITHOUT_PAPER,
+    user_type: UserType.STUDENT,
+    country_type: CountryType.INTERNATIONAL,
+    early_bird_amount: 100,
+    regular_amount: 100,
+    late_amount: 100,
+  },
+];
+
+export enum PaymentStatus {
+  INITIAL = 'INITIAL',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
 }
