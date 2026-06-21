@@ -133,20 +133,30 @@ export default function Guidelines() {
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-50">
-                <button
-                  onClick={() =>
-                    step.isModal
-                      ? setActiveModal(step.id)
-                      : scrollToSection(step.link!)
-                  }
-                  className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn cursor-pointer"
-                >
-                  View Details
-                  <ChevronRight
-                    size={12}
-                    className="group-hover/btn:translate-x-1 transition-transform"
-                  />
-                </button>
+                {/* 🚀 FIXED: Checks condition to swap between active modals or native router link redirects */}
+                {step.isModal ? (
+                  <button
+                    onClick={() => setActiveModal(step.id)}
+                    className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn cursor-pointer"
+                  >
+                    View Details
+                    <ChevronRight
+                      size={12}
+                      className="group-hover/btn:translate-x-1 transition-transform"
+                    />
+                  </button>
+                ) : (
+                  <Link
+                    href={step.link!}
+                    className="flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#003366] hover:text-[#C5A059] transition-colors group/btn cursor-pointer"
+                  >
+                    View Details
+                    <ChevronRight
+                      size={12}
+                      className="group-hover/btn:translate-x-1 transition-transform"
+                    />
+                  </Link>
+                )}
               </div>
 
               <span className="absolute top-4 right-6 text-4xl lg:text-5xl font-black text-slate-100/40 pointer-events-none">
@@ -347,12 +357,12 @@ export default function Guidelines() {
                           Main Body & References
                         </h5>
                         <ul className="text-xs text-slate-600 font-bold grid grid-cols-2 gap-1 uppercase tracking-tighter">
-                          <li>• Introduction</li>
-                          <li>• Lit. Review</li>
-                          <li>• Methodology</li>
-                          <li>• Results</li>
-                          <li>• Discussion</li>
-                          <li>• Conclusion</li>
+                          			<li>• Introduction</li>
+                          			<li>• Lit. Review</li>
+                          			<li>• Methodology</li>
+                          			<li>• Results</li>
+                          			<li>• Discussion</li>
+                          			<li>• Conclusion</li>
                         </ul>
                         <div className="mt-3 pt-3 border-t border-slate-200">
                           <p className="text-[10px] font-black text-[#C5A059] uppercase mb-1">
