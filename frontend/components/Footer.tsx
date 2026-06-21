@@ -180,6 +180,16 @@ export default function Footer({ user }: { user?: any }) {
               />
               <span>helpdesk-scm@ewubd.edu</span>
             </a>
+            <a
+              href="mailto:helpdesk.scm@ewubd.edu"
+              className="flex items-center gap-3 hover:text-white transition-colors group cursor-pointer"
+            >
+              <Mail
+                size={18}
+                className="text-[#C5A059] group-hover:scale-110 transition-transform"
+              />
+              <span>helpdesk.scm@ewubd.edu</span>
+            </a>
             <div className="flex items-center gap-3">
               <Phone size={18} className="text-[#C5A059]" />
               <span>+880 9666775577, Ext-213/132</span>

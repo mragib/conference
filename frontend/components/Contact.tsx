@@ -134,7 +134,7 @@ export default function Contact() {
                   <div className="flex items-center gap-2">
                     <Mail size={16} className="text-[#C5A059]" />
                     <span className="text-xs text-slate-200">
-                      helpdesk-scm@ewubd.edu
+                      helpdesk-scm@ewubd.edu, helpdesk.scm@ewubd.edu
                     </span>
                   </div>
                   <div className="flex items-center gap-2">

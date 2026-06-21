@@ -9,25 +9,18 @@ export default function Marquee() {
 
   const newsItems = [
     {
-      text: "Abstract Submission Deadline Extended to May 30, 2026!",
+      text: "Abstract Submission Deadline Extended to August 31st, 2026!",
       link: "#guidelines",
     },
     {
-      text: "Prof. Dr. Robert Higgins confirmed as Lead Keynote Speaker.",
-      link: "#speakers",
+      // 🚀 FIXED: Anchored link set accurately to map standard target sections
+      text: "Dr. Amrik Sohal and Dr. Ravi Shankar have been confirmed as Keynote Speakers.",
+      link: "#keynotes",
     },
     {
-      text: "Early Bird Registration is now OPEN — Save up to 20%!",
+      text: "Early Bird Registration is now OPEN!",
       link: "#pricing",
-    },
-    {
-      text: "Special Session on 'AI in Supply Chain' added to the tracks.",
-      link: "#about",
-    },
-    {
-      text: "IEEE Bangladesh Section joins as Technical Co-Sponsor.",
-      link: "#partners",
-    },
+    }
   ];
 
   const scrollNews = [...newsItems, ...newsItems, ...newsItems];
