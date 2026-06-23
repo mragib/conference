@@ -1,5 +1,7 @@
 import { Exclude } from 'class-transformer';
+import { AbstractReview } from 'src/abstract-review/entities/abstract-review.entity';
 import { Abstract } from 'src/abstract/entities/abstract.entity';
+import { Payment } from 'src/payment/entities/payment.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
 import { Reviewer } from 'src/reviewer/entities/reviewer.entity';
 import { Session } from 'src/session/entities/session.entity';
@@ -80,6 +82,12 @@ export class User {
 
   @OneToMany(() => TransactionSsl, (item) => item.user)
   transaction: TransactionSsl;
+
+  @OneToMany(() => Payment, (item) => item.user)
+  payment: Payment[];
+
+  @OneToMany(() => AbstractReview, (item) => item.created_by)
+  abstract_review: AbstractReview[];
 
   @CreateDateColumn()
   created_at: Date;

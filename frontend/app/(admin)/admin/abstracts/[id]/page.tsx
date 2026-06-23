@@ -1,6 +1,8 @@
 import AbstractDetails from "@/components/AbstractDetails";
 import AdminHeader from "@/components/AdminHeader";
 import { getAbstractDetailsForAdmin } from "@/lib/data-service";
+import { getSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const AbstractDetailPage = async ({
   params,
@@ -13,6 +15,10 @@ const AbstractDetailPage = async ({
     success,
     errors,
   } = await getAbstractDetailsForAdmin(id);
+
+  const { user } = await getSession();
+
+  if (!user) redirect("/signin");
 
   if (!success) {
     return (
@@ -37,7 +43,7 @@ const AbstractDetailPage = async ({
   return (
     <>
       <AdminHeader menuName="Abstract Details" />
-      <AbstractDetails abstract={abstract} />
+      <AbstractDetails abstract={abstract} user={user} />
     </>
   );
 };

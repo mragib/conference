@@ -1,18 +1,18 @@
 "use client";
-import { AbstractType } from "@/lib/type";
+import { Role, type AbstractType, type User as UserType } from "@/lib/type";
 import {
   Bookmark,
   BookOpen,
   Building2,
   Calendar,
+  CheckCircle2,
   FileText,
   Lightbulb,
   Mail,
   Microscope,
   Target,
   TrendingUp,
-  User,
-  Users,
+  User as UserIcon,
   Wrench,
 } from "lucide-react";
 import Link from "next/link";
@@ -22,10 +22,12 @@ import StatusCard from "./StatusCard";
 
 const AbstractDetails = ({
   abstract,
-  is_reviewer = false,
+
+  user,
 }: {
   abstract: AbstractType;
-  is_reviewer?: boolean;
+
+  user: UserType;
 }) => {
   const router = useRouter();
 
@@ -54,7 +56,7 @@ const AbstractDetails = ({
             </span>
           </div>
 
-          <h1 className="text-md md:text-xl lg:text-2xl font-bold text-slate-900 dark:text-white leading-tight">
+          <h1 className="text-md md:text-xl lg:text-2xl font-bold text-slate-900 dark:text-white leading-tight capitalize">
             {abstract.title}
           </h1>
 
@@ -115,7 +117,7 @@ const AbstractDetails = ({
             {/* Theoretical Contribution */}
             <SectionCard
               icon={Lightbulb}
-              title="Theoretical Contribution"
+              title="Theoretical Implemention"
               content={abstract.theoretical}
               color="amber"
               compact
@@ -124,7 +126,7 @@ const AbstractDetails = ({
             {/* Practical Contribution */}
             <SectionCard
               icon={Wrench}
-              title="Practical Contribution"
+              title="Practical Implemention"
               content={abstract.practical}
               color="teal"
               compact
@@ -133,7 +135,7 @@ const AbstractDetails = ({
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {is_reviewer && (
+            {user.role === Role.REVIEWER && (
               <>
                 {/* Review Action Card */}
                 <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
@@ -148,23 +150,55 @@ const AbstractDetails = ({
                       className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
                     >
                       <FileText className="w-4 h-4" />
-                      Submit Review
+                      {abstract.abstract_review
+                        ? "View Review"
+                        : "Submit Review"}
                     </Link>
                     <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-3">
-                      Please complete your review by #DATE
+                      {abstract.abstract_review
+                        ? "You already reviewed"
+                        : "Please complete your review by 29 Sep 2025"}
                     </p>
                   </div>
                 </div>
               </>
             )}
+            {(user.role === Role.ADMIN || user.role === Role.AUTHORITY) &&
+              abstract.status.id === 4 && (
+                <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                  <div className="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-indigo-50 to-white dark:from-indigo-950/20 dark:to-slate-900">
+                    <h2 className="font-semibold text-slate-700 dark:text-slate-300">
+                      Your Actions
+                    </h2>
+                  </div>
+
+                  <div className="p-4 space-y-3">
+                    <Link
+                      href={`/${user.role === Role.ADMIN ? "admin" : "authority"}/abstracts/${abstract.id}/decision`}
+                      className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      Final Decision
+                    </Link>
+
+                    <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
+                      Review the abstract and choose whether to accept or reject
+                      it.
+                    </p>
+                  </div>
+                </div>
+              )}
             {/* Status Card */}
-            <StatusCard statusId={abstract.status.id} />
+            <StatusCard
+              statusId={abstract.status.id}
+              comment_to_author={abstract.abstract_review?.comment_to_author}
+            />
 
             {/* Authors Card */}
             {abstract.co_authors && abstract.co_authors.length > 0 && (
               <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <div className="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 bg-gradient-to-r from-slate-50 to-white dark:from-slate-900 dark:to-slate-900">
-                  <Users className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                  <UserIcon className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                   <h2 className="font-semibold text-slate-700 dark:text-slate-300">
                     Authors ({abstract.co_authors.length})
                   </h2>
@@ -178,7 +212,7 @@ const AbstractDetails = ({
                         className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                       >
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                          <User className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                          <UserIcon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">

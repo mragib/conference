@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DateSettingSeedData } from 'src/types/types';
+import { DateSettingSeedData } from 'src/config/seed-data';
 import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { CreateDateSettingDto } from './dto/create-date-setting.dto';
 import { DateSetting } from './entities/date-setting.entity';
@@ -17,11 +17,11 @@ export class DateSettingService {
 
   async findTodayRegistrationType() {
     //production
-    //const today = new Date();
+    const today = new Date();
     //test
     //const today = new Date('2026-06-06T00:00:00'); // Early Bird
     //const today = new Date('2026-07-06T00:00:00'); // Regular
-    const today = new Date('2026-08-06T00:00:00'); // Late
+    // const today = new Date('2026-08-06T00:00:00'); // Late
     //const today = new Date('2026-09-06T00:00:00'); // No date
 
     const dateSetting = await this.datesettingsRepository.findOne({

@@ -6,7 +6,7 @@ import {
   IsNumber,
   IsOptional,
 } from 'class-validator';
-import { PaymentStatus, RegistrationType } from 'src/types/types';
+import { CurrencyType, PaymentStatus, RegistrationType } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 
 export class CreateTransactionSslDto {
@@ -28,6 +28,10 @@ export class CreateTransactionSslDto {
   @IsEmpty()
   @IsEnum(PaymentStatus)
   status?: PaymentStatus;
+
+  @IsNotEmpty()
+  @IsEnum(CurrencyType)
+  currency: CurrencyType;
 
   @IsEmpty()
   user: User;

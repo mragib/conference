@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaymentService } from 'src/payment/payment.service';
 import { PaymentStatus } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -14,6 +15,7 @@ export class TransactionSslService {
     @InjectRepository(TransactionSsl)
     private readonly transactionRepository: Repository<TransactionSsl>,
     private readonly sslService: SslService,
+    private readonly paymentService: PaymentService,
   ) {}
   async create(createTransactionSslDto: CreateTransactionSslDto, user: User) {
     createTransactionSslDto.status = PaymentStatus.INITIAL;
@@ -29,13 +31,54 @@ export class TransactionSslService {
       gatewayUrl: session.GatewayPageURL,
     };
   }
+  async success(transaction: TransactionSsl) {
+    try {
+      const saved = await this.transactionRepository.save({
+        ...transaction,
+        status: PaymentStatus.SUCCESS,
+      });
+
+      const updatedTransaction = await this.findOne(saved.id);
+
+      if (!updatedTransaction)
+        throw new NotFoundException('Transaction is not found');
+
+      await this.paymentService.create({
+        amount: updatedTransaction.amount,
+        registration_fee: updatedTransaction.registration_fee,
+        status: updatedTransaction.status,
+        transaction: updatedTransaction,
+        user: updatedTransaction.user,
+      });
+
+      return updatedTransaction;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async fail(transaction: TransactionSsl) {
+    transaction.status = PaymentStatus.FAILED;
+    return await this.transactionRepository.save(transaction);
+  }
+
+  async cancel(transaction: TransactionSsl) {
+    transaction.status = PaymentStatus.CANCEL;
+    return await this.transactionRepository.save(transaction);
+  }
 
   findAll() {
     return `This action returns all transactionSsl`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transactionSsl`;
+  findOne(id: string) {
+    return this.transactionRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['user', 'registration_fee'],
+    });
   }
 
   update(id: number, updateTransactionSslDto: UpdateTransactionSslDto) {

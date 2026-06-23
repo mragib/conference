@@ -145,7 +145,7 @@ export default function Pricing() {
               {/* Card Footer: Action */}
               <div className="p-8 pt-0">
                 <Link
-                  href="/signup"
+                  href="/dashboard/payment"
                   scroll={false}
                   className={`w-full py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-md flex items-center justify-center text-center ${
                     tier.highlight
@@ -177,7 +177,7 @@ export default function Pricing() {
                   BDT 5000/=
                 </span>
                 <Link
-                  href="/signup"
+                  href="/dashboard/payment"
                   scroll={false}
                   className="bg-white text-[#003366] px-3 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
                 >
@@ -202,7 +202,7 @@ export default function Pricing() {
                   USD 100$
                 </span>
                 <Link
-                  href="/signup"
+                  href="/dashboard/payment"
                   scroll={false}
                   className="bg-white text-[#003366] px-3 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-[#C5A059] hover:text-white transition-all shadow-md active:scale-95 flex items-center justify-center text-center"
                 >

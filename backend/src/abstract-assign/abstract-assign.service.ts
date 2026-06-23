@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -190,7 +191,9 @@ export class AbstractAssignService {
         .getOne();
 
       if (!assignment) {
-        throw new NotFoundException('Assignment not found or not authorized');
+        throw new NotFoundException(
+          'Assignment not found or not authorized or allready you took Decision ',
+        );
       }
 
       if (assignment.token_expiry < new Date()) {
@@ -225,6 +228,7 @@ export class AbstractAssignService {
       return { message: 'You have disagreed successfully', success: true };
     } catch (error) {
       console.error(error);
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -256,5 +260,24 @@ export class AbstractAssignService {
       console.error(error);
       throw new InternalServerErrorException('Something went wrong!!!');
     }
+  }
+
+  async findAbstractForReview(abstractId: string, user: User) {
+    const assignment = await this.abstractAssignRepository
+      .createQueryBuilder('assign')
+      .leftJoinAndSelect('assign.abstract', 'abstract')
+      .leftJoin('assign.reviewer', 'reviewer')
+      .where('assign.abstractId = :abstractId', { abstractId })
+      .andWhere('reviewer.userId = :userId', { userId: user.id })
+      .andWhere('assign.is_agreed = true')
+      .getOne();
+
+    if (!assignment) {
+      throw new ForbiddenException(
+        'This abstract is not assigned to you or has not been accepted.',
+      );
+    }
+
+    return assignment.abstract;
   }
 }

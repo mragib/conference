@@ -2,7 +2,12 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { getProfile } from "@/lib/data-service";
 import ProfileForm from "./ProfileForm";
 
-const ProfilePage = async () => {
+const ProfilePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ forward?: string }>;
+}) => {
+  const forward = (await searchParams).forward;
   const profile = await getProfile();
 
   const email = profile.statusCode === 404 ? profile.user.email : profile.email;
@@ -17,6 +22,7 @@ const ProfilePage = async () => {
           userEmail={email}
           user={profile.data}
           userName={userName}
+          forward={forward}
         />
       </div>
     </div>

@@ -59,7 +59,23 @@ export class ProfileService {
   }
 
   async profile(user: User) {
-    const found = await this.findOne({ where: { user: { id: user.id } } });
+    const found = await this.findOne({
+      select: {
+        id: true,
+        first_name: true,
+        last_name: true,
+        contact_number: true,
+        country: true,
+        designation: true,
+        organization: true,
+        user_type: true,
+        user: {
+          email: true,
+        },
+      },
+      where: { user: { id: user.id } },
+      relations: ['user'],
+    });
 
     if (!found)
       throw new NotFoundException({

@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/Modal";
+import { AbstractStatusCode } from "@/lib/constants";
 import { updateReviewerAcknowledgement } from "@/lib/data-service";
 import { ReviewerAbstractType } from "@/lib/type";
 import { Ellipsis, Eye, Pen } from "lucide-react";
@@ -66,57 +67,70 @@ const ReviewAbstractRow = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {is_agreed === null ||
-            (is_agreed === undefined && (
-              <>
-                <DropdownMenuItem>
-                  <Modal.Open opens="agree-data">
-                    <button className="flex w-full items-center gap-2">
-                      <Pen className="h-4 w-4" />
-                      <span>{is_agreed ? "Decline" : "Agree"}</span>
-                    </button>
-                  </Modal.Open>
-                </DropdownMenuItem>
+          {(is_agreed === null || is_agreed === undefined) && (
+            <>
+              <DropdownMenuItem>
+                <Modal.Open opens="agree-data">
+                  <button className="flex w-full items-center gap-2">
+                    <Pen className="h-4 w-4" />
+                    <span>{is_agreed ? "Decline" : "Agree"}</span>
+                  </button>
+                </Modal.Open>
+              </DropdownMenuItem>
 
-                <DropdownMenuItem>
-                  <Modal.Open opens="decline-data">
-                    <button className="flex w-full items-center gap-2">
-                      <Pen className="h-4 w-4" />
-                      <span>{!is_agreed ? "Decline" : "Agree"}</span>
-                    </button>
-                  </Modal.Open>
-                </DropdownMenuItem>
-              </>
-            ))}
+              <DropdownMenuItem>
+                <Modal.Open opens="decline-data">
+                  <button className="flex w-full items-center gap-2">
+                    <Pen className="h-4 w-4" />
+                    <span>{!is_agreed ? "Decline" : "Agree"}</span>
+                  </button>
+                </Modal.Open>
+              </DropdownMenuItem>
+            </>
+          )}
           <DropdownMenuItem>
-            <Link
-              href={`/reviewer/abstracts/${abstractAssign.id}`}
-              className="flex w-full items-center gap-2"
-            >
-              <Eye className="h-4 w-4" />
-              <span>Review</span>
-            </Link>
+            {is_agreed === true && (
+              <Link
+                href={`/reviewer/abstracts/${abstractAssign.abstract.id}`}
+                className="flex w-full items-center gap-2"
+              >
+                <Eye className="h-4 w-4" />
+                <span>View Details</span>
+              </Link>
+            )}
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            {is_agreed === true &&
+            abstractAssign.abstract.status.id === AbstractStatusCode.PENDING ? (
+              <Link
+                href={`/reviewer/abstracts/${abstractAssign.abstract.id}/review`}
+                className="flex w-full items-center gap-2"
+              >
+                <Pen className="h-4 w-4" />
+                <span>Review</span>
+              </Link>
+            ) : null}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <Modal.Window name="agree-data">
         <ConfirmChangeStatus
-          action={!is_agreed ? "Agree" : "Decline"}
+          action={"Agree"}
           resource="Abstract"
           disabled={isLoading}
           onConfirm={() => {
-            onsubmit({ is_agreed: !is_agreed, id: abstractAssign.id });
+            onsubmit({ is_agreed: true, id: abstractAssign.id });
           }}
         />
       </Modal.Window>
 
       <Modal.Window name="decline-data">
         <ConfirmChangeStatus
-          action={is_agreed ? "Decline" : "Agree"}
+          action={"Decline"}
           resource="Abstract"
           disabled={isLoading}
           onConfirm={() => {
-            onsubmit({ is_agreed: !is_agreed, id: abstractAssign.id });
+            onsubmit({ is_agreed: false, id: abstractAssign.id });
           }}
         />
       </Modal.Window>

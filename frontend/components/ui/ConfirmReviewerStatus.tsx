@@ -47,7 +47,8 @@ export default function ConfirmChangeStatus({
           }}
           disabled={disabled}
           className={`px-4 py-2 rounded-md text-sm text-white transition ${
-            action.toLowerCase() === "inactive"
+            action.toLowerCase() === "inactive" ||
+            action.toLowerCase() === "decline"
               ? "bg-red-600 hover:bg-red-700"
               : "bg-blue-600 hover:bg-blue-700"
           } disabled:opacity-50 disabled:cursor-not-allowed`}

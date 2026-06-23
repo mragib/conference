@@ -6,7 +6,7 @@ export default function KeyDates() {
   const dates = [
     {
       title: "Extended Abstract Submission",
-      date: "Till August 31st, 2026",
+      date: "Till August 31st 2026",
       icon: FileCheck,
       color: "text-[#003366]",
       bg: "bg-[#003366]/5",
@@ -81,7 +81,7 @@ export default function KeyDates() {
               </div>
 
               <div className="mt-4 text-left">
-                <p className="text-xl lg:text-xl font-black text-[#003366] tracking-tighter">
+                <p className="text-lg lg:text-xl font-black text-[#003366] tracking-tighter">
                   {item.date}
                 </p>
                 {/* Animated Bottom Line */}

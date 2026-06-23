@@ -1,0 +1,77 @@
+doctype html
+html(lang="en")
+head
+meta(charset="UTF-8")
+meta(name="viewport" content="width=device-width, initial-scale=1.0")
+title SCM Conference 2026 - Abstract Acceptance Notification
+
+body(
+style="margin:0; padding:0; background-color:#FDFCFB; font-family:'Segoe UI', Arial, sans-serif;"
+)
+.wrapper(style="padding:30px 10px;")
+.container(
+style="max-width:600px; margin:auto; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #f1f5f9;"
+)
+
+    include header
+
+    .content(style="padding:40px;")
+      h2(
+        style=`margin:0 0 25px; color:${brandBlue}; font-size:24px;`
+      )
+        | Abstract Acceptance Notification
+
+      p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+        | Dear #{name},
+
+      p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+        | Greetings from the Organizing Committee of the
+        strong  International Conference on Building Resilient Supply Chains 2026
+        | , hosted by the Department of Business Administration, East West University, Bangladesh.
+
+      p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+        | We are pleased to inform you that your submitted abstract has been
+        strong  accepted
+        |  for presentation at the conference following the review process.
+
+      table(
+        width="100%"
+        border="0"
+        cellspacing="0"
+        cellpadding="0"
+        style=`margin:30px 0; background:#f0fdf4; border-left:4px solid #16a34a; border-radius:8px;`
+      )
+        tr
+          td(style="padding:22px 24px;")
+            p(style="margin:0 0 8px; font-size:14px;")
+              strong Abstract Title:
+            p(style="margin:0; font-size:15px; color:#334155;")
+              | #{title}
+
+      .notice(
+        style="margin:25px 0; padding:18px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px;"
+      )
+        p(
+          style="margin:0; font-size:14px; color:#166534; font-weight:600;"
+        )
+          | ✓ Congratulations! Your abstract has been accepted.
+
+      p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+        | The reviewers found your work relevant to the conference theme and valuable to the academic community. We appreciate your contribution and look forward to your participation.
+
+      p(style="margin:0 0 18px; font-size:15px; line-height:1.8;")
+        | Please log in to the conference portal to review any reviewer comments and follow the instructions regarding registration and further submission requirements.
+
+      p(style="margin:30px 0 0; font-size:15px; line-height:1.8;")
+        | Congratulations once again, and thank you for choosing SCM Conference 2026.
+
+      p(style="margin-top:25px; font-size:15px;")
+        | For any questions, please contact us at
+        a(
+          href="mailto:helpdesk-scm@ewubd.edu"
+          style=`color:${brandBlue}; text-decoration:none; font-weight:bold;`
+        )
+          | helpdesk-scm@ewubd.edu
+
+    include footer
+

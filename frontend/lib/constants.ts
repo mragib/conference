@@ -320,3 +320,19 @@ export const customSelectStyles = {
     fontWeight: "600",
   }),
 };
+
+export const getCountryFlag = (countryCode?: string) => {
+  if (!countryCode) return "";
+
+  return countryCode
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+};
+
+export enum AbstractStatusCode {
+  PENDING = 1,
+  ACCEPTED = 2,
+  REJECTED = 3,
+  REVIEWED = 4,
+  SAVED = 5,
+}

@@ -59,6 +59,7 @@ function DataTable<TData>({
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFilter,
+    globalFilterFn: "includesString",
   });
 
   return (

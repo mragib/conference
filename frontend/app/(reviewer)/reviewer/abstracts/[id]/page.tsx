@@ -1,6 +1,8 @@
 import AbstractDetails from "@/components/AbstractDetails";
 import ReviewerHeader from "@/components/ReviewerHeader";
 import { getAbstractDetailsForReviewer } from "@/lib/data-service";
+import { getSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const AbstractDetailsPageForReviewer = async ({
   params,
@@ -13,6 +15,10 @@ const AbstractDetailsPageForReviewer = async ({
     success,
     errors,
   } = await getAbstractDetailsForReviewer(id);
+
+  const { user } = await getSession();
+
+  if (!user) redirect("/signin");
 
   if (!success) {
     return (
@@ -37,7 +43,7 @@ const AbstractDetailsPageForReviewer = async ({
   return (
     <>
       <ReviewerHeader menuName="Review Desk" menuText="Abstract Details" />
-      <AbstractDetails abstract={abstract} is_reviewer={true} />
+      <AbstractDetails abstract={abstract} user={user} />
     </>
   );
 };

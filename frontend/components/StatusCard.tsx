@@ -1,6 +1,12 @@
 import { Eye } from "lucide-react";
 
-export default function StatusCard({ statusId }: { statusId: number }) {
+export default function StatusCard({
+  statusId,
+  comment_to_author,
+}: {
+  statusId: number;
+  comment_to_author?: string;
+}) {
   const statusConfig = {
     1: {
       label: "Under Review",
@@ -9,7 +15,7 @@ export default function StatusCard({ statusId }: { statusId: number }) {
       icon: Eye,
     },
     2: {
-      label: "Approved",
+      label: "Accepted",
       color:
         "bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300",
       icon: () => null,
@@ -17,6 +23,11 @@ export default function StatusCard({ statusId }: { statusId: number }) {
     3: {
       label: "Rejected",
       color: "bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-300",
+      icon: () => null,
+    },
+    4: {
+      label: "Reviewed",
+      color: "bg-lime-100 dark:bg-lime-950 text-lime-700 dark:text-lime-300",
       icon: () => null,
     },
   };
@@ -38,6 +49,12 @@ export default function StatusCard({ statusId }: { statusId: number }) {
       >
         {config.label}
       </div>
+      {comment_to_author && (
+        <p className="text-sm">
+          <span className="pr-2 text-md font-bold">Comment For Author:</span>
+          {comment_to_author}
+        </p>
+      )}
       <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
         Last updated: {new Date().toLocaleDateString()}
       </p>

@@ -1,6 +1,6 @@
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YjUzNGI3Mi0xMjdmLTQzMDgtOTI2NC04ODEzZGVkMDUzNTYiLCJpYXQiOjE3NzU0NTk3NDYsImV4cCI6MTc3NjA2NDU0Nn0.KhdSfgYJOZOknqvnopyhrFDKznWxmRJ921g0Auhsxuo
 
-@reviewer_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMTcxNWUxOC1jMTQ2LTQ4YjktYjY1Ny0zMmQ0ODI1MjBkNjkiLCJpYXQiOjE3NzU0NjAyMTgsImV4cCI6MTc3NjA2NTAxOH0.IdZVKiqLl0HiphBKejLtx1n0LsimHvEwCu4Ontq1sjw
+@reviewer_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NzUxNDQ1ZC0yMGUyLTRlMzEtYWUyOC0wYjJkNmNjYjdkYjQiLCJpYXQiOjE3ODEwNjk0MjUsImV4cCI6MTc4MTY3NDIyNX0.6KxW84KfCRGzkFbmV1qYnmOYYppOc-lFBBw1A-PUph0
 
 ###Sign In ###
 POST http://localhost:8000/auth/signin
@@ -20,6 +20,15 @@ Content-Type: application/json
  "password":"test123"
 }
 
+### Get session ###
+POST http://localhost:8000/session
+Content-Type: application/json
+
+{
+    "session":"8751445d-20e2-4e31-ae28-0b2d6ccb7db4",
+    "userId":"8751445d-20e2-4e31-ae28-0b2d6ccb7db4"
+}
+
 
 ### Create a abstract review ###
 POST http://localhost:8000/abstract-review
@@ -27,8 +36,11 @@ Content-Type: application/json
 Authorization: Bearer {{reviewer_token}}
 
 {
-    "abstractId":"6cf8f45c-1aa0-4b4a-90c9-fad6a5e101c1",
+    "abstractId":"7066124c-bd0e-410c-83cc-b752bf23bef8",
     "comment_to_author":"this is a test comment to author",
-    "comment_to_chair":"this is a test comment to chair",
-    "mark":4
+    "purposeMarkId":"70ea5d8f-9768-469c-a858-fa76a923144a",
+    "methodologyMarkId":"b5af264c-4e2d-4565-8735-cbcfa1d6ed22",
+    "findingsMarkId":"d111b704-6cd0-4c46-be01-c47693c0c5d8",
+    "theoreticalMarkId":"ef4515f0-2693-4a1e-b53b-70b36f432357",
+    "practicalMarkId":"e32cd1b3-8739-4b6a-8a9d-aa498eb6b531"
 }

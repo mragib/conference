@@ -1,0 +1,14 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3ODA5OTg5NTcsImV4cCI6MTc4MTYwMzc1N30.V3wl_WIuSfPChkPsyF0CJVPGRYY9IIxp7mNKkAzr79Y
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Payments ###
+GET http://localhost:8000/payment
+Authorization: Bearer {{token}}

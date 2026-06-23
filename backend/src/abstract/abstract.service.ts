@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AbstractAssignService } from 'src/abstract-assign/abstract-assign.service';
@@ -8,7 +12,10 @@ import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateAbstractDto } from './dto/create-abstract.dto';
-import { UpdateAbstractDto } from './dto/update-abstract.dto';
+import {
+  UpdateAbstractDto,
+  UpdateAbstractStatusDto,
+} from './dto/update-abstract.dto';
 import { Abstract } from './entities/abstract.entity';
 
 @Injectable()
@@ -171,8 +178,8 @@ export class AbstractService {
     return `This action returns a #${id} abstract`;
   }
 
-  update(id: number, updateAbstractDto: UpdateAbstractDto) {
-    return `This action updates a #${id} abstract`;
+  update(id: string, updateAbstractDto: UpdateAbstractDto) {
+    return this.abstractRepository.update(id, updateAbstractDto);
   }
 
   remove(id: number) {
@@ -238,11 +245,18 @@ export class AbstractService {
           organization: true,
           display_order: true,
         },
+        abstract_review: {
+          comment_to_author: true,
+        },
       },
       relations: {
         co_authors: true,
         topic: true,
         status: true,
+        abstract_review: true,
+      },
+      order: {
+        created_at: 'DESC',
       },
     });
 
@@ -255,6 +269,7 @@ export class AbstractService {
       .leftJoinAndSelect('abstract.co_authors', 'co_authors')
       .leftJoinAndSelect('abstract.topic', 'topic')
       .leftJoinAndSelect('abstract.status', 'status')
+      .leftJoinAndSelect('abstract.abstract_review', 'abstractReview')
       .innerJoin('abstract.assigns', 'assigns')
       .innerJoin('assigns.reviewer', 'reviewer')
       .innerJoin('reviewer.user', 'reviewerUser')
@@ -270,6 +285,7 @@ export class AbstractService {
       .leftJoinAndSelect('abstract.co_authors', 'co_authors')
       .leftJoinAndSelect('abstract.topic', 'topic')
       .leftJoinAndSelect('abstract.status', 'status')
+      .leftJoinAndSelect('abstract.abstract_review', 'abstractReview')
       .innerJoin('abstract.assigns', 'assigns')
       .innerJoin('assigns.reviewer', 'reviewer')
       .innerJoin('reviewer.user', 'reviewerUser')
@@ -287,21 +303,44 @@ export class AbstractService {
       .leftJoinAndSelect('abstract.topic', 'topic')
       .leftJoin('topic.user', 'reviewer')
       .where('reviewer.id = :userId', { userId: user.id })
+      .orderBy('abstract.created_at', 'DESC')
       .getMany();
 
     return abstracts;
   }
 
-  async findAbstractForReview(abstractId: string, user: User) {
-    // ✅ 1. Verify reviewer has access to the abstract
-    const abstract = await this.abstractRepository
-      .createQueryBuilder('abstract')
-      .leftJoin('abstract.topic', 'topic')
-      .leftJoin('topic.user', 'reviewer')
-      .where('abstract.id = :abstractId', { abstractId })
-      .andWhere('reviewer.id = :userId', { userId: user.id })
-      .getOne();
+  async updateStatus(id: string, dto: UpdateAbstractStatusDto) {
+    const abstract = await this.abstractRepository.findOne({
+      where: { id },
+      relations: ['status', 'user'],
+    });
 
-    return abstract;
+    if (!abstract) {
+      throw new NotFoundException('Abstract not found');
+    }
+
+    abstract.statusId = dto.statusId;
+
+    const updated = await this.abstractRepository.update(id, {
+      statusId: dto.statusId,
+    });
+
+    const accepted = dto.statusId === 2;
+
+    await this.mailService.sendEmail(
+      abstract.user.email,
+      accepted
+        ? 'SCM Conference 2026 - Abstract Acceptance Notification'
+        : 'SCM Conference 2026 - Abstract Review Decision',
+      accepted
+        ? 'abstract-accepted-user-email'
+        : 'abstract-rejected-user-email',
+      {
+        name: abstract.user.name,
+        title: abstract.title,
+      },
+    );
+
+    return updated;
   }
 }

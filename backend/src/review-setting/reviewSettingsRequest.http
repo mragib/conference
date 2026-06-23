@@ -1,0 +1,18 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjE5MjRiNi0zZmFkLTQ3ZTgtOWM3OC1jMTBkYjk3NDM3MjciLCJpYXQiOjE3ODIxOTU3MTksImV4cCI6MTc4MjgwMDUxOX0._sk2E6cmzMuPnqddT8MS6mcJKcm8Obpg08UWvuqserU
+
+###Sign In admin ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+### Seed review setting ###
+GET http://localhost:8000/review-setting/seed
+Authorization: Bearer {{token}}
+
+### All review setting ###
+GET http://localhost:8000/review-setting/
+Authorization: Bearer {{token}}

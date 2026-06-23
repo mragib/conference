@@ -1,3 +1,4 @@
+import { Payment } from 'src/payment/entities/payment.entity';
 import { TransactionSsl } from 'src/transaction-ssl/entities/transaction-ssl.entity';
 import { CountryType, RegistrationCategory, UserType } from 'src/types/types';
 import {
@@ -35,4 +36,7 @@ export class RegistrationFee {
   //Bi direaction
   @OneToMany(() => TransactionSsl, (item) => item.registration_fee)
   transaction_ssl: TransactionSsl;
+
+  @OneToMany(() => Payment, (item) => item.registration_fee)
+  payment: Payment[];
 }

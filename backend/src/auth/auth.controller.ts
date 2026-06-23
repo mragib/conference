@@ -67,9 +67,12 @@ export class AuthController {
       req.user.role,
     );
     const frontendUrl = this.configService.get<string>('FRONTEND_URL');
+    const callbackUrl = req.query.state
+      ? encodeURIComponent(req.query.state)
+      : '';
 
     res.redirect(
-      `${frontendUrl}/api/auth/google/callback?userId=${response.id}&name=${response.name}&accessToken=${response.accessToken}&refreshToken=${response.refreshToken}&role=${response.role}`,
+      `${frontendUrl}/api/auth/google/callback?userId=${response.id}&name=${response.name}&accessToken=${response.accessToken}&refreshToken=${response.refreshToken}&role=${response.role}&callbackUrl=${callbackUrl}`,
     );
   }
 

@@ -7,7 +7,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/Modal";
 import { AbstractType, REVEIWER_USER_TYPE } from "@/lib/type";
-import { Ellipsis, Pen } from "lucide-react";
+import { Ellipsis, Gavel, Pen } from "lucide-react";
+import Link from "next/link";
 import { ChangeAbstractReviewerForm } from "./ChangeAbstractReviewerForm";
 
 const AbstractRow = ({
@@ -38,6 +39,22 @@ const AbstractRow = ({
                 <span>Change Reviewer</span>
               </button>
             </Modal.Open>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            {abstract.status === "reviewed" ? (
+              <Link
+                href={`/admin/abstracts/${abstract.id}/decision`}
+                className="flex w-full items-center gap-2"
+              >
+                <Gavel className="h-4 w-4" />
+                <span>Make final decision</span>
+              </Link>
+            ) : (
+              <span className="flex w-full items-center gap-2 opacity-50 cursor-not-allowed">
+                <Gavel className="h-4 w-4" />
+                <span>Make final decision</span>
+              </span>
+            )}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

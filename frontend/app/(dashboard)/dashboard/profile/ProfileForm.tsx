@@ -10,6 +10,7 @@ import { ProfileFormSchema, USER_TYPE } from "@/lib/type";
 import { changeForSelectArray } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Save, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
   startTransition,
   useActionState,
@@ -28,10 +29,12 @@ const ProfileForm = ({
   userEmail,
   user,
   userName,
+  forward,
 }: {
   userEmail: string;
   userName?: string;
   user?: any;
+  forward?: string;
 }) => {
   const [state, action, isPending] = useActionState(createProfile, {
     success: false,
@@ -65,11 +68,14 @@ const ProfileForm = ({
     useConfirm();
   const [isDisable, setIsDisable] = useState(!!user);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (isSubmitSuccessful && state?.success) {
       toast.success("Profile updated successfully!");
+      if (forward) router.push(forward);
     }
-  }, [isSubmitSuccessful, state?.success]);
+  }, [isSubmitSuccessful, state?.success, router, forward]);
 
   const onsubmit = async (data: z.output<typeof ProfileFormSchema>) => {
     const ok = await confirm({

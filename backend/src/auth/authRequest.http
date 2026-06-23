@@ -36,6 +36,19 @@ Content-Type: application/json
 
 }
 
+###Sign UP as  ADMIN ###
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+    "name":"Help Desk",
+    "email":"helpdesk.scm@gmail.com",
+    "phone":"09666775577",
+    "password":"test123",
+    "role":"ADMIN"
+
+}
+
 ###Sign UP as SUPER ADMIN ###
 POST http://localhost:8000/auth/signup
 Content-Type: application/json

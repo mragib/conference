@@ -7,7 +7,11 @@ import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
-export const SigninForm = () => {
+interface SigninFormProps {
+  callbackUrl?: string;
+}
+
+export const SigninForm = ({ callbackUrl }: SigninFormProps) => {
   const [state, action] = useActionState(signin, undefined);
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -94,6 +98,9 @@ export const SigninForm = () => {
           </div>
 
           <form action={googlesignin} className="shrink-0 mb-4">
+            {callbackUrl && (
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
+            )}
             <button className="w-full cursor-pointer flex items-center justify-center gap-3 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-[#C5A059]/30 transition-all font-black text-[10px] uppercase tracking-widest text-slate-700 shadow-sm active:scale-[0.98]">
               <img
                 src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
@@ -105,6 +112,9 @@ export const SigninForm = () => {
           </form>
 
           <form action={action} className="space-y-4">
+            {callbackUrl && (
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
+            )}
             {state?.message && (
               <p className="text-red-500 text-[11px] font-bold text-center bg-red-50 py-2 rounded-lg border border-red-100">
                 {state.message}

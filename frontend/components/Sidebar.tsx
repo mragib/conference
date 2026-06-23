@@ -2,6 +2,7 @@
 
 import { Role } from "@/lib/type";
 import {
+  Banknote,
   BarChart3,
   ClipboardCheck,
   FileText,
@@ -28,6 +29,11 @@ const Sidebar = ({ user }: any) => {
     { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     { name: "Submit Abstract", icon: PlusCircle, path: "/dashboard/submit" },
     { name: "My Abstracts", icon: FileText, path: "/dashboard/abstracts" },
+    {
+      name: "Pay Registration Fee",
+      icon: Banknote,
+      path: "/dashboard/payment",
+    },
     { name: "Profile", icon: UserCircle, path: "/dashboard/profile" },
     // { name: "Event Timeline", icon: Calendar, path: "/dashboard/schedule" },
     // { name: "Certificates", icon: Award, path: "/dashboard/certificates" },
@@ -50,6 +56,11 @@ const Sidebar = ({ user }: any) => {
       icon: PlusCircle,
       path: "/reviewer/submit",
     },
+    {
+      name: "Pay Registration Fee",
+      icon: Banknote,
+      path: "/reviewer/payment",
+    },
     { name: "Profile", icon: UserCircle, path: "/reviewer/profile" },
     // {
     //   name: "Completed Reviews",
@@ -64,6 +75,11 @@ const Sidebar = ({ user }: any) => {
     // { name: "Event Schedule", icon: Calendar, path: "/admin/schedule" },
     // { name: "Finance & Revenue", icon: CreditCard, path: "/admin/finance" },
     { name: "Reviewer Management", icon: Users, path: "/admin/reviewers" },
+    {
+      name: "Registered Participents",
+      icon: Banknote,
+      path: "/admin/registered-participents",
+    },
 
     { name: "User Management", icon: Users, path: "/admin/users" },
     // { name: "Sub Themes", icon: SwatchBook, path: "/admin/sub-themes" },

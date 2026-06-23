@@ -1,8 +1,16 @@
 import { Button } from "@/components/button";
+import { Badge } from "@/components/ui/badge";
 import { AbstractType } from "@/lib/type";
 import { capitalize, formatDateTime } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import {
+  ArrowUpDown,
+  CheckCircle2,
+  Clock3,
+  Eye,
+  Save,
+  XCircle,
+} from "lucide-react";
 import Link from "next/link";
 
 export const getAbstractColumns = (url: string): ColumnDef<AbstractType>[] => [
@@ -80,7 +88,47 @@ export const getAbstractColumns = (url: string): ColumnDef<AbstractType>[] => [
   {
     id: "status",
     accessorKey: "status",
-    cell: ({ row }) => capitalize(row.original.status.name || ""),
+    cell: ({ row }) => {
+      const status = row.original.status?.name?.toLowerCase();
+
+      const config = {
+        pending: {
+          icon: Clock3,
+          className: "bg-amber-100 text-amber-800 border-amber-200",
+        },
+        accepted: {
+          icon: CheckCircle2,
+          className: "bg-emerald-100 text-emerald-800 border-emerald-200",
+        },
+        rejected: {
+          icon: XCircle,
+          className: "bg-red-100 text-red-800 border-red-200",
+        },
+        reviewed: {
+          icon: Eye,
+          className: "bg-blue-100 text-blue-800 border-blue-200",
+        },
+        saved: {
+          icon: Save,
+          className: "bg-slate-100 text-slate-800 border-slate-200",
+        },
+      };
+
+      const item = config[status];
+      const Icon = item?.icon;
+
+      return (
+        <div className="grid items-center justify-center">
+          <Badge
+            variant="outline"
+            className={`capitalize flex justify-center w-fit items-center gap-1 ${item?.className}`}
+          >
+            {Icon && <Icon className="h-3 w-3" />}
+            {status}
+          </Badge>
+        </div>
+      );
+    },
     header: ({ column }) => {
       return (
         <Button

@@ -11,6 +11,8 @@ export async function GET(request: NextRequest) {
   const refreshToken = searchParams.get("refreshToken");
   const role = searchParams.get("role");
 
+  const callbackUrl = searchParams.get("callbackUrl");
+
   if (!userId || !name || !accessToken || !refreshToken) {
     return new Response(
       JSON.stringify({ message: "Missing required query parameters" }),
@@ -27,6 +29,8 @@ export async function GET(request: NextRequest) {
     accessToken,
     refreshToken,
   });
-
-  redirect("/dashboard");
+  const destination = callbackUrl
+    ? decodeURIComponent(callbackUrl)
+    : "/dashboard";
+  redirect(destination);
 }

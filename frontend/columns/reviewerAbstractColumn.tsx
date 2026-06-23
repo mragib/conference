@@ -19,13 +19,19 @@ export const getReviewerAbstractColumn =
       accessorKey: "title",
       cell: ({ row }) => (
         <div className="max-w-xl text-left">
-          <Link
-            href={`/reviewer/abstracts/${row.original.abstract.id}`}
-            // href="#"
-            className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6 underline text-blue-800"
-          >
-            {capitalize(row.original.abstract.title || "")}
-          </Link>
+          {row.original.is_agreed ? (
+            <Link
+              href={`/reviewer/abstracts/${row.original.abstract.id}`}
+              // href="#"
+              className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6 underline text-blue-800"
+            >
+              {capitalize(row.original.abstract.title || "")}
+            </Link>
+          ) : (
+            <p className="line-clamp-2 whitespace-normal overflow-hidden wrap-break-words text-sm leading-6">
+              {capitalize(row.original.abstract.title || "")}
+            </p>
+          )}
         </div>
       ),
       header: ({ column }) => {
@@ -116,26 +122,30 @@ export const getReviewerAbstractColumn =
       accessorKey: "has_review",
 
       cell: ({ row }) => {
-        const reviewed = row.original.has_review;
+        const reviewed = row.original.abstract.status.name;
 
         return (
           <div className="flex items-center justify-center">
             <Badge
               variant="outline"
-              className={`gap-1.5 px-3 py-1 text-xs font-semibold rounded-full
+              className={`gap-1.5 px-3 py-1 text-xs font-semibold rounded-full capitalize
             ${
-              reviewed
+              reviewed === "reviewed"
                 ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50"
-                : "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-50"
+                : reviewed === "accepted"
+                  ? "border-green-200 bg-green-50 text-green-700 hover:bg-green-50"
+                  : reviewed === "rejected"
+                    ? "border-red-200 bg-red-50 text-red-700 hover:bg-red-50"
+                    : "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-50"
             }`}
             >
               <span
                 className={`h-2 w-2 rounded-full ${
-                  reviewed ? "bg-emerald-500" : "bg-amber-500"
+                  reviewed === "reviewed" ? "bg-emerald-500" : "bg-amber-500"
                 }`}
               />
 
-              {reviewed ? "Done" : "Not Done"}
+              {reviewed ? reviewed : "Not Done"}
             </Badge>
           </div>
         );
@@ -158,7 +168,11 @@ export const getReviewerAbstractColumn =
       id: "actions",
       cell: ({ row }) => {
         const data = row.original;
-        return <ReviewAbstractRow abstractAssign={data} />;
+        return data.is_agreed ||
+          data.is_agreed === null ||
+          data.is_agreed === undefined ? (
+          <ReviewAbstractRow abstractAssign={data} />
+        ) : null;
       },
     },
   ];

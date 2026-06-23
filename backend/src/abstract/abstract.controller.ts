@@ -14,7 +14,10 @@ import { Role } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 import { AbstractService } from './abstract.service';
 import { CreateAbstractDto } from './dto/create-abstract.dto';
-import { UpdateAbstractDto } from './dto/update-abstract.dto';
+import {
+  UpdateAbstractDto,
+  UpdateAbstractStatusDto,
+} from './dto/update-abstract.dto';
 
 @Controller('abstract')
 export class AbstractController {
@@ -90,12 +93,18 @@ export class AbstractController {
     return this.abstractService.findOne(+id);
   }
 
+  @Patch(':id/status')
+  updateStatus(@Param('id') id: string, @Body() dto: UpdateAbstractStatusDto) {
+    return this.abstractService.updateStatus(id, dto);
+  }
+
+  @Roles(Role.SUPERADMIN, Role.ADMIN, Role.AUTHORITY)
   @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateAbstractDto: UpdateAbstractDto,
   ) {
-    return this.abstractService.update(+id, updateAbstractDto);
+    return this.abstractService.update(id, updateAbstractDto);
   }
 
   @Delete(':id')

@@ -8,8 +8,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
+import { REVIEWER_SEED_DATA } from 'src/config/seed-data';
 import { MailService } from 'src/mail/mail.service';
-import { REVIEWER_SEED_DATA, Role } from 'src/types/types';
+import { Role } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
@@ -316,7 +317,9 @@ export class ReviewerService {
       where: { userId: user.id },
       relations: {
         abstractAssigns: {
-          abstract: true,
+          abstract: {
+            status: true,
+          },
         },
       },
     });

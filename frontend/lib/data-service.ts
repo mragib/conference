@@ -8,6 +8,7 @@ import { getSession } from "./session";
 import {
   AbstractFormSchema,
   AbstractReviewerChangeSchemaServer,
+  AbstractReviewSchema,
   AdminUserServerSchema,
   AdvanceFormState,
   ApiResponse,
@@ -760,7 +761,7 @@ export const reviewerGetDisAgree = async (token: string) => {
 
   if (!response.ok) {
     return {
-      errors: resData.message || resData.error || "Request failed",
+      errors: parseApiError(resData),
       success: false,
     };
   }
@@ -1000,8 +1001,6 @@ export const inititePayment = async (
 ): Promise<AdvanceFormState> => {
   const payload: any = Object.fromEntries(formData.entries());
 
-  console.log(payload);
-
   const response = await authPostOrPatch(
     `${BACKEND_URL}/transaction-ssl`,
     "POST",
@@ -1024,3 +1023,126 @@ export const inititePayment = async (
     },
   };
 };
+
+export const getTransactionStatus = async (transactionId: string) => {
+  const response = await authFetch(
+    `${BACKEND_URL}/transaction-ssl/${transactionId}`,
+  );
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const getMyPayment = async () => {
+  const response = await authFetch(`${BACKEND_URL}/payment/my-payments`);
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const getAllPayments = async () => {
+  const response = await authFetch(`${BACKEND_URL}/payment`);
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const getReviewCritaria = async () => {
+  const response = await authFetch(`${BACKEND_URL}/review-setting`);
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const createAbstractReview = async (
+  state: AdvanceFormState,
+  formData: FormData,
+): Promise<AdvanceFormState> => {
+  const payload = Object.fromEntries(formData.entries());
+
+  const validation = AbstractReviewSchema.safeParse(payload);
+
+  if (!validation.success) {
+    return {
+      errors: validation.error.flatten().fieldErrors,
+      success: false,
+    };
+  }
+
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/abstract-review`,
+    "POST",
+    JSON.stringify(validation.data),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData.message),
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+  };
+};
+
+export async function updateAbstractStatus(id: string, status: number) {
+  const response = await authPostOrPatch(
+    `${BACKEND_URL}/abstract/${id}/status`,
+    "PATCH",
+    JSON.stringify({ statusId: status }),
+  );
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData.message),
+      success: false,
+    };
+  }
+
+  return {
+    success: true,
+    data: resData,
+  };
+}

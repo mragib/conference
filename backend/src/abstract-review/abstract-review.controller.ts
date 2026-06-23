@@ -25,7 +25,7 @@ export class AbstractReviewController {
     @Body() createAbstractReviewDto: CreateAbstractReviewDto,
     @GetUser() user: User,
   ) {
-    createAbstractReviewDto.user = user;
+    createAbstractReviewDto.created_by = user;
     return this.abstractReviewService.create(createAbstractReviewDto);
   }
 

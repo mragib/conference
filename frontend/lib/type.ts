@@ -187,6 +187,7 @@ export type AbstractType = {
   co_authors: CoAuthor[];
   status: AbstractStatus;
   created_at?: Date;
+  abstract_review?: AbstractReviewFormType;
 };
 
 export type AbstractTableRow = {
@@ -402,3 +403,50 @@ export type RegistrationFeeResponse = {
   amount: number;
   currency: string;
 };
+
+export enum ForwardLink {
+  SUBMIT = "/dashboard/submit",
+  PAYMENT = "/dashboard/payment",
+}
+
+export type PAYMENT_TYPE_FOR_TABLE = {
+  amount: string;
+  store_amount: string;
+  status: string;
+  created_at: string;
+
+  name: string;
+  email: string;
+
+  first_name: string;
+  last_name: string;
+  country: string;
+  organization: string;
+  designation: string;
+  contact_number: string;
+
+  registration_user_type: string;
+  registration_category: string;
+  registration_type: string;
+
+  transaction_id: string;
+
+  total_abstract: string;
+  accepted_abstract: string;
+};
+
+export const AbstractReviewSchema = z.object({
+  abstractId: z.string().uuid(),
+
+  purposeMarkId: z.string().min(1, "Purpose Mark is Required"),
+  methodologyMarkId: z.string().min(1, "Methodology Mark is Required"),
+  findingsMarkId: z.string().min(1, "Findings Mark is Required"),
+  theoreticalMarkId: z.string().min(1, "Theoretical Mark is Required"),
+  practicalMarkId: z.string().min(1, "Practical Mark is Required"),
+  overallMarkId: z.string().min(1, "Overall Mark is Required"),
+  comment_to_author: z
+    .string()
+    .min(10, "Comment must be at least 10 characters"),
+});
+
+export type AbstractReviewFormType = z.infer<typeof AbstractReviewSchema>;

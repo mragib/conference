@@ -4,14 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RegistrationFeeSeedData } from 'src/config/seed-data';
 import { DateSettingService } from 'src/date-setting/date-setting.service';
 import { ProfileService } from 'src/profile/profile.service';
-import {
-  CountryType,
-  CurrencyType,
-  RegistrationFeeSeedData,
-  RegistrationType,
-} from 'src/types/types';
+import { CountryType, CurrencyType, RegistrationType } from 'src/types/types';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateRegistrationFeeDto } from './dto/create-registration-fee.dto';

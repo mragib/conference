@@ -75,6 +75,8 @@ export async function signin(
   const email = data.get("email");
   const password = data.get("password");
 
+  const callbackUrl = data.get("callbackUrl") as string | null;
+
   const validationFields = SigninFormSchema.safeParse({
     email,
     password,
@@ -111,7 +113,11 @@ export async function signin(
     refreshToken: result.refreshToken,
   });
 
-  redirect("/dashboard");
+  const destination = callbackUrl
+    ? decodeURIComponent(callbackUrl)
+    : "/dashboard";
+
+  redirect(destination);
 }
 
 export const refreshToken = async (oldRefreshToken: string) => {
@@ -160,8 +166,14 @@ export const refreshToken = async (oldRefreshToken: string) => {
   }
 };
 
-export const googlesignin = async () => {
-  redirect(`${BACKEND_URL}/auth/google/login`);
+export const googlesignin = async (data: FormData) => {
+  const callbackUrl = data.get("callbackUrl") as string | null;
+
+  // Append the target path as a query parameter to your NestJS login route
+  const queryParam = callbackUrl
+    ? `?callbackUrl=${encodeURIComponent(callbackUrl)}`
+    : "";
+  redirect(`${BACKEND_URL}/auth/google/login${queryParam}`);
 };
 
 export async function signout(state: ApiResponse, data: FormData) {

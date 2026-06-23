@@ -23,6 +23,7 @@ import { DateSettingModule } from './date-setting/date-setting.module';
 import { RegistrationFeeModule } from './registration-fee/registration-fee.module';
 import { TransactionSslModule } from './transaction-ssl/transaction-ssl.module';
 import { PaymentModule } from './payment/payment.module';
+import { ReviewSettingModule } from './review-setting/review-setting.module';
 
 @Module({
   imports: [
@@ -66,6 +67,8 @@ import { PaymentModule } from './payment/payment.module';
     TransactionSslModule,
 
     PaymentModule,
+
+    ReviewSettingModule,
   ],
   controllers: [AppController],
   providers: [

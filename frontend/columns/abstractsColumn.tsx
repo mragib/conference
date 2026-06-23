@@ -76,6 +76,8 @@ export const getAbstractsColumn = (
       const statusStyles = {
         pending:
           "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-50",
+        reviewed:
+          "border-yellow-200 bg-yellow-50 text-yellow-700 hover:bg-yellow-50",
         accepted:
           "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50",
         rejected: "border-red-200 bg-red-50 text-red-700 hover:bg-red-50",
@@ -83,6 +85,7 @@ export const getAbstractsColumn = (
 
       const dotStyles = {
         pending: "bg-amber-500",
+        reviewed: "bg-yellow-500",
         accepted: "bg-emerald-500",
         rejected: "bg-red-500",
       };
