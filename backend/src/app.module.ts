@@ -24,6 +24,7 @@ import { RegistrationFeeModule } from './registration-fee/registration-fee.modul
 import { TransactionSslModule } from './transaction-ssl/transaction-ssl.module';
 import { PaymentModule } from './payment/payment.module';
 import { ReviewSettingModule } from './review-setting/review-setting.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -69,6 +70,8 @@ import { ReviewSettingModule } from './review-setting/review-setting.module';
     PaymentModule,
 
     ReviewSettingModule,
+
+    ReportModule,
   ],
   controllers: [AppController],
   providers: [

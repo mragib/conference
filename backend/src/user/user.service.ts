@@ -294,4 +294,56 @@ export class UserService {
       message: 'User updated successfully',
     };
   }
+  async findAdminDashboardStats() {
+    const stats = await this.userRepository
+      .createQueryBuilder('u')
+      .select('COUNT(u.id)', 'total')
+      .addSelect(
+        `
+      COUNT(
+        CASE
+          WHEN u.role = 'RESEARCHER'
+          THEN 1
+        END
+      )
+      `,
+        'researchers',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE
+          WHEN u.role = 'REVIEWER'
+          THEN 1
+        END
+      )
+      `,
+        'reviewers',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE
+          WHEN u.role = 'ADMIN'
+          THEN 1
+        END
+      )
+      `,
+        'admins',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE
+          WHEN u.is_active = true
+          THEN 1
+        END
+      )
+      `,
+        'active',
+      )
+      .getRawOne();
+
+    return stats;
+  }
 }

@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMzA1OTE3YS00YzE3LTQ3ZTctYjIzNi1hYjRhMzc1NDY4ZTgiLCJpYXQiOjE3Nzg2NjYwNjgsImV4cCI6MTc3OTI3MDg2OH0.le4zeej2Ix4Ubm5INKLRixvC7tabO8Cyo-LTERMyNtU
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYmYyMmJlOS00MTFhLTQ4MjYtOWUyOS0wMDg4NDc4ZjA2NzkiLCJpYXQiOjE3ODIxODI5ODMsImV4cCI6MTc4Mjc4Nzc4M30.l4ZQAz6U1gyrgktrwBql_0ja9P6goOm6YkjNovz7Dmg
 @admin_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3Nzg2NjYyMDAsImV4cCI6MTc3OTI3MTAwMH0.ygcEmm9koBZaL5WXa3VuLkGdb5Q_RJM5BZ07yH4O0LU
 
 
@@ -92,3 +92,18 @@ Authorization: Bearer {{admin_token}}
     # "email":"ragibshahriar@ewubd.edu"
 
 }
+
+
+### Get session ###
+POST http://localhost:8000/session
+Content-Type: application/json
+
+{
+    "session":"8751445d-20e2-4e31-ae28-0b2d6ccb7db4",
+    "userId":"8751445d-20e2-4e31-ae28-0b2d6ccb7db4"
+}
+
+
+#### User stats ###
+GET http://localhost:8000/user/author-dashboard-stats
+Authorization: Bearer {{token}}

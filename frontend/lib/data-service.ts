@@ -1146,3 +1146,57 @@ export async function updateAbstractStatus(id: string, status: number) {
     data: resData,
   };
 }
+
+export const getAuthorDashboardData = async () => {
+  const response = await authFetch(
+    `${BACKEND_URL}/report/author-dashboard-stats`,
+  );
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const getReviewerDashboardData = async () => {
+  const response = await authFetch(
+    `${BACKEND_URL}/report/reviewer-dashboard-stats`,
+  );
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};
+
+export const getAdminDashboardData = async () => {
+  const response = await authFetch(
+    `${BACKEND_URL}/report/admin-dashboard-stats`,
+  );
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return {
+      errors: parseApiError(resData),
+      success: false,
+    };
+  }
+  return {
+    success: true,
+    data: resData,
+  };
+};

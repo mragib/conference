@@ -343,4 +343,85 @@ export class AbstractService {
 
     return updated;
   }
+
+  async findAuthorDashboardStats(user: User) {
+    const abstractStats = await this.abstractRepository
+      .createQueryBuilder('abstract')
+      .leftJoin('abstract.status', 'status')
+      .select('COUNT(abstract.id)', 'total')
+      .addSelect(
+        `SUM(CASE WHEN status.name = 'accepted' THEN 1 ELSE 0 END)`,
+        'accepted',
+      )
+      .addSelect(
+        `SUM(CASE WHEN status.name = 'pending' THEN 1 ELSE 0 END)`,
+        'pending',
+      )
+      .addSelect(
+        `SUM(CASE WHEN status.name = 'rejected' THEN 1 ELSE 0 END)`,
+        'rejected',
+      )
+      .addSelect(
+        `SUM(CASE WHEN status.name = 'reviewed' THEN 1 ELSE 0 END)`,
+        'reviewed',
+      )
+      .addSelect(
+        `SUM(CASE WHEN status.name = 'saved' THEN 1 ELSE 0 END)`,
+        'saved',
+      )
+      .where('abstract.userId = :userId', {
+        userId: user.id,
+      })
+      .getRawOne();
+    return abstractStats;
+  }
+
+  async findAdminDashboardStats() {
+    const stats = await this.abstractRepository
+      .createQueryBuilder('ab')
+      .select('COUNT(ab.id)', 'total')
+      .addSelect(
+        `
+      COUNT(
+        CASE WHEN ab.statusId = 2 THEN 1 END
+      )
+      `,
+        'accepted',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE WHEN ab.statusId = 1 THEN 1 END
+      )
+      `,
+        'pending',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE WHEN ab.statusId = 3 THEN 1 END
+      )
+      `,
+        'rejected',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE WHEN ab.statusId = 4 THEN 1 END
+      )
+      `,
+        'reviewed',
+      )
+      .addSelect(
+        `
+      COUNT(
+        CASE WHEN ab.statusId = 5 THEN 1 END
+      )
+      `,
+        'saved',
+      )
+      .getRawOne();
+
+    return stats;
+  }
 }

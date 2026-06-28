@@ -1,0 +1,24 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YmQ0NTMzMy02Mzc0LTQ5M2QtYWE5Yi1lZWM5ZTg0OTcxYmUiLCJpYXQiOjE3ODIzNjM4NjQsImV4cCI6MTc4Mjk2ODY2NH0.EJcboS-4e3Uj3B9DpCRRJhSrW1fEEVWc4IOyHuP46f8
+
+###Sign In ###
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+ "email":"admin@gmail.com",
+ "password":"test123"
+}
+
+#### Author stats ###
+GET http://localhost:8000/report/author-dashboard-stats
+Authorization: Bearer {{token}}
+
+
+#### Reviewer stats ###
+GET http://localhost:8000/report/reviewer-dashboard-stats
+Authorization: Bearer {{token}}
+
+
+#### Admin stats ###
+GET http://localhost:8000/report/admin-dashboard-stats
+Authorization: Bearer {{token}}

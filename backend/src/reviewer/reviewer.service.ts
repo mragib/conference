@@ -159,19 +159,10 @@ export class ReviewerService {
   async findAllReviewerWithStats() {
     const reviewers = await this.reviewerRepository
       .createQueryBuilder('rw')
-
-      // reviewer user
       .leftJoin('rw.user', 'u')
-
-      // assignments
       .leftJoin('rw.abstractAssigns', 'aa')
-
-      // abstract
       .leftJoin('aa.abstract', 'ab')
-
-      // review table
       .leftJoin('ab.abstract_review', 'ar')
-
       .select([
         'rw.id AS id',
         'rw.display_order AS display_order',
@@ -181,11 +172,7 @@ export class ReviewerService {
         'u.name AS name',
         'u.email AS email',
       ])
-
-      // total assigned
       .addSelect('COUNT(DISTINCT aa.id)', 'total_assigned')
-
-      // agreed
       .addSelect(
         `
       COUNT(
@@ -196,8 +183,6 @@ export class ReviewerService {
       `,
         'total_agreed',
       )
-
-      // declined
       .addSelect(
         `
       COUNT(
@@ -208,8 +193,6 @@ export class ReviewerService {
       `,
         'total_declined',
       )
-
-      // pending (null)
       .addSelect(
         `
       COUNT(
@@ -220,8 +203,6 @@ export class ReviewerService {
       `,
         'total_pending',
       )
-
-      // completed review
       .addSelect(
         `
       COUNT(
@@ -232,12 +213,9 @@ export class ReviewerService {
       `,
         'total_reviewed',
       )
-
       .groupBy('rw.id')
       .addGroupBy('u.id')
-
       .orderBy('rw.display_order', 'ASC')
-
       .getRawMany();
     return {
       status: 'success',
@@ -450,5 +428,130 @@ export class ReviewerService {
       ),
     );
     return 'Reviewers seeded successfully';
+  }
+
+  async findAdminDashboardStats() {
+    const stats = await this.reviewerRepository
+      .createQueryBuilder('rw')
+      .leftJoin('rw.abstractAssigns', 'aa')
+      .leftJoin('aa.abstract', 'ab')
+      .leftJoin('ab.abstract_review', 'ar')
+      .select('COUNT(DISTINCT aa.id)', 'total_assigned')
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = true
+          THEN aa.id
+        END
+      )
+      `,
+        'total_agreed',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = false
+          THEN aa.id
+        END
+      )
+      `,
+        'total_declined',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed IS NULL
+          THEN aa.id
+        END
+      )
+      `,
+        'total_pending',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN ar.id IS NOT NULL
+          THEN ab.id
+        END
+      )
+      `,
+        'total_reviewed',
+      )
+      .addSelect('COUNT(DISTINCT rw.id)', 'total_reviewers')
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN rw.is_active = true
+          THEN rw.id
+        END
+      )
+      `,
+        'active_reviewers',
+      )
+      .getRawOne();
+
+    return stats;
+  }
+  async findReviewerStats(user: User) {
+    const reviewer = await this.reviewerRepository
+      .createQueryBuilder('rw')
+      .leftJoin('rw.user', 'u')
+      .leftJoin('rw.abstractAssigns', 'aa')
+      .leftJoin('aa.abstract', 'ab')
+      .leftJoin('ab.abstract_review', 'ar')
+      .where('u.id = :userId', {
+        userId: user.id,
+      })
+      .select(['rw.id AS id', 'rw.is_active AS is_active'])
+      .addSelect('COUNT(DISTINCT aa.id)', 'total_assigned')
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = true THEN aa.id
+        END
+      )
+      `,
+        'total_agreed',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed = false THEN aa.id
+        END
+      )
+      `,
+        'total_declined',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN aa.is_agreed IS NULL THEN aa.id
+        END
+      )
+      `,
+        'total_pending',
+      )
+      .addSelect(
+        `
+      COUNT(
+        DISTINCT CASE
+          WHEN ar.id IS NOT NULL THEN ab.id
+        END
+      )
+      `,
+        'total_reviewed',
+      )
+      .groupBy('rw.id')
+      .getRawOne();
+
+    return reviewer;
   }
 }

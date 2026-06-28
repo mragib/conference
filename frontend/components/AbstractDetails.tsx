@@ -157,14 +157,16 @@ const AbstractDetails = ({
                     <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-3">
                       {abstract.abstract_review
                         ? "You already reviewed"
-                        : "Please complete your review by 29 Sep 2025"}
+                        : "Please complete your review by 15 Sep 2025"}
                     </p>
                   </div>
                 </div>
               </>
             )}
             {(user.role === Role.ADMIN || user.role === Role.AUTHORITY) &&
-              abstract.status.id === 4 && (
+              (abstract.status.id === 4 ||
+                abstract.status.id === 2 ||
+                abstract.status.id === 3) && (
                 <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                   <div className="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-indigo-50 to-white dark:from-indigo-950/20 dark:to-slate-900">
                     <h2 className="font-semibold text-slate-700 dark:text-slate-300">
@@ -178,12 +180,15 @@ const AbstractDetails = ({
                       className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors"
                     >
                       <CheckCircle2 className="w-4 h-4" />
-                      Final Decision
+                      {abstract.status.id === 4
+                        ? "Final Decision"
+                        : "View Review"}
                     </Link>
 
                     <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                      Review the abstract and choose whether to accept or reject
-                      it.
+                      {abstract.status.id === 4
+                        ? "Review the abstract and choose whether to accept or reject it."
+                        : "View the review result"}
                     </p>
                   </div>
                 </div>
@@ -192,6 +197,7 @@ const AbstractDetails = ({
             <StatusCard
               statusId={abstract.status.id}
               comment_to_author={abstract.abstract_review?.comment_to_author}
+              updated_at={abstract.updated_at}
             />
 
             {/* Authors Card */}

@@ -3,9 +3,11 @@ import { Eye } from "lucide-react";
 export default function StatusCard({
   statusId,
   comment_to_author,
+  updated_at,
 }: {
   statusId: number;
   comment_to_author?: string;
+  updated_at?;
 }) {
   const statusConfig = {
     1: {
@@ -32,6 +34,8 @@ export default function StatusCard({
     },
   };
 
+  console.log();
+
   const config =
     statusConfig[statusId as keyof typeof statusConfig] || statusConfig[1];
   const StatusIcon = config.icon;
@@ -56,7 +60,7 @@ export default function StatusCard({
         </p>
       )}
       <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
-        Last updated: {new Date().toLocaleDateString()}
+        Last updated: {new Date(updated_at).toLocaleDateString()}
       </p>
     </div>
   );

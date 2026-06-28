@@ -188,6 +188,7 @@ export type AbstractType = {
   status: AbstractStatus;
   created_at?: Date;
   abstract_review?: AbstractReviewFormType;
+  updated_at?: Date;
 };
 
 export type AbstractTableRow = {
